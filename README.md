@@ -18,9 +18,6 @@
 ## What we want to do
 1. Administration
    1. To manage the ecommerce site
-   2. To make sure that there are zero issues when it comes to financial part of the business
-   3. To provide the best user experience for buyer and seller
-   4. To make sure that all transactions goes through the platform
 2. Seller (Shops)
    1. To sell products
    2. To receive payments
@@ -70,3 +67,4 @@
    -Shipping methods
 
 ## ERD
+![ERD 1st Prototype Image](/1st_Prototype.png)
