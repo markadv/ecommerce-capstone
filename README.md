@@ -33,17 +33,13 @@
 
 ## Enumerating features (Rough details)
 1. Products
-   1. Test
-   - Product architecture
-   - Product management
-     - Access control
-     - Editing products
-   - Displaying products
-     - Add to cart form
-     - Product images
-   - Marketing products
-     - Product search
-     - Product catalog
+   - Overview
+   - Categories
+   - History
+   - Inventory
+   - Payment
+   - Shipping
+   - Reviews
 2. Customers
    - Overview
    - Addresses
@@ -51,7 +47,7 @@
 3. Payments
    - Payment gateways
    - Storing
-4. Stores
+4. Vendors
 5. Security
 6. Orders
    - Order management

@@ -1,0 +1,66 @@
+body {
+	background-color: rgb(226, 226, 226);
+	padding: 3%;
+	box-sizing: border-box;
+    min-width: 100vw;
+    width: fit-content;
+    .table-container {
+        height: 28em;
+        overflow-y: auto;
+        position: relative;
+    }
+    
+    .page {
+        width: 100%;
+        text-align: center;
+        margin-top: 3em;
+        a {
+            margin: 0 1em;
+            text-decoration: none;
+        }
+    }
+    
+    button {
+        border: 0;
+        outline: 0;
+    }
+    
+    .img_container {
+        width: 50%;
+        position: relative;
+        display: block;
+        margin: auto;
+    
+        img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    
+    .img_container:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+    }
+    
+    @media only screen and (max-width: 768px) {
+        .page a {
+            font-size: 0.8em;
+        }
+        .space {
+            display: none;
+        }
+        .img_container {
+            width: 100%;
+        }
+    }
+    
+    @media only screen and (max-width: 580px) {
+        .page a {
+            font-size: 0.7em;
+        }
+    }
+    
+}
+

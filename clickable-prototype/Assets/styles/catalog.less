@@ -1,0 +1,132 @@
+body {
+	background-image: radial-gradient(rgb(0, 10, 19) 60%, rgb(0, 0, 0));
+	background-repeat: no-repeat;
+	background-size: cover;
+	overflow-x: hidden;
+	min-height: 100vh;
+
+    .container {
+
+        .filter form {
+            padding: 30px;
+            margin-top: 10px;
+    
+        }
+        
+        .filter.nav * {
+            margin: 2em 3px 0 3px;
+            margin-top: 2em;
+            display: inline-block;
+        }
+    
+        .mobile-filter label {
+            font-size: 0.8em;
+        }
+    
+        button {
+            border: 0;
+            outline: 0;
+        }
+    
+        .row .item-card {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding: 0.8em 0.8em 140% 0.8em;
+            background-color: transparent;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(130, 198, 238, 0.5);
+            outline: 1px solid rgb(0, 195, 255);
+    
+            .img_container {
+                width: 100%;
+                position: relative;
+    
+                img {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+    
+            .img_container:after {
+                content: "";
+                display: block;
+                padding-bottom: 100%;
+            }
+    
+            p {
+                font-size: 1em;
+                margin: 0;
+                color: white;
+            }
+    
+            a {
+                font-size: 18px;
+            }
+    
+            i {
+                color: yellow;
+            }
+        }
+    
+        .category {
+            input[type="search"] {
+                width: 90%;
+                margin: auto;
+                text-align: left;
+                border: 1px solid black;
+            }
+            .dropdown-menu {
+                height: 10em;
+                overflow-y: auto;
+            }
+        }
+    
+        .page {
+            width: 100%;
+            text-align: center;
+            margin-top: 5em;
+            a {
+                margin: 0 1em;
+                text-decoration: none;
+            }
+        }
+    
+        @media only screen and (max-width: 674px) {
+            .page a {
+                font-size: 90%;
+            }
+        }
+        @media only screen and (max-width: 425px) {
+            .row div label {
+                font-size: 0.6em;
+            }
+        }
+    
+        @media only screen and (max-width: 768px) {
+            .btn-group {
+                margin-top: 1em;
+    
+                button {
+                    padding: 0;
+    
+                    font-size: 0.8em;
+                }
+            }
+        }
+    
+        @media only screen and (max-width: 992px) {
+            .filter {
+                display: none;
+            }
+        }
+    
+        @media only screen and (min-width: 992px) {
+            .mobile-filter {
+                display: none;
+            }
+        }
+    }    
+}
+

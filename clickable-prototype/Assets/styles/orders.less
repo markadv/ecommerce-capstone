@@ -1,0 +1,38 @@
+body{
+    background-color: rgb(226, 226, 226);
+    padding: 3%;
+    box-sizing: border-box;
+    width: fit-content;
+
+    .table-container{
+        height: 28em;
+        overflow-y: auto;
+        position: relative;
+    }
+    
+    .page{
+        width: 100%;
+        text-align: center;
+        margin-top: 3em;
+        a{
+            margin: 0 1em;
+            text-decoration: none;
+        }
+    }
+    
+    @media only screen and (max-width: 768px) {
+        .page a{
+            font-size: 0.8em;
+        }
+        .space{
+            display: none;
+        }
+    }
+    
+    @media only screen and (max-width: 580px) {
+        .page a{
+            font-size: 0.7em;
+        }
+    }
+}
+
