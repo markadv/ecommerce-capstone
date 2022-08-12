@@ -14,7 +14,7 @@
 5. [x] [Register Page (100% completed)](/clickable-prototype/Users/register.html)
 6. [x] [Profile Page (100% completed)](/clickable-prototype/Users/profile.html)
 7. [x] [Home Page (100% completed)](/clickable-prototype/Products/home.html)
-8. [ ] [Catalog page (0% completed)](/clickable-prototype/Products/catalog.html)
+8. [x] [Catalog page (100% completed)](/clickable-prototype/Products/catalog.html)
 9. [ ] [Product page (0% completed)](/clickable-prototype/Products/show_products.html)
 10. [ ]  [Cart page (0% completed)](/clickable-prototype/Products/cart.html)
 11. [ ]  [Checkout page (0% completed)](/clickable-prototype/Products)
