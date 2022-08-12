@@ -71,4 +71,4 @@
    -Shipping methods
 
 ## ERD
-![ERD 1st Prototype Image](/1st_Prototype.png)
+![ERD 1st Prototype Image](/references/1st_Prototype.png)
