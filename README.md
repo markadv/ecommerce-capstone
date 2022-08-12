@@ -6,14 +6,22 @@
 1.  Added clickable prototype pages
 2.  Stated enumerating features for ERD
 
-## **Clickable Prototype Pages for E-commerce Project** <br>
-1. [ ] [Product Page (0% completed)](www.markadvento.com) <br>
-2. [ ] [Item Page (0% completed)](www.markadvento.com) <br>
-3. [ ] [Cart Page (0% completed)](www.markadvento.com) <br>
-4. [ ] [Checkout Page (0% completed)](www.markadvento.com) <br>
-5. [ ] [Admin Login Page (0% completed)](www.markadvento.com) <br>
-6. [ ] [Admin Dashboard (0% completed)](www.markadvento.com) <br>
-7. [ ] [Admin Order Detail (0% completed)](www.markadvento.com) <br>
+## **Clickable Prototype Pages for E-commerce Project**
+1. [x] [Partials loginbar (Loaded by other page thru jQuery) (100% completed)](/clickable-prototype/Partials/loginbar.html)
+2. [x] [Partials navbar_user (Loaded by other page thru jQuery) (100% completed)](/clickable-prototype/Partials/navbar_user.html)
+3. [x] [Partials navbar_admin (Loaded by other page thru jQuery) (100% completed)](/clickable-prototype/Partials/navbar_admin.html)
+4. [x] [Login Page (100% completed)](/clickable-prototype/Users/login.html)
+5. [x] [Register Page (100% completed)](/clickable-prototype/Users/register.html)
+6. [x] [Profile Page (100% completed)](/clickable-prototype/Users/profile.html)
+7. [x] [Home Page (100% completed)](/clickable-prototype/Products/home.html)
+8. [ ] [Catalog page (0% completed)](/clickable-prototype/Products/catalog.html)
+9. [ ] [Product page (0% completed)](/clickable-prototype/Products/show_products.html)
+10. [ ]  [Cart page (0% completed)](/clickable-prototype/Products/cart.html)
+11. [ ]  [Checkout page (0% completed)](/clickable-prototype/Products)
+12. [ ]  [Orders page (0% completed)](/clickable-prototype/)
+13. [ ]  [Order details page (0% completed)](/clickable-prototype/)
+14. [ ]  [Dashboard page (0% completed)](/clickable-prototype/)
+15. [ ]  [Shipping page (0% completed)](/clickable-prototype/)
 
 ## What we want to do
 1. Administration
