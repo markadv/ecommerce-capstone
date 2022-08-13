@@ -29,7 +29,7 @@
         />
         <!-- LESS Stylesheets CDN -->
         <link rel="stylesheet/less" href="../Assets/styles/header.less" />
-        <link rel="stylesheet/less" href="../Assets/styles/register.less" />
+        <link rel="stylesheet/less" href="../Assets/styles/profile.less" />
         <link rel="stylesheet/less" href="../Assets/styles/custom_colors.less" />
         <script src="https://cdn.jsdelivr.net/npm/less"></script>
         <!-- Bootstrap JS CDN -->
@@ -52,8 +52,8 @@
         <div class="error"></div>
         <div class="success"></div>
         <h1 class="h1 mx-5 mt-5 fw-normal">Profile</h1>
-        <div class="container text-center">
-            <div class="form-signin w-100 m-auto">
+        <div class="container">
+            <div class="form-signin w-100">
                 <form action="" method="POST" class="needs-validation">
                     <h2 class="h3 mb-3 fw-normal">Edit Information</h2>
                     <input type="hidden" name="action" value="edit_information" />
@@ -61,7 +61,7 @@
                         <input
                             type="email"
                             name="email"
-                            class="form-control"
+                            class="form-control form_top"
                             id="floatingInput"
                             placeholder="name@example.com"
                             required
@@ -72,7 +72,7 @@
                         <input
                             type="text"
                             name="first_name"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Michael"
                             required
@@ -83,7 +83,7 @@
                         <input
                             type="text"
                             name="last_name"
-                            class="form-control"
+                            class="form-control form_bot"
                             id="floatingInput"
                             placeholder="Choi"
                             required
@@ -93,7 +93,7 @@
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Save" />
                 </form>
             </div>
-            <div class="form-signin w-100 m-auto">
+            <div class="form-signin w-100">
                 <form action="" method="POST" class="needs-validation">
                     <h2 class="h3 mb-3 fw-normal">Change Password</h2>
                     <input type="hidden" name="action" value="change_password" />
@@ -101,7 +101,7 @@
                         <input
                             type="password"
                             name="old_password"
-                            class="form-control"
+                            class="form-control form_top"
                             id="floatingPassword"
                             placeholder="Old Password"
                             required
@@ -112,7 +112,7 @@
                         <input
                             type="password"
                             name="new_password"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingPassword"
                             placeholder="New Password"
                             required
@@ -123,7 +123,7 @@
                         <input
                             type="password"
                             name="confirm_password"
-                            class="form-control"
+                            class="form-control form_bot"
                             id="floatingPassword"
                             placeholder="Confirm Password"
                             required
@@ -133,7 +133,7 @@
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Save" />
                 </form>
             </div>
-            <div class="form-signin w-100 m-auto">
+            <div class="form-signin w-100">
                 <form action="" method="POST" class="needs-validation">
                     <h2 class="h3 mb-3 fw-normal">Shipping address</h2>
                     <input type="hidden" name="action" value="change_shipping" />
@@ -141,7 +141,7 @@
                         <input
                             type="text"
                             name="address1"
-                            class="form-control"
+                            class="form-control form_top"
                             id="floatingInput"
                             placeholder="123 Sesame St."
                             required
@@ -152,7 +152,7 @@
                         <input
                             type="text"
                             name="address2"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Brgy. Numbers"
                             required
@@ -163,7 +163,7 @@
                         <input
                             type="text"
                             name="city"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Math City"
                             required
@@ -174,7 +174,7 @@
                         <input
                             type="text"
                             name="state"
-                            class="form-control"
+                            class="form-control form_bot"
                             id="floatingInput"
                             placeholder="Metro Manila"
                             required
@@ -184,17 +184,15 @@
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Save" />
                 </form>
             </div>
-            <div class="form-signin w-100 m-auto">
+            <div class="form-signin w-100">
                 <form action="" method="POST" class="needs-validation">
                     <h2 class="h3 mb-3 fw-normal">Billing address</h2>
-                    <input type="checkbox" name="same_shipping" value="1" />
-                    <label for="same_shipping"> Same as shipping</label><br />
                     <input type="hidden" name="action" value="change_billing" />
                     <div class="form-floating">
                         <input
                             type="text"
                             name="address1"
-                            class="form-control"
+                            class="form-control form_top"
                             id="floatingInput"
                             placeholder="123 Sesame St."
                             required
@@ -205,7 +203,7 @@
                         <input
                             type="text"
                             name="address2"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Brgy. Numbers"
                             required
@@ -216,7 +214,7 @@
                         <input
                             type="text"
                             name="city"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Math City"
                             required
@@ -227,7 +225,7 @@
                         <input
                             type="text"
                             name="state"
-                            class="form-control"
+                            class="form-control form_bot"
                             id="floatingInput"
                             placeholder="Metro Manila"
                             required
@@ -235,6 +233,8 @@
                         <label for="state">State:</label>
                     </div>
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Save" />
+                    <input type="checkbox" name="same_shipping" value="1" />
+                    <label for="same_shipping"> Same as shipping</label><br />
                 </form>
             </div>
         </div>
