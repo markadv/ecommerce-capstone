@@ -20,7 +20,7 @@
 11. [x]  [Checkout page (100% completed)](/clickable-prototype/Products)
 12. [x]  [Dashboard page (100% completed)](/clickable-prototype/dashboard.html)
 13. [ ]  [Products page (0% completed)](/clickable-prototype/)
-14. [ ]  [Order view page (0% completed)](/clickable-prototype/)
+14. [x]  [Order view page (100% completed)](/clickable-prototype/)
 15. [ ]  [Optional: Orders page (0% completed)](/clickable-prototype/)
 16. [ ]  [Optional: Shipping page (0% completed)](/clickable-prototype/)
 
