@@ -15,7 +15,7 @@
 6. [x] [Profile Page (100% completed)](/clickable-prototype/Users/profile.html)
 7. [x] [Home Page (100% completed)](/clickable-prototype/Products/home.html)
 8. [x] [Catalog page (100% completed)](/clickable-prototype/Products/catalog.html)
-9. [ ] [Product page (0% completed)](/clickable-prototype/Products/show_products.html)
+9. [x] [Product details page (100% completed)](/clickable-prototype/Products/show_products.html)
 10. [x]  [Cart page (100% completed)](/clickable-prototype/Products/cart.html)
 11. [ ]  [Checkout page (0% completed)](/clickable-prototype/Products)
 12. [ ]  [Orders page (0% completed)](/clickable-prototype/)
@@ -52,11 +52,15 @@
    - Overview
    - Addresses
    - Profiles
+   - History
 3. Payments
    - Payment gateways
    - Storing
-4. Vendors
+   - -History
+4. Vendors (Optional)
 5. Security
+   - Auth
+   - Other account security (Optional)
 6. Orders
    - Order management
    - Order items
@@ -64,11 +68,13 @@
 8. Pricing
    - Prices
    - Adjustments
-   - Currencies
+   - Currencies (Optional, use Peso for now)
    - Taxes
-9.  Promotions
+9.  Promotions (Optional, scope creep)
 10. Shipping
    -Shipping methods
 
 ## ERD
 ![ERD 1st Prototype Image](/references/1st_Prototype.png)
+Schema thought process:
+Login: 
