@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+        <!-- Latest jQuery CDN -->
+        <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"
+        ></script>
+        <!-- Latest Bootstrap CDN -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+            crossorigin="anonymous"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <!-- Latest Material Icons (icons) CDN -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+        <!-- Google fonts CDN -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
+            rel="stylesheet"
+        />
+        <!-- LESS Stylesheets CDN -->
+        <link rel="stylesheet/less" href="../Assets/styles/header.less" />
+        <link rel="stylesheet/less" href="../Assets/styles/dashboard.less" />
+        <link rel="stylesheet/less" href="../Assets/styles/custom_colors.less" />
+        <script src="https://cdn.jsdelivr.net/npm/less"></script>
+        <!-- Bootstrap JS CDN -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"
+        ></script>
+        <!-- JS Script -->
+        <script src="../Assets/scripts/loginbar.js"></script>
+        <script src="../Assets/scripts/navbar_admin.js"></script>
+    </head>
+    <body>
+        <!-- Insert login bar partial view -->
+        <header>
+            <div id="loginbar"></div>
+            <div id="navbar"></div>
+        </header>
+
+        <div class="container">
+            <div class="mb-3 row">
+                <!-----Search------------------------------------>
+                <div class="col-12 col-md-9">
+                    <form class="d-flex w-100 ms-auto me-auto" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
+                </div>
+                <div class="col-12 col-md-3">
+                    <!-----Status Sort----------------------------------->
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Show all</option>
+                        <option value="1">Order in process</option>
+                        <option value="2">Shipped</option>
+                        <option value="3">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <!-----Order List----------------------------------->
+            <div class="table-container">
+                <table class="table table-light table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-1" scope="col-1">Order id</th>
+                            <th class="col-2" scope="col-1">Name</th>
+                            <th class="col-1" scope="col-1">Date</th>
+                            <th class="col" scope="col-1">Billing address</th>
+                            <th class="col-1" scope="col-1">Total</th>
+                            <th class="col-2" scope="col-1">status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><a href="">100</a></td>
+                            <td>Bob</td>
+                            <td>9/6/2014</td>
+                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
+                            <td>$143</td>
+                            <td>
+                                <select class="form-select" aria-label="Default select example">
+                                    <option value="1">Order in process</option>
+                                    <option value="2">Shipped</option>
+                                    <option value="3">Cancelled</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-----Pagination----------------------------------->
+            <nav class="mt-3">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link text-primary" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link text-primary" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link text-primary" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link text-primary" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </body>
+</html>

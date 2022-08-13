@@ -18,10 +18,11 @@
 9. [x] [Product details page (100% completed)](/clickable-prototype/Products/show_products.html)
 10. [x]  [Cart page (100% completed)](/clickable-prototype/Products/cart.html)
 11. [x]  [Checkout page (100% completed)](/clickable-prototype/Products)
-12. [ ]  [Orders page (0% completed)](/clickable-prototype/)
-13. [ ]  [Order details page (0% completed)](/clickable-prototype/)
-14. [ ]  [Dashboard page (0% completed)](/clickable-prototype/)
-15. [ ]  [Shipping page (0% completed)](/clickable-prototype/)
+12. [x]  [Dashboard page (100% completed)](/clickable-prototype/dashboard.html)
+13. [ ]  [Products page (0% completed)](/clickable-prototype/)
+14. [ ]  [Order view page (0% completed)](/clickable-prototype/)
+15. [ ]  [Optional: Orders page (0% completed)](/clickable-prototype/)
+16. [ ]  [Optional: Shipping page (0% completed)](/clickable-prototype/)
 
 ## What we want to do
 1. Administration
