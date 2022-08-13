@@ -17,7 +17,7 @@
 8. [x] [Catalog page (100% completed)](/clickable-prototype/Products/catalog.html)
 9. [x] [Product details page (100% completed)](/clickable-prototype/Products/show_products.html)
 10. [x]  [Cart page (100% completed)](/clickable-prototype/Products/cart.html)
-11. [ ]  [Checkout page (0% completed)](/clickable-prototype/Products)
+11. [x]  [Checkout page (100% completed)](/clickable-prototype/Products)
 12. [ ]  [Orders page (0% completed)](/clickable-prototype/)
 13. [ ]  [Order details page (0% completed)](/clickable-prototype/)
 14. [ ]  [Dashboard page (0% completed)](/clickable-prototype/)
