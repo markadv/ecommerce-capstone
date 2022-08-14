@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Product</title>
+        <!-- Latest jQuery CDN -->
+        <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"
+        ></script>
+        <!-- Latest Bootstrap CDN -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+            crossorigin="anonymous"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <!-- Latest Material Icons (icons) CDN -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+            rel="stylesheet"
+        />
+        <!-- Google fonts CDN -->
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
+            rel="stylesheet"
+        />
+        <!-- LESS Stylesheets CDN -->
+        <link rel="stylesheet/less" href="../Assets/styles/header.less" />
+        <link rel="stylesheet/less" href="../Assets/styles/product_details.less" />
+        <link rel="stylesheet/less" href="../Assets/styles/custom_colors.less" />
+        <script src="https://cdn.jsdelivr.net/npm/less"></script>
+        <!-- Bootstrap JS CDN -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"
+        ></script>
+        <!-- Swiper.js library -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+        <!-- JS Scripts -->
+        <script src="../Assets/scripts/loginbar.js"></script>
+        <script src="../Assets/scripts/navbar_user.js"></script>
+        <script src="../Assets/scripts/product_details.js"></script>
+    </head>
+    <body>
+        <!-- Insert login bar partial view -->
+        <header>
+            <div id="loginbar"></div>
+            <div id="navbar"></div>
+        </header>
+        <!-- Product info -->
+        <div class="container mt-3">
+            <div class="row">
+                <!-- Gallery using swiper.js-->
+                <div class="col-12 col-md-4">
+                    <div
+                        style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+                        class="swiper mySwiper2"
+                    >
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                    <div thumbsSlider="" class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product -->
+                <div class="col-12 col-md-8 border">
+                    <div>
+                        <h1>Dr. Browns Natural Flow Baby Bottle</h1>
+                        <a href="" class="detail-rating text-decoration-none">
+                            <span class="material-icons-sharp"> grade </span>
+                            <span class="material-icons-sharp"> grade </span>
+                            <span class="material-icons-sharp"> grade </span>
+                            <span class="material-icons-sharp"> grade </span>
+                            <span class="material-icons-sharp"> grade </span>
+                            <span>(2)</span>
+                        </a>
+                        <span>Sold 10</span>
+                    </div>
+                    <h3>Price</h3>
+                    <div class="row">
+                        <p class="col-2">Quantity</p>
+                        <div class="col-10">
+                            <input type="number" name="quantity" value="1" min="1" step="1" />
+                            <span>5947 pieces available</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas error cupiditate cumque natus
+                            cum! Dignissimos perferendis voluptates, unde impedit eum, rem mollitia nisi repudiandae
+                            excepturi labore adipisci dolorem vitae illum.
+                        </p>
+                    </div>
+                    <div id="add_to_cart">
+                        <a href="" class="btn btn-outline-primary"
+                            ><span class="material-icons-outlined"> add_shopping_cart </span>Add to Cart</a
+                        >
+                        <a href="" class="btn btn-primary">Buy Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Reviews -->
+        <div class="container">
+            <div class="border border-primary bg-light mt-3 row p-3">
+                <a
+                    href="#"
+                    class="collapsed text-decoration-none text-primary"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#review-collapse"
+                    aria-expanded="false"
+                >
+                    <h2 class="display-6 fs-3">Reviews</h2>
+                </a>
+                <div class="collapse row" id="review-collapse">
+                    <h3>Post a review</h3>
+                    <form>
+                        <div class="form-floating">
+                            <input type="hidden" name="product_id" value="<?= $id ?>" />
+                            <textarea
+                                name="review"
+                                class="form-control"
+                                id="floatingInput"
+                                placeholder="A super cool cap."
+                                style="height: 100px"
+                            ></textarea>
+                            <label for="floatingInput">Leave a review</label>
+                            <input type="submit" class="mt-3 w-20 btn btn-sm btn-primary" value="Post review" />
+                        </div>
+                    </form>
+                    <div>
+                        <h2 class="h5 mb-0 mt-3">Mark Timothy Advento</h2>
+                        <p class="lead border mb-0">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit iste reiciendis
+                            dignissimos natus, distinctio modi blanditiis aliquam, voluptatum, corporis nobis atque at
+                            inventore omnis cum eligendi. Culpa quia delectus pariatur.
+                        </p>
+                        <span class="mb-3">30 minutes ago</span>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-9">
+                            <h2 class="h5 mb-0 mt-3">John Wick</h2>
+                            <p class="lead border mb-0">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cum nemo
+                                consequuntur nam molestias laborum obcaecati sunt. Voluptates modi quod, nemo sunt
+                                minima id voluptate ullam minus repellendus vel explicabo.
+                            </p>
+                            <span class="mb-3">5 minutes ago</span>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <form class="col-9">
+                            <div class="form-floating">
+                                <input type="hidden" name="review_id" value="id" />
+                                <textarea
+                                    name="reply"
+                                    class="form-control"
+                                    id="floatingInput"
+                                    placeholder="A super cool cap."
+                                    style="height: 100px"
+                                ></textarea>
+                                <label for="floatingInput">Leave a reply</label>
+                                <input
+                                    type="submit"
+                                    class="mt-3 w-20 btn btn-sm btn-outline-primary"
+                                    value="Post reply"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Related products -->
+        <div class="container">
+            <h2>Similar items</h2>
+            <ul class="row align-items-center">
+                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
+                    <div class="card">
+                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
+                        <div class="card-body">
+                            <a href="show_product.html" class="d-block">
+                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
+                            </a>
+                            <div class="text-center">
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                            </div>
+                            <p class="card-text text-center">Price: $4.99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
+                    <div class="card">
+                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
+                        <div class="card-body">
+                            <a href="show_product.html" class="d-block">
+                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
+                            </a>
+                            <div class="text-center">
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                            </div>
+                            <p class="card-text text-center">Price: $4.99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
+                    <div class="card">
+                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
+                        <div class="card-body">
+                            <a href="show_product.html" class="d-block">
+                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
+                            </a>
+                            <div class="text-center">
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                            </div>
+                            <p class="card-text text-center">Price: $4.99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
+                    <div class="card">
+                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
+                        <div class="card-body">
+                            <a href="show_product.html" class="d-block">
+                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
+                            </a>
+                            <div class="text-center">
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                            </div>
+                            <p class="card-text text-center">Price: $4.99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
+                    <div class="card">
+                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
+                        <div class="card-body">
+                            <a href="show_product.html" class="d-block">
+                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
+                            </a>
+                            <div class="text-center">
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                            </div>
+                            <p class="card-text text-center">Price: $4.99</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
+                    <div class="card">
+                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
+                        <div class="card-body">
+                            <a href="show_product.html" class="d-block">
+                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
+                            </a>
+                            <div class="text-center">
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                                <span class="material-icons-sharp"> grade </span>
+                            </div>
+                            <p class="card-text text-center">Price: $4.99</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
