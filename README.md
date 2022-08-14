@@ -64,6 +64,7 @@
 
 ### ERD
 ![ERD 1st Prototype Image](/references/1st_Prototype.png)
+![ERD 2nd Prototype Image](/references/2nd_Prototype.png)
 Schema thought process:
 
 ## Progress
@@ -87,5 +88,7 @@ Schema thought process:
 16. [ ]  [Optional: Shipping page (0% completed)](/clickable-prototype/)
 
 ### Codeigniter progress
-1. Home
-2. JS/Less/CDN helper
+1. [x]  Home
+2. [x]  LESS/JS/CDN Helper
+3. [x]  Login
+4. [x]  Registation

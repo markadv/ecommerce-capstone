@@ -14,7 +14,8 @@ class Products extends CI_Controller
 		add_js(["home.js"]);
 		add_less(["home.less"]);
 		add_cdn(["swiper"]);
-		$this->load->view("partials/head");
+		$data = $this->session->userdata();
+		$this->load->view("partials/head", $data);
 		$this->load->view("partials/nav_user");
 		$this->load->view("products/home");
 	}

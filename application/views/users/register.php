@@ -1,72 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Register</title>
-        <!-- Latest jQuery CDN -->
-        <script
-            src="https://code.jquery.com/jquery-3.6.0.js"
-            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-            crossorigin="anonymous"
-        ></script>
-        <!-- Latest Bootstrap CDN -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-            crossorigin="anonymous"
-        />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <!-- Latest Material Icons (icons) CDN -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
-        <!-- Google fonts CDN -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
-            rel="stylesheet"
-        />
-        <!-- LESS Stylesheets CDN -->
-        <link rel="stylesheet/less" href="../Assets/styles/header.less" />
-        <link rel="stylesheet/less" href="../Assets/styles/register.less" />
-        <link rel="stylesheet/less" href="../Assets/styles/custom_colors.less" />
-        <script src="https://cdn.jsdelivr.net/npm/less"></script>
-        <!-- Bootstrap JS CDN -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-            crossorigin="anonymous"
-        ></script>
-        <!-- JS Script -->
-        <script src="../Assets/scripts/loginbar.js"></script>
-        <script src="../Assets/scripts/navbar_user.js"></script>
-    </head>
-    <body>
-        <!-- Insert login bar partial view -->
-        <header>
-            <div id="loginbar"></div>
-            <div id="navbar"></div>
-        </header>
+<?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
         <!-- ------------------Error Indicator-------->
-        <div class="error">
-            <p>
-                Invalid username, Invalid username, Invalid username, Invalid username, Invalid username, Invalid
-                username,
-            </p>
-        </div>
+        <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
         <!-- ---------------------------Registration Form-------------------------------->
         <div class="container text-center">
             <main class="form-signin w-100 m-auto">
-                <form action="" method="POST" class="needs-validation">
+                <form action="<?= base_url() ?>users/process_registration" method="POST" class="needs-validation">
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                     <img id="logo" class="bi me-2" src="../Assets/imgs/sleepingbaby.png" alt="Vilage88 Logo" />
-
                     <h1 class="h3 mb-3 fw-normal">Please register</h1>
                     <div class="form-floating has-validation">
                         <input
                             type="email"
                             name="email"
-                            class="form-control"
+                            class="form-control form_top"
                             id="floatingInput"
                             placeholder="name@example.com"
                             required
@@ -77,8 +23,20 @@
                     <div class="form-floating has-validation">
                         <input
                             type="text"
+                            name="mobile"
+                            class="form-control form_mid"
+                            id="floatingInput"
+                            placeholder="09171234567"
+                            required
+                        />
+                        <label for="floatingInput">Mobile</label>
+                        <div class="invalid-tooltip">Please enter your mobile.</div>
+                    </div>
+                    <div class="form-floating has-validation">
+                        <input
+                            type="text"
                             name="first_name"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Michael"
                             required
@@ -90,7 +48,7 @@
                         <input
                             type="text"
                             name="last_name"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Choi"
                             required
@@ -102,7 +60,7 @@
                         <input
                             type="password"
                             name="password"
-                            class="form-control"
+                            class="form-control form_mid"
                             id="floatingPassword"
                             placeholder="Password"
                             required
@@ -114,7 +72,7 @@
                         <input
                             type="password"
                             name="confirm_password"
-                            class="form-control"
+                            class="form-control form_bot"
                             id="floatingPassword"
                             placeholder="Confirm Password"
                             required
