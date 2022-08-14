@@ -1,10 +1,11 @@
 <?php
 /*
-Dynamically add Javascript files to header page
-Check if function exist. If not, run it to trigger default in config. 
+Dynamically add LESS and Javascript files to header page
 Created by Markad
 */
+/* Check if function exist. If not, run it to trigger default in config. */
 if (!function_exists("add_js")) {
+	/* Add JS file */
 	function add_js($file = "")
 	{
 		$str = "";
@@ -32,8 +33,9 @@ if (!function_exists("add_js")) {
 	}
 }
 
-//Dynamically add LESS files to header page
+/* Check if function exist. If not, run it to trigger default in config. */
 if (!function_exists("add_less")) {
+	/* Add LESS file */
 	function add_less($file = "")
 	{
 		$str = "";
@@ -56,6 +58,35 @@ if (!function_exists("add_less")) {
 			$str = $file;
 			$header_less[] = $str;
 			$controller->config->set_item("header_less", $header_less);
+		}
+	}
+}
+
+/* Check if function exist. If not, run it to trigger default in config. */
+if (!function_exists("add_cdn")) {
+	/* Add LESS file */
+	function add_cdn($file = "")
+	{
+		$str = "";
+		$controller = &get_instance();
+		$header_cdn = $controller->config->item("header_cdn");
+
+		if (empty($file)) {
+			return;
+		}
+
+		if (is_array($file)) {
+			if (!is_array($file) && count($file) <= 0) {
+				return;
+			}
+			foreach ($file as $item) {
+				$header_cdn[] = $item;
+			}
+			$controller->config->set_item("header_cdn", $header_cdn);
+		} else {
+			$str = $file;
+			$header_cdn[] = $str;
+			$controller->config->set_item("header_cdn", $header_cdn);
 		}
 	}
 }
@@ -96,7 +127,7 @@ if (!function_exists("put_js")) {
 				"\t\t" .
 				'<script src="' .
 				base_url() .
-				"/assets" .
+				"assets/" .
 				"js/" .
 				$item .
 				'"></script>' .
@@ -107,19 +138,22 @@ if (!function_exists("put_js")) {
 	}
 }
 
-/* Return swipe library */
-function add_swiper()
-{
-	return $bool;
-}
-function put_swiper($bool = false)
-{
-	$str =
-		"\t\t" .
-		'<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />' .
-		"\n\t\t" .
-		'<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>' .
-		"\n";
-
-	return $str;
+if (!function_exists("put_cdn")) {
+	function put_cdn()
+	{
+		$str = "";
+		$controller = &get_instance();
+		$header_cdn = $controller->config->item("header_cdn");
+		foreach ($header_cdn as $item) {
+			if ($item = "swiper") {
+				$str =
+					"\t\t" .
+					'<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />' .
+					"\n\t\t" .
+					'<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>' .
+					"\n";
+			}
+		}
+		return $str;
+	}
 }

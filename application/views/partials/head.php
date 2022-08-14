@@ -36,10 +36,12 @@
             crossorigin="anonymous"
         ></script>
         <!-- CDN Library -->
-<?= add_swiper() == true ? put_swiper() : "" ?>
+<?= put_cdn() ?>
+        <!-- JS -->
+<?= put_js() ?>
     </head>
     <body>
-        <!-- Insert login bar and navbar partial view -->
+        <!-- Insert login bar partial view -->
         <div class="px-3 py-1 border-bottom">
             <div class="navcontainer d-flex flex-wrap justify-content-center">
                 <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto"></div>

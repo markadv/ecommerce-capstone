@@ -1,4 +1,5 @@
 <?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
+        <!-- Partial user nav -->
         <nav class="navbar border-bottom px-5 bg-light">
             <div class="container-fluid">
                 <a
@@ -13,7 +14,7 @@
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
                 <a href="#" class="cart position-relative" aria-label="View your shopping cart">
-                    <span class="material-icons-outlined md-64"> shopping_cart </span>
+                    <span class="material-icons-outlined md-64 text-primary"> shopping_cart </span>
                     <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-primary">
                         9
                         <span class="visually-hidden">items in cart</span>
