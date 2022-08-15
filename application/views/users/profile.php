@@ -1,11 +1,13 @@
 <?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
         <!-- Error Indicator -->
         <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
+        <div class="success"><p><?= isset($success) ? $success : "" ?></p></div>
         <!-- Profile -->
         <h1 class="h1 mx-5 mt-5 fw-normal">Profile</h1>
         <div class="container">
             <div class="form-signin w-100">
-                <form action="" method="POST" class="needs-validation">
+                <form action="<?= base_url() ?>users/process_edit" method="POST" class="needs-validation">
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                     <h2 class="h3 mb-3 fw-normal">Edit Information</h2>
                     <div class="form-floating">
                         <input
@@ -59,7 +61,8 @@
                 </form>
             </div>
             <div class="form-signin w-100">
-                <form action="" method="POST" class="needs-validation">
+                <form action="<?= base_url() ?>users/process_password" method="POST" class="needs-validation">
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                     <h2 class="h3 mb-3 fw-normal">Change Password</h2>
                     <div class="form-floating">
                         <input

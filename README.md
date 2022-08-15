@@ -55,13 +55,13 @@
    - Prices
    - Adjustments
    - Currencies (Optional, use Peso for now)
-   - Taxes
+   - Taxes (Optional, scope creep)
 9.  Promotions (Optional, scope creep)
 10. Shipping
    -Shipping methods
 
 ### ERD
-![ERD 2nd Prototype Image](/references/Prototype-5.png)
+![ERD 2nd Prototype Image](/references/Prototype-6.png)
 Schema thought process:
 
 ## Progress
@@ -90,3 +90,8 @@ Schema thought process:
 3. [x]  Login
 4. [x]  Registration
 5. [x]  Profile
+   1. [x]  Edit profile
+   2. [x]  Change password
+   3. [x]  Add/edit shipping address
+   4. [x]  Add/edit billiin address
+6. [ ]  Admin

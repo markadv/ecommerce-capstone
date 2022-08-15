@@ -13,7 +13,7 @@ class Users extends CI_Controller
 	}
 	public function index()
 	{
-		redirect("products");
+		redirect("shops");
 	}
 	public function login()
 	{
@@ -21,6 +21,7 @@ class Users extends CI_Controller
 		add_less(["login.less"]);
 		$this->data = $this->session->userdata();
 		$this->data["pageType"] = "login";
+		$this->data["type"] = "users";
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user");
@@ -32,6 +33,7 @@ class Users extends CI_Controller
 		add_less(["register.less"]);
 		$this->data = $this->session->userdata();
 		$this->data["pageType"] = "register";
+		$this->data["type"] = "users";
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user");
@@ -39,7 +41,7 @@ class Users extends CI_Controller
 	}
 	public function profile()
 	{
-		$this->redirect_notloggedin();
+		$this->check_loggedin();
 		add_less(["profile.less"]);
 		add_js(["profile.js"]);
 		$this->data = $this->session->userdata();
@@ -62,13 +64,14 @@ class Users extends CI_Controller
 		}
 		$this->data = array_merge($this->data, $user);
 		$this->data["errors"] = $this->session->flashdata("input_errors");
+		$this->data["success"] = $this->session->flashdata("success_message");
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user");
 		$this->load->view("users/profile", $this->data);
 	}
 	public function process_registration()
 	{
-		$this->redirect_nopost("register");
+		$this->check_post("register");
 		$result = $this->User->validate_registration();
 		if ($result != null) {
 			$this->session->set_flashdata("input_errors", $result);
@@ -85,7 +88,7 @@ class Users extends CI_Controller
 	}
 	public function process_login()
 	{
-		$this->redirect_nopost("login");
+		$this->check_post("login");
 		$result = $this->User->validate_login();
 		if ($result != "success") {
 			$this->session->set_flashdata("input_errors", $result);
@@ -101,7 +104,7 @@ class Users extends CI_Controller
 			if ($result == "success") {
 				$session_data = $this->User->profile_array($user);
 				$this->session->set_userdata($session_data);
-				redirect("products/index");
+				redirect("shops");
 			} else {
 				$this->session->set_flashdata("input_errors", $result);
 				redirect("users/login");
@@ -111,7 +114,7 @@ class Users extends CI_Controller
 	}
 	public function process_shipping_address()
 	{
-		$this->redirect_nopost("profile");
+		$this->check_post("profile");
 		$email = $this->session->userdata("email");
 		$user = $this->User->get_by_parameter("users", "email", $email);
 		$post = $this->input->post();
@@ -122,6 +125,10 @@ class Users extends CI_Controller
 			$this->User->update_by_parameters("addresses", $post, [
 				"id" => ["=", $user["shippingAddress_id"]],
 			]);
+			$this->session->set_flashdata(
+				"success_message",
+				"Successfully change your shipping address."
+			);
 		} else {
 			$id = $this->User->create_address($post, [0, 1, 0]);
 			$this->User->update_by_parameters(
@@ -129,12 +136,16 @@ class Users extends CI_Controller
 				["shippingAddress_id" => $id],
 				["email" => ["=", $this->session->userdata("email")]]
 			);
+			$this->session->set_flashdata(
+				"success_message",
+				"Successfully change your shipping address."
+			);
 		}
 		redirect("users/profile");
 	}
 	public function process_billing_address()
 	{
-		$this->redirect_nopost("profile");
+		$this->check_post("profile");
 		$email = $this->session->userdata("email");
 		$user = $this->User->get_by_parameter("users", "email", $email);
 		$post = $this->input->post();
@@ -159,6 +170,10 @@ class Users extends CI_Controller
 					["IsBilling" => 1],
 					["id" => ["=", $user["shippingAddress_id"]]]
 				);
+				$this->session->set_flashdata(
+					"success_message",
+					"Successfully change your billing address."
+				);
 			} else {
 				$this->session->set_flashdata(
 					"input_errors",
@@ -181,10 +196,56 @@ class Users extends CI_Controller
 		}
 		redirect("users/profile");
 	}
+	public function process_edit()
+	{
+		$current = $this->session->userdata();
+		$result = $this->User->validate_edit($current);
+		echo $result;
+		if ($result !== "success") {
+			$this->session->set_flashdata("input_errors", $result);
+			redirect("users/profile");
+			return;
+		}
+		$post = $this->input->post();
+		$this->User->update_information($post, $current["id"]);
+		$new = $this->User->get_by_parameter("users", "id", $current["id"]);
+		$session_data = $this->User->profile_array($new);
+		$this->session->set_userdata($session_data);
+		$this->session->set_flashdata(
+			"success_message",
+			"Successfully edited your profile."
+		);
+		redirect("users/profile");
+	}
+	public function process_password()
+	{
+		$result = $this->User->validate_password();
+		$id = $this->session->userdata("id");
+		if ($result !== "success") {
+			$this->session->set_flashdata("input_errors", $result);
+		} else {
+			$password = $this->input->post("old_password");
+			$user = $this->User->get_by_parameter("users", "id", $id);
+			$result = $this->User->validate_login_match($user, $password);
+			if ($result == "success") {
+				$this->User->update_password(
+					$id,
+					$this->input->post("new_password")
+				);
+				$this->session->set_flashdata(
+					"success_message",
+					"Successfully change your password."
+				);
+			} else {
+				$this->session->set_flashdata("input_errors", $result);
+			}
+		}
+		redirect("users/profile");
+	}
 	public function logoff()
 	{
 		$this->session->sess_destroy();
-		redirect("products/index");
+		redirect("shops");
 	}
 	/*
 	Redirect user if logged in by Markad
@@ -192,18 +253,19 @@ class Users extends CI_Controller
 	private function redirect_loggedin()
 	{
 		if ($this->session->userdata("isLoggedIn") == 1) {
-			redirect("products/index");
+			redirect("shops");
 			return;
 		}
 	}
 	/*
 	Redirect user if not logged in by Markad
 	*/
-	private function redirect_notloggedin()
+	private function check_loggedin()
 	{
 		if (
-			!empty($this->session->userdata("isLoggedIn")) &&
-			$this->session->userdata("isLoggedIn") == 0
+			(!empty($this->session->userdata("isLoggedIn")) &&
+				$this->session->userdata("isLoggedIn") == 0) ||
+			empty($this->session->userdata("isLoggedIn"))
 		) {
 			redirect("users/login");
 			return;
@@ -212,7 +274,7 @@ class Users extends CI_Controller
 	/*
 	Redirect user if there is no post data by Markad
 	*/
-	private function redirect_nopost($previous_url)
+	private function check_post($previous_url)
 	{
 		if (!$this->input->post()) {
 			redirect("users/$previous_url");

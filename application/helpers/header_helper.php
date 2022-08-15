@@ -145,12 +145,20 @@ if (!function_exists("put_cdn")) {
 		$controller = &get_instance();
 		$header_cdn = $controller->config->item("header_cdn");
 		foreach ($header_cdn as $item) {
-			if ($item = "swiper") {
+			if ($item == "swiper") {
 				$str =
 					"\t\t" .
 					'<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />' .
 					"\n\t\t" .
 					'<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>' .
+					"\n";
+			}
+			if ($item == "jqueryui") {
+				$str =
+					"\t\t" .
+					'<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">' .
+					"\n\t\t" .
+					'<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>' .
 					"\n";
 			}
 		}

@@ -541,6 +541,6 @@ $config["proxy_ips"] = "";
 | Created by Markad
 
 */
-$config["header_less"] = ["header.less", "custom_colors.less"];
+$config["header_less"] = ["header.less", "bootstrap.less"];
 $config["header_js"] = [];
 $config["header_cdn"] = [];

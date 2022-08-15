@@ -3,10 +3,10 @@
         <nav class="navbar border-bottom px-5 bg-light">
             <div class="container-fluid">
                 <a
-                    href="/"
+                    href="<?= base_url() ?>"
                     class="d-flex align-items-center text-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none"
                 >
-                    <img class="" id="logo" src="..\Assets\imgs\sleepingbaby.png" alt="baby logo" />
+                    <img id="logo" src="..\Assets\imgs\sleepingbaby.png" alt="baby logo" />
                     <span class="h4">Baby Secret Shop</span>
                 </a>
                 <form class="d-flex w-50 ms-auto me-auto" role="search">

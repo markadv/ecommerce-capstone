@@ -17,7 +17,6 @@
         </div>
         <div>
             <h1 class="text-center text-primary mt-1">Featured Products</h1>
-
             <div class="container w-100">
                 <ul class="row align-items-center">
                     <li class="col-6 col-md-3 mt-5 text-decoration-none list-unstyled">

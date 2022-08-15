@@ -18,7 +18,7 @@ class User extends CI_Model
 		$set = [];
 		$values = [];
 		foreach ($change as $key => $value) {
-			/* If not string, preserve the format of value*/
+			/* If numeric, preserve the format of value*/
 			if (is_numeric($value)) {
 				array_push(
 					$set,
@@ -31,6 +31,7 @@ class User extends CI_Model
 			}
 		}
 		foreach ($param as $key => $value) {
+			/* If numeric, preserve the format of value*/
 			if (is_numeric($value)) {
 				array_push(
 					$where,
@@ -48,8 +49,28 @@ class User extends CI_Model
 			}
 		}
 		$set = implode(",", $set);
-		$where = implode(",", $where);
+		$where = implode(" AND ", $where);
 		return $this->db->query($query . $set . "WHERE " . $where, $values);
+	}
+	function update_information($post, $id)
+	{
+		$query = "UPDATE users SET first_name=?, last_name=?, email=?, mobile=? WHERE id = $id";
+		$values = [
+			$this->security->xss_clean($post["first_name"]),
+			$this->security->xss_clean($post["last_name"]),
+			$this->security->xss_clean($post["email"]),
+			$this->security->xss_clean($post["mobile"]),
+		];
+
+		return $this->db->query($query, $values);
+	}
+	function update_password($id, $password)
+	{
+		$salt = bin2hex(openssl_random_pseudo_bytes(22));
+		$query = "UPDATE users SET password_hash=?,salt=? WHERE id = $id";
+		$values = [md5($this->security->xss_clean($password) . $salt), $salt];
+
+		return $this->db->query($query, $values);
 	}
 	function get_type_address($type, $id)
 	{
@@ -80,7 +101,7 @@ class User extends CI_Model
 	{
 		$salt = bin2hex(openssl_random_pseudo_bytes(22));
 		$query =
-			"INSERT INTO users (role_id, first_name, last_name, email, mobile, password_hash, salt) VALUES (1,?,?,?,?,?,?)";
+			"INSERT INTO users (role_id, first_name, last_name, email, mobile, password_hash, salt) VALUES (2,?,?,?,?,?,?)";
 		$values = [
 			$this->security->xss_clean($user["first_name"]),
 			$this->security->xss_clean($user["last_name"]),
@@ -110,7 +131,7 @@ class User extends CI_Model
 	function delete_by_id($table, $id)
 	{
 		$cleanId = $this->security->xss_clean($id);
-		$query = "DELETE FROM $table WHERE id= $id";
+		$query = "DELETE FROM $table WHERE id= $cleanId";
 		return $this->db->query($query);
 	}
 	function validate_registration()
@@ -134,12 +155,7 @@ class User extends CI_Model
 		$this->form_validation->set_rules(
 			"mobile",
 			"Mobile",
-			"trim|required|exact_length[11]|is_natural"
-		);
-		$this->form_validation->set_rules(
-			"last_name",
-			"Last Name",
-			"trim|required"
+			"required|exact_length[11]"
 		);
 		$this->form_validation->set_rules(
 			"password",
@@ -227,7 +243,78 @@ class User extends CI_Model
 			return "success";
 		}
 	}
-
+	function validate_edit($user)
+	{
+		$this->form_validation->set_error_delimiters("<div>", "</div>");
+		$this->form_validation->set_rules(
+			"email",
+			"Email",
+			"trim|required|valid_email|max_length[256]"
+		);
+		$this->form_validation->set_rules(
+			"first_name",
+			"First Name",
+			"trim|required|min_length[3]|max_length[46]"
+		);
+		$this->form_validation->set_rules(
+			"last_name",
+			"Last Name",
+			"trim|required|min_length[3]|max_length[46]"
+		);
+		$this->form_validation->set_rules(
+			"mobile",
+			"Mobile",
+			"required|exact_length[11]"
+		);
+		/* If email or mobile is changed
+		 check if email or mobile is already in database */
+		if (!$this->form_validation->run()) {
+			return validation_errors();
+		} elseif (
+			$user["email"] !== $this->input->post("email") &&
+			!$this->get_by_parameter(
+				"users",
+				"email",
+				$this->input->post("email")
+			)
+		) {
+			return "Email has already been registered.";
+		} elseif (
+			$user["mobile"] !== $this->input->post("mobile") &&
+			$this->get_by_parameter(
+				"users",
+				"mobile",
+				$this->input->post("mobile")
+			)
+		) {
+			return "Mobile has already been registered.";
+		} else {
+			return "success";
+		}
+	}
+	function validate_password()
+	{
+		$this->form_validation->set_rules(
+			"old_password",
+			"Old Password",
+			"required|min_length[8]"
+		);
+		$this->form_validation->set_rules(
+			"new_password",
+			"New Password",
+			"required|min_length[8]"
+		);
+		$this->form_validation->set_rules(
+			"confirm_password",
+			"Confirm Password",
+			"required|matches[new_password]"
+		);
+		if (!$this->form_validation->run()) {
+			return validation_errors();
+		} else {
+			return "success";
+		}
+	}
 	/* This is for matching password */
 	function validate_login_match($user, $password)
 	{
@@ -244,6 +331,7 @@ class User extends CI_Model
 	function profile_array($user)
 	{
 		$details = [
+			"id" => $user["id"],
 			"email" => $user["email"],
 			"mobile" => $user["mobile"],
 			"first_name" => $user["first_name"],

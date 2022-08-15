@@ -4,7 +4,8 @@
         <!-- ---------------------------Registration Form-------------------------------->
         <div class="container text-center">
             <main class="form-signin w-100 m-auto">
-                <form action="<?= base_url() ?>users/process_registration" method="POST" class="needs-validation">
+                <form action="<?= base_url() .
+                	$type ?>/process_registration" method="POST" class="needs-validation">
                     <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                     <img id="logo" class="bi me-2" src="../Assets/imgs/sleepingbaby.png" alt="Vilage88 Logo" />
                     <h1 class="h3 mb-3 fw-normal">Please register</h1>
@@ -81,7 +82,8 @@
                         <div class="invalid-tooltip">Please confirm your password.</div>
                     </div>
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Register" />
-                    <a href="<?= base_url() ?>users/login">Already have an account? Sign in</a>
+                    <a href="<?= base_url() .
+                    	$type ?>/login">Already have an account? Sign in</a>
                     <p class="mt-5 mb-3 text-muted">Mark Timothy Advento&copy; 2022</p>
                 </form>
             </main>

@@ -1,7 +1,7 @@
 <?php
 defined("BASEPATH") or exit("No direct script access allowed");
 
-class Products extends CI_Controller
+class Shops extends CI_Controller
 {
 	public function __construct()
 	{
@@ -17,6 +17,6 @@ class Products extends CI_Controller
 		$data = $this->session->userdata();
 		$this->load->view("partials/head", $data);
 		$this->load->view("partials/nav_user");
-		$this->load->view("products/home");
+		$this->load->view("shops/home");
 	}
 }
