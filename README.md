@@ -61,7 +61,7 @@
    -Shipping methods
 
 ### ERD
-![ERD 2nd Prototype Image](/references/Prototype-5.svg)
+![ERD 2nd Prototype Image](/references/Prototype-5.png)
 Schema thought process:
 
 ## Progress
