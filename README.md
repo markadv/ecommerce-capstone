@@ -12,15 +12,13 @@
 
 ## Overview of project
 ### What we want to do
-1. Administration
-   1. To manage the ecommerce site
-2. Seller (Shops)
+1. Seller (Shops)
    1. To sell products
    2. To receive payments
    3. To be able to ship products
    4. To market products
    5. To feel secure with their account
-3. Buyer
+2. Buyer
    1. To buy products
    2. To review products
    3. To ask about the products
@@ -63,8 +61,7 @@
    -Shipping methods
 
 ### ERD
-![ERD 1st Prototype Image](/references/1st_Prototype.png)
-![ERD 2nd Prototype Image](/references/2nd_Prototype.png)
+![ERD 2nd Prototype Image](/references/Prototype-5.svg)
 Schema thought process:
 
 ## Progress
