@@ -143,10 +143,21 @@ class Users extends CI_Controller
 			$this->session->set_flashdata("input_errors", $result);
 		} elseif ($post["same_shipping"] == "on") {
 			if (!empty($user["shippingAddress_id"])) {
+				if (!empty($user["billingAddress_id"])) {
+					$this->User->delete_by_id(
+						"addresses",
+						$user["billingAddress_id"]
+					);
+				}
 				$this->User->update_by_parameters(
 					"users",
 					["billingAddress_id" => $user["shippingAddress_id"]],
 					["email" => ["=", "$email"]]
+				);
+				$this->User->update_by_parameters(
+					"addresses",
+					["IsBilling" => 1],
+					["id" => ["=", $user["shippingAddress_id"]]]
 				);
 			} else {
 				$this->session->set_flashdata(
@@ -161,7 +172,7 @@ class Users extends CI_Controller
 			]);
 		} else {
 			unset($post["same_shipping"]);
-			$id = $this->User->create_address($post, [0, 1, 0]);
+			$id = $this->User->create_address($post, [1, 0, 0]);
 			$this->User->update_by_parameters(
 				"users",
 				["billingAddress_id" => $id],

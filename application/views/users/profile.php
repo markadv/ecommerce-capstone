@@ -200,7 +200,6 @@
                             value = "<?= isset($billing["address2"])
                             	? $billing["address2"]
                             	: "" ?>"
-                            required
                         />
                         <label for="address2">Address 2</label>
                     </div>

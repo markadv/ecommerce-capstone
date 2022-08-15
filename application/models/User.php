@@ -107,6 +107,12 @@ class User extends CI_Model
 		$this->db->query($query, $values);
 		return $this->db->insert_id();
 	}
+	function delete_by_id($table, $id)
+	{
+		$cleanId = $this->security->xss_clean($id);
+		$query = "DELETE FROM $table WHERE id= $id";
+		return $this->db->query($query);
+	}
 	function validate_registration()
 	{
 		$this->form_validation->set_error_delimiters("<div>", "</div>");
