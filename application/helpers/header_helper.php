@@ -1,6 +1,6 @@
 <?php
 /*
-Dynamically add LESS and Javascript files to header page
+Dynamically add LESS,Javascript, and optional CDN files to header page
 Created by Markad
 */
 /* Check if function exist. If not, run it to trigger default in config. */

@@ -1,62 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Profile</title>
-        <!-- Latest jQuery CDN -->
-        <script
-            src="https://code.jquery.com/jquery-3.6.0.js"
-            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-            crossorigin="anonymous"
-        ></script>
-        <!-- Latest Bootstrap CDN -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-            crossorigin="anonymous"
-        />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <!-- Latest Material Icons (icons) CDN -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
-        <!-- Google fonts CDN -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
-            rel="stylesheet"
-        />
-        <!-- LESS Stylesheets CDN -->
-        <link rel="stylesheet/less" href="../Assets/styles/header.less" />
-        <link rel="stylesheet/less" href="../Assets/styles/profile.less" />
-        <link rel="stylesheet/less" href="../Assets/styles/custom_colors.less" />
-        <script src="https://cdn.jsdelivr.net/npm/less"></script>
-        <!-- Bootstrap JS CDN -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-            crossorigin="anonymous"
-        ></script>
-        <!-- JS Script -->
-        <script src="../Assets/scripts/loginbar.js"></script>
-        <script src="../Assets/scripts/navbar_user.js"></script>
-    </head>
-    <body>
-        <!---------------------Navigation-------------------->
-        <header>
-            <div id="loginbar"></div>
-            <div id="navbar"></div>
-        </header>
+<?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
+        <!-- Error Indicator -->
+        <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
         <!-- Profile -->
-        <div class="error"></div>
-        <div class="success"></div>
         <h1 class="h1 mx-5 mt-5 fw-normal">Profile</h1>
         <div class="container">
             <div class="form-signin w-100">
                 <form action="" method="POST" class="needs-validation">
                     <h2 class="h3 mb-3 fw-normal">Edit Information</h2>
-                    <input type="hidden" name="action" value="edit_information" />
                     <div class="form-floating">
                         <input
                             type="email"
@@ -64,9 +14,22 @@
                             class="form-control form_top"
                             id="floatingInput"
                             placeholder="name@example.com"
+                            value="<?= $email ?>"
                             required
                         />
                         <label for="floatingInput">Email address</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            type="text"
+                            name="mobile"
+                            class="form-control form_mid"
+                            id="floatingInput"
+                            placeholder="09170000000"
+                            value="<?= $mobile ?>"
+                            required
+                        />
+                        <label for="floatingInput">Mobile</label>
                     </div>
                     <div class="form-floating">
                         <input
@@ -75,6 +38,7 @@
                             class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Michael"
+                            value="<?= $first_name ?>"
                             required
                         />
                         <label for="floatingInput">First name</label>
@@ -86,6 +50,7 @@
                             class="form-control form_bot"
                             id="floatingInput"
                             placeholder="Choi"
+                            value="<?= $last_name ?>"
                             required
                         />
                         <label for="floatingInput">Last name</label>
@@ -96,7 +61,6 @@
             <div class="form-signin w-100">
                 <form action="" method="POST" class="needs-validation">
                     <h2 class="h3 mb-3 fw-normal">Change Password</h2>
-                    <input type="hidden" name="action" value="change_password" />
                     <div class="form-floating">
                         <input
                             type="password"
@@ -134,106 +98,156 @@
                 </form>
             </div>
             <div class="form-signin w-100">
-                <form action="" method="POST" class="needs-validation">
+                <form action="<?= base_url() ?>users/process_shipping_address" method="POST" class="needs-validation">
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                     <h2 class="h3 mb-3 fw-normal">Shipping address</h2>
-                    <input type="hidden" name="action" value="change_shipping" />
                     <div class="form-floating">
                         <input
                             type="text"
                             name="address1"
-                            class="form-control form_top"
+                            class="form-control form_top address1_shipping"
                             id="floatingInput"
                             placeholder="123 Sesame St."
+                            value = "<?= isset($shipping["address1"])
+                            	? $shipping["address1"]
+                            	: "" ?>"
                             required
                         />
-                        <label for="address1">Address 1:</label>
+                        <label for="address1">Address 1</label>
                     </div>
                     <div class="form-floating">
                         <input
                             type="text"
                             name="address2"
-                            class="form-control form_mid"
+                            class="form-control form_mid address2_shipping"
                             id="floatingInput"
                             placeholder="Brgy. Numbers"
-                            required
+                            value = "<?= isset($shipping["address2"])
+                            	? $shipping["address2"]
+                            	: "" ?>"
                         />
-                        <label for="address2">Address 2:</label>
+                        <label for="address2">Address 2</label>
                     </div>
                     <div class="form-floating">
                         <input
                             type="text"
                             name="city"
-                            class="form-control form_mid"
+                            class="form-control form_mid city_shipping"
                             id="floatingInput"
                             placeholder="Math City"
-                            required
+                            value = "<?= isset($shipping["city"])
+                            	? $shipping["city"]
+                            	: "" ?>"
                         />
-                        <label for="city">City:</label>
+                        <label for="city">City</label>
                     </div>
                     <div class="form-floating">
                         <input
                             type="text"
                             name="state"
-                            class="form-control form_bot"
+                            class="form-control form_mid state_shipping"
                             id="floatingInput"
                             placeholder="Metro Manila"
+                            value = "<?= isset($shipping["state"])
+                            	? $shipping["state"]
+                            	: "" ?>"
                             required
                         />
-                        <label for="state">State:</label>
+                        <label for="state">State</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            type="text"
+                            name="postal_code"
+                            class="form-control form_bot postal_code_shipping"
+                            id="floatingInput"
+                            placeholder="0001"
+                            value = "<?= isset($shipping["postal_code"])
+                            	? $shipping["postal_code"]
+                            	: "" ?>"
+                            required
+                        />
+                        <label for="state">Postal code</label>
                     </div>
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Save" />
                 </form>
             </div>
             <div class="form-signin w-100">
-                <form action="" method="POST" class="needs-validation">
+                <form id="form_billing_address" action="<?= base_url() ?>users/process_billing_address" method="POST" class="needs-validation">
+                    <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                     <h2 class="h3 mb-3 fw-normal">Billing address</h2>
-                    <input type="hidden" name="action" value="change_billing" />
                     <div class="form-floating">
                         <input
                             type="text"
                             name="address1"
-                            class="form-control form_top"
+                            class="form-control form_top address1_billing"
                             id="floatingInput"
                             placeholder="123 Sesame St."
+                            value = "<?= isset($billing["address1"])
+                            	? $billing["address1"]
+                            	: "" ?>"
                             required
                         />
-                        <label for="address1">Address 1:</label>
+                        <label for="address1">Address 1</label>
                     </div>
                     <div class="form-floating">
                         <input
                             type="text"
                             name="address2"
-                            class="form-control form_mid"
+                            class="form-control form_mid address2_billing"
                             id="floatingInput"
                             placeholder="Brgy. Numbers"
+                            value = "<?= isset($billing["address2"])
+                            	? $billing["address2"]
+                            	: "" ?>"
                             required
                         />
-                        <label for="address2">Address 2:</label>
+                        <label for="address2">Address 2</label>
                     </div>
                     <div class="form-floating">
                         <input
                             type="text"
                             name="city"
-                            class="form-control form_mid"
+                            class="form-control form_mid city_billing"
                             id="floatingInput"
                             placeholder="Math City"
+                            value = "<?= isset($billing["city"])
+                            	? $billing["city"]
+                            	: "" ?>"
                             required
                         />
-                        <label for="city">City:</label>
+                        <label for="city">City</label>
                     </div>
                     <div class="form-floating">
                         <input
                             type="text"
                             name="state"
-                            class="form-control form_bot"
+                            class="form-control form_mid state_billing"
                             id="floatingInput"
                             placeholder="Metro Manila"
+                            value = "<?= isset($billing["state"])
+                            	? $billing["state"]
+                            	: "" ?>"
                             required
                         />
-                        <label for="state">State:</label>
+                        <label for="state">State</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            type="text"
+                            name="postal_code"
+                            class="form-control form_bot postal_code_billing"
+                            id="floatingInput"
+                            placeholder="Metro Manila"
+                            value = "<?= isset($billing["postal_code"])
+                            	? $billing["postal_code"]
+                            	: "" ?>"
+                            required
+                        />
+                        <label for="state">Postal code</label>
                     </div>
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Save" />
-                    <input type="checkbox" name="same_shipping" value="1" />
+                    <input id="same_shipping" type="checkbox" name="same_shipping" />
                     <label for="same_shipping"> Same as shipping</label><br />
                 </form>
             </div>

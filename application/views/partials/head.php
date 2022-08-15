@@ -48,7 +48,7 @@
                 <div class="text-end">
 <?php
 if (isset($isLoggedIn) && $isLoggedIn == 1) { ?>
-                    <a href="" class="btn btn-sm text-dark">Hi, <?= $first_name ?>!</a>
+                    <a href="<?= base_url() ?>users/profile" class="btn btn-sm text-dark">Hi, <?= $first_name ?>!</a>
                     <a href="<?= base_url() ?>users/logoff" class="btn btn-sm btn-outline-danger">Log off</a>
 <?php }
 if (!isset($isLoggedIn)) {

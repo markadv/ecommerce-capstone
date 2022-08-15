@@ -91,4 +91,5 @@ Schema thought process:
 1. [x]  Home
 2. [x]  LESS/JS/CDN Helper
 3. [x]  Login
-4. [x]  Registation
+4. [x]  Registration
+5. [x]  Profile

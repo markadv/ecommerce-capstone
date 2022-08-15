@@ -32,7 +32,7 @@
                     </div>
 
                     <input type="submit" class="w-100 btn btn-lg btn-primary" value="Sign in" />
-                    <a href="">Don't have an account? Sign up</a>
+                    <a href="<?= base_url() ?>users/register">Don't have an account? Sign up</a>
                     <p class="mt-5 mb-3 text-muted">Mark Timothy Advento&copy; 2022</p>
                 </form>
             </main>
