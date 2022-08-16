@@ -7,8 +7,9 @@ class Vendors extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("Vendor");
+		$this->load->model("Product");
 		$this->load->helper("header");
+		$this->output->enable_profiler(true);
 	}
 	public function index()
 	{
@@ -36,14 +37,15 @@ class Vendors extends CI_Controller
 	{
 		$this->check_ip();
 		$this->check_role();
-		add_less(["admin_products.less"]);
+		add_less(["products_list.less"]);
 		add_cdn(["jqueryui"]);
 		add_js(["products_list.js"]);
 		$this->data = $this->session->userdata();
-		$this->data["products"] = $this->Vendor->get_products();
+		$this->data["products"] = $this->Product->get_products();
+		$this->data["picture_main"] = $this->Product->get_pictures_main();
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_admin");
-		$this->load->view("partials/add_modal");
+		$this->load->view("partials/product_modal");
 		$this->load->view("vendors/products_list", $this->data);
 	}
 	public function order_view()
@@ -60,41 +62,12 @@ class Vendors extends CI_Controller
 	}
 	public function test()
 	{
-		var_dump($this->Vendor->get_products());
-	}
-	public function process_login()
-	{
-		$this->check_ip();
-		$this->check_post("login");
-		$result = $this->Vendor->validate_login();
-		if ($result != "success") {
-			$this->session->set_flashdata("input_errors", $result);
-		} else {
-			$email = $this->input->post("email");
-			$user = $this->Vendor->get_by_parameters("users", [
-				"email" => ["=", $email],
-				"role_id" => ["=", 1],
-			])[0];
-			$result = $this->Vendor->validate_login_match(
-				$user,
-				$this->input->post("password")
-			);
-
-			if ($result == "success") {
-				$session_data = $this->Vendor->profile_array($user);
-				$this->session->set_userdata($session_data);
-				redirect("admins");
-				return;
-			} else {
-				$this->session->set_flashdata("input_errors", $result);
-			}
-		}
-		redirect("vendors/login");
+		var_dump($this->Vendor->get_pictures_main());
 	}
 	private function check_ip()
 	{
 		if ($this->input->ip_address() !== "::1") {
-			redirect("users");
+			redirect("products");
 		}
 	}
 	private function check_post($previous_url)

@@ -9,7 +9,7 @@
                 </div>
                 <!------Add product-------->
                 <div class="col-12 col-md-3">
-                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#add_product">
+                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#product">
                         Add new product
                     </button>
                 </div>
@@ -36,9 +36,9 @@
                                 <div class="img_container">
                                     <img class="product_image" src="<?= base_url() .
                                     	"assets/imgs/" .
-                                    	$row["img_main"] ?>" alt="<?= $row[
-	"img_main"
-] ?>" />
+                                    	$picture_main[
+                                    		$row["id"]
+                                    	] ?>" alt="<?= $row["name"] ?>" />
                                 </div>
                             </td>
                             <td><?= $row["name"] ?></td>

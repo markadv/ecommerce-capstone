@@ -13,7 +13,7 @@ class Users extends CI_Controller
 	}
 	public function index()
 	{
-		redirect("shops");
+		redirect("products");
 	}
 	public function login()
 	{
@@ -104,7 +104,7 @@ class Users extends CI_Controller
 			if ($result == "success") {
 				$session_data = $this->User->profile_array($user);
 				$this->session->set_userdata($session_data);
-				redirect("shops");
+				redirect("products");
 			} else {
 				$this->session->set_flashdata("input_errors", $result);
 				redirect("users/login");
@@ -245,7 +245,7 @@ class Users extends CI_Controller
 	public function logoff()
 	{
 		$this->session->sess_destroy();
-		redirect("shops");
+		redirect("products");
 	}
 	/*
 	Redirect user if logged in by Markad
@@ -253,7 +253,7 @@ class Users extends CI_Controller
 	private function redirect_loggedin()
 	{
 		if ($this->session->userdata("isLoggedIn") == 1) {
-			redirect("shops");
+			redirect("products");
 			return;
 		}
 	}

@@ -23,9 +23,11 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <!-- Latest Material Icons (icons) CDN -->
         <link
-            href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
-            rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet"
         />
+        <!-- Overwrite bootstrap default -->
+        <link rel="stylesheet" href="<?= base_url() ?>/assets/styles/bootstrap.min.css">
         <!-- LESS styling -->
 <?= put_less() ?>
         <script src="https://cdn.jsdelivr.net/npm/less"></script>

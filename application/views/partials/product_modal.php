@@ -1,9 +1,9 @@
 <?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
-		<!-- Add modal -->
+		<!-- Add/Edit modal -->
 		<form action="/products/add_product" method="post">
 			<div
 				class="modal fade"
-				id="add_product"
+				id="product"
 				data-bs-backdrop="static"
 				data-bs-keyboard="true"
 				tabindex="-1"
@@ -22,7 +22,7 @@
 							></button>
 						</div>
 						<div class="modal-body">
-							<!------Upadte/add input field-------->
+							<!------Update/add input field-------->
 							<input type="hidden" name="id" value="1" />
 							<div class="mb-1">
 								<label for="name" class="form-label">Product Name</label>
@@ -72,22 +72,12 @@
 										value="10"
 									/>
 								</div>
-								<!------Category Dropdown-------->
+								<!-- ----Category Dropdown------ -->
 								<div class="mb-1 col-12 dropdown">
-									<button
-										class="btn btn-primary dropdown-toggle w-100"
-										type="button"
-										id="dropdownMenuButton1"
-										data-bs-toggle="dropdown"
-										aria-expanded="false"
-									>
-										Category
-									</button>
-									<ul class="dropdown-menu w-100">
+									<button class="btn btn-primary dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
+									<ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1">
 										<li class="position-relative">
-											<a class="dropdown-item" href="#"
-												><input class="w-75" type="text"
-											/></a>
+											<a class="dropdown-item" href="#"><input class="w-75" type="text" /></a>
 											<span id="modal_edit" class="material-icons-outlined">
 												edit
 											</span>
@@ -96,44 +86,17 @@
 											</span>
 										</li>
 										<li class="position-relative">
-											<a class="dropdown-item" href="#"
-												><input class="w-75" type="text"
-											/></a>
-											<span id="modal_edit" class="material-icons-outlined">
-												edit
-											</span>
-											<!-- <i class="fas fa-pen position-absolute" style="right: 40px; top: 5px"></i> -->
-											<span id="modal_delete" class="material-icons-outlined">
-												delete
-											</span>
+											<a class="dropdown-item" href="#"><input class="w-75" type="text" /></a> <i class="fas fa-pen position-absolute" style="right: 40px; top: 5px"></i><i class="fas fa-trash position-absolute" style="right: 10px; top: 5px"></i>
 										</li>
 										<li class="position-relative">
-											<a class="dropdown-item" href="#"
-												><input class="w-75" type="text"
-											/></a>
-											<span id="modal_edit" class="material-icons-outlined">
-												edit
-											</span>
-											<!-- <i class="fas fa-pen position-absolute" style="right: 40px; top: 5px"></i> -->
-											<span id="modal_delete" class="material-icons-outlined">
-												delete
-											</span>
+											<a class="dropdown-item" href="#"><input class="w-75" type="text" /></a> <i class="fas fa-pen position-absolute" style="right: 40px; top: 5px"></i><i class="fas fa-trash position-absolute" style="right: 10px; top: 5px"></i>
 										</li>
 									</ul>
 								</div>
 
 								<div class="mb-1 col-12">
-									<label for="add_new_categ" class="form-label"
-										>Add new category</label
-									>
-									<input
-										type="text"
-										required
-										class="form-control"
-										id="add_new_categ"
-										name="add_new_categ"
-										value="10"
-									/>
+									<label for="add_new_categ" class="form-label">Add new category</label>
+									<input type="number" required class="form-control" id="add_new_categ" name="add_new_categ" value="10" />
 								</div>
 								<!------Images-------->
 								<div class="mb-4 col-12">
