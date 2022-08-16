@@ -42,7 +42,7 @@ class Vendors extends CI_Controller
 		add_js(["products_list.js"]);
 		$this->data = $this->session->userdata();
 		$this->data["products"] = $this->Product->get_products();
-		$this->data["picture_main"] = $this->Product->get_pictures_main();
+		$this->data["picture_main"] = $this->Product->get_images_main();
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_admin");
 		$this->load->view("partials/product_modal");
@@ -62,7 +62,7 @@ class Vendors extends CI_Controller
 	}
 	public function test()
 	{
-		var_dump($this->Vendor->get_pictures_main());
+		var_dump($this->Vendor->get_images_main());
 	}
 	private function check_ip()
 	{

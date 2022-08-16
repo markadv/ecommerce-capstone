@@ -8,79 +8,29 @@
                         class="swiper mySwiper2"
                     >
                         <div class="swiper-wrapper">
+<?php foreach ($pictures as $row) { ?>
                             <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                                <img src="<?= base_url() ?>/assets/imgs/<?= $row ?>" />
                             </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-                            </div>
+<?php } ?>
                         </div>
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                     </div>
                     <div thumbsSlider="" class="swiper mySwiper">
                         <div class="swiper-wrapper">
+<?php foreach ($pictures as $row) { ?>
                             <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                                <img src="<?= base_url() ?>/assets/imgs/<?= $row ?>" />
                             </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
-                            </div>
+<?php } ?>
                         </div>
                     </div>
                 </div>
                 <!-- Product -->
                 <div class="col-12 col-md-8 border">
                     <div>
-                        <h1>Dr. Browns Natural Flow Baby Bottle</h1>
+                        <h1><?= $product["name"] ?></h1>
                         <a href="" class="detail-rating text-decoration-none">
                             <span class="material-icons-sharp"> grade </span>
                             <span class="material-icons-sharp"> grade </span>
@@ -89,21 +39,20 @@
                             <span class="material-icons-sharp"> grade </span>
                             <span>(2)</span>
                         </a>
-                        <span>Sold 10</span>
+                        <span><?= $product["sold"] ?> sold</span>
                     </div>
                     <h3>Price</h3>
                     <div class="row">
                         <p class="col-2">Quantity</p>
                         <div class="col-10">
                             <input type="number" name="quantity" value="1" min="1" step="1" />
-                            <span>5947 pieces available</span>
+                            <span><?= $product["quantity"] -
+                            	$product["sold"] ?> pieces available</span>
                         </div>
                     </div>
                     <div class="row">
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas error cupiditate cumque natus
-                            cum! Dignissimos perferendis voluptates, unde impedit eum, rem mollitia nisi repudiandae
-                            excepturi labore adipisci dolorem vitae illum.
+                            <?= $product["description"] ?>
                         </p>
                     </div>
                     <div id="add_to_cart">
@@ -116,72 +65,71 @@
             </div>
         </div>
         <!-- Reviews -->
-        <div class="container">
-            <div class="border border-primary bg-light mt-3 row p-3">
-                <a
-                    href="#"
-                    class="collapsed text-decoration-none text-primary"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#review-collapse"
-                    aria-expanded="false"
-                >
-                    <h2 class="display-6 fs-3">Reviews</h2>
-                </a>
-                <div class="collapse row" id="review-collapse">
-                    <h3>Post a review</h3>
-                    <form>
-                        <div class="form-floating">
-                            <input type="hidden" name="product_id" value="<?= $id ?>" />
-                            <textarea
-                                name="review"
-                                class="form-control"
-                                id="floatingInput"
-                                placeholder="A super cool cap."
-                                style="height: 100px"
-                            ></textarea>
-                            <label for="floatingInput">Leave a review</label>
-                            <input type="submit" class="mt-3 w-20 btn btn-sm btn-primary" value="Post review" />
-                        </div>
-                    </form>
-                    <div>
-                        <h2 class="h5 mb-0 mt-3">Mark Timothy Advento</h2>
-                        <p class="lead border mb-0">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit iste reiciendis
-                            dignissimos natus, distinctio modi blanditiis aliquam, voluptatum, corporis nobis atque at
-                            inventore omnis cum eligendi. Culpa quia delectus pariatur.
-                        </p>
-                        <span class="mb-3">30 minutes ago</span>
-                    </div>
-                    <div class="row justify-content-end">
-                        <div class="col-9">
-                            <h2 class="h5 mb-0 mt-3">John Wick</h2>
-                            <p class="lead border mb-0">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cum nemo
-                                consequuntur nam molestias laborum obcaecati sunt. Voluptates modi quod, nemo sunt
-                                minima id voluptate ullam minus repellendus vel explicabo.
-                            </p>
-                            <span class="mb-3">5 minutes ago</span>
-                        </div>
-                    </div>
-                    <div class="row justify-content-end">
-                        <form class="col-9">
+        <div class="container"> 
+            <div class="accordion" id="review-accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button text-white bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#review-collapse" aria-expanded="true" aria-controls="collapseOne">
+                        Reviews
+                    </button>
+                    </h2>
+                    <div id="review-collapse" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#review-accordion">
+                        <div class="accordion-body">
+                        <h3>Post a review</h3>
+                        <form>
                             <div class="form-floating">
-                                <input type="hidden" name="review_id" value="id" />
+                                <input type="hidden" name="product_id" value="<?= $id ?>" />
                                 <textarea
-                                    name="reply"
+                                    name="review"
                                     class="form-control"
                                     id="floatingInput"
                                     placeholder="A super cool cap."
                                     style="height: 100px"
                                 ></textarea>
-                                <label for="floatingInput">Leave a reply</label>
-                                <input
-                                    type="submit"
-                                    class="mt-3 w-20 btn btn-sm btn-outline-primary"
-                                    value="Post reply"
-                                />
+                                <label for="floatingInput">Leave a review</label>
+                                <input type="submit" class="mt-3 w-20 btn btn-sm btn-primary" value="Post review" />
                             </div>
                         </form>
+                        <div>
+                            <h2 class="h5 mb-0 mt-3">Mark Timothy Advento</h2>
+                            <p class="lead border mb-0">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit iste reiciendis
+                                dignissimos natus, distinctio modi blanditiis aliquam, voluptatum, corporis nobis atque at
+                                inventore omnis cum eligendi. Culpa quia delectus pariatur.
+                            </p>
+                            <span class="mb-3">30 minutes ago</span>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-9">
+                                <h2 class="h5 mb-0 mt-3">John Wick</h2>
+                                <p class="lead border mb-0">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur cum nemo
+                                    consequuntur nam molestias laborum obcaecati sunt. Voluptates modi quod, nemo sunt
+                                    minima id voluptate ullam minus repellendus vel explicabo.
+                                </p>
+                                <span class="mb-3">5 minutes ago</span>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <form class="col-9">
+                                <div class="form-floating">
+                                    <input type="hidden" name="review_id" value="id" />
+                                    <textarea
+                                        name="reply"
+                                        class="form-control"
+                                        id="floatingInput"
+                                        placeholder="A super cool cap."
+                                        style="height: 100px"
+                                    ></textarea>
+                                    <label for="floatingInput">Leave a reply</label>
+                                    <input
+                                        type="submit"
+                                        class="mt-3 w-20 btn btn-sm btn-outline-primary"
+                                        value="Post reply"
+                                    />
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
