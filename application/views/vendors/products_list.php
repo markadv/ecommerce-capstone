@@ -1,3 +1,7 @@
+<?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
+        <!-- Error Indicator -->
+        <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
+        <div class="success"><p><?= isset($success) ? $success : "" ?></p></div>
         <div class="container pt-3">
             <!-- Search -->
             <div class="mb-3 row">
@@ -43,7 +47,9 @@
                             </td>
                             <td><?= $row["name"] ?></td>
                             <td><?= $row["quantity"] ?></td>
-                            <td><?= $row["sold"] ?></td>
+                            <td><?= isset($sold[$row["id"]])
+                            	? $sold[$row["id"]]
+                            	: 0 ?></td>
                             <td> &#8369 <?= $row["price"] ?></td>
                             <td>
                                 <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#product">
@@ -52,7 +58,9 @@
                                 <a
                                     class="btn btn-danger"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#delete_product"
+                                    data-bs-target="#delete_product_<?= $row[
+                                    	"id"
+                                    ] ?>"
                                     href="#"
                                     >Delete</a
                                 >
@@ -79,10 +87,13 @@
         </nav>
 
         <!-- ------------------------------------------Delete modal------------------------------------------------------------- -->
-        <form action="/products/delete_product" method="post">
+<?php foreach ($products as $row) { ?>
+        <form action="<?= base_url() ?>vendors/delete_product/" method="post">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" /> 
+            <input type="hidden" name="product_id" value="<?= $row["id"] ?>" />
             <div
                 class="modal fade"
-                id="delete_product"
+                id="delete_product_<?= $row["id"] ?>"
                 data-bs-backdrop="static"
                 data-bs-keyboard="true"
                 tabindex="-1"
@@ -96,17 +107,17 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <input type="hidden" name="id" value="1" />
                             <p>Are you sure you want to delete this product?</p>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-danger" value="delete" />
+                                <input type="submit" class="btn btn-danger" value="Delete" />
                         </div>
                     </div>
                 </div>
             </div>
         </form>
+<?php } ?>
     </body>
 </html>

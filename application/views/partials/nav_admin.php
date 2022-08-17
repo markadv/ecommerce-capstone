@@ -7,13 +7,13 @@
             </a>
             <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                 <li>
-                    <a href="" class="nav-link text-primary">
+                    <a href="<?= base_url() ?>vendors/" class="nav-link text-primary">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> dashboard </span>
                         Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="" class="nav-link text-primary">
+                    <a href="<?= base_url() ?>vendors/products" class="nav-link text-primary">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> inventory_2 </span>
                         Products
                     </a>
@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" class="nav-link text-primary">
+                    <a href="<?= base_url() ?>users/profile" class="nav-link text-primary">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> account_circle </span>
                         Profile
                     </a>

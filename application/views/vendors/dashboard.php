@@ -12,138 +12,47 @@
                     <!-----Status Sort----------------------------------->
                     <select class="form-select" aria-label="Default select example">
                         <option selected>Show all</option>
-                        <option value="1">Order in process</option>
-                        <option value="2">Shipped</option>
-                        <option value="3">Cancelled</option>
+<?php foreach ($status as $key => $value) { ?>
+                        <option value="<?= $key ?>"><?= $value ?></option>
+<?php } ?>
                     </select>
                 </div>
             </div>
             <!-----Order List----------------------------------->
             <div class="table-container">
-                <table class="table table-light table-striped">
+                <table class="table table-light table-striped w-100">
                     <thead>
                         <tr>
                             <th class="col-1" scope="col-1">Order id</th>
-                            <th class="col-2" scope="col-1">Name</th>
+                            <th class="col-1" scope="col-1">Name</th>
                             <th class="col-1" scope="col-1">Date</th>
-                            <th class="col" scope="col-1">Billing address</th>
+                            <th class="col-5" scope="col-5">Billing address</th>
                             <th class="col-1" scope="col-1">Total</th>
-                            <th class="col-2" scope="col-1">status</th>
+                            <th class="col-3" scope="col-3">Status</th>
                         </tr>
                     </thead>
                     <tbody>
+<?php foreach ($order_details as $row) {
+	$date = date_create($row["created_at"]); ?>
                         <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
+                            <td><a href=""><?= $row["id"] ?></a></td>
+                            <td><?= $row["first_name"] ?></td>
+                            <td><?= date_format($date, "m/d/Y") ?> </td>
+                            <td><?= $row["address"] ?></td>
+                            <td>&#8369;<?= number_format(
+                            	$row["total"],
+                            	2
+                            ) ?></td>
                             <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
+                                <select class="form-select w-100">
+                                    <option value="1" >Order in process</option>
                                     <option value="2">Shipped</option>
                                     <option value="3">Cancelled</option>
                                 </select>
                             </td>
                         </tr>
-                        <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><a href="">100</a></td>
-                            <td>Bob</td>
-                            <td>9/6/2014</td>
-                            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium enim, qui,</td>
-                            <td>$143</td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
-                                    <option value="1">Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
-                            </td>
-                        </tr>
+<?php
+} ?>
                     </tbody>
                 </table>
             </div>

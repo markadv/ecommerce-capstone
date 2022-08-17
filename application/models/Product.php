@@ -10,7 +10,7 @@ class Product extends CI_Model
                 FROM products
 				LEFT JOIN inventories ON products.inventory_id=inventories.id
                 LEFT JOIN categories ON products.category_id=categories.id
-				WHERE products.id = $cleanId";
+				WHERE products.id = $cleanId && products.active=1";
 		return $this->db->query($query)->result_array()[0];
 	}
 	function get_products_by_ids($idArr)
@@ -20,7 +20,7 @@ class Product extends CI_Model
                 FROM products
 				LEFT JOIN inventories ON products.inventory_id=inventories.id
                 LEFT JOIN categories ON products.category_id=categories.id
-				WHERE products.id IN ($cleanIdArr)";
+				WHERE products.id IN ($cleanIdArr) && products.active=1";
 		return $this->db->query($query)->result_array();
 	}
 	function get_products()
@@ -28,7 +28,8 @@ class Product extends CI_Model
 		$query = "SELECT products.* , inventories.quantity, categories.name as category
 				FROM products
                 LEFT JOIN inventories ON products.inventory_id=inventories.id
-                LEFT JOIN categories ON products.category_id=categories.id";
+                LEFT JOIN categories ON products.category_id=categories.id
+				WHERE products.active=1";
 		return $this->db->query($query)->result_array();
 	}
 	function get_images_by_id($id)
@@ -95,6 +96,14 @@ class Product extends CI_Model
 		$result = $this->db->query($query)->result_array();
 		return $result[0]["sold"];
 	}
+	function get_all_sold()
+	{
+		$query = "SELECT product_id, SUM(quantity) as sold
+                FROM order_items
+				GROUP BY product_id";
+		$result = $this->db->query($query)->result_array();
+		return $result;
+	}
 	function add_order_details(
 		$payment_id,
 		$billing_id,
@@ -110,7 +119,7 @@ class Product extends CI_Model
 		$clean_total = $this->security->xss_clean($total);
 		$clean_is_logged_in = $this->security->xss_clean($is_logged_in);
 		$query = "INSERT INTO order_details (payment_id, billing_id, shipping_id, user_id, status, total, is_logged_in)
-		VALUES ($clean_payment_id,$clean_billing_id,$clean_shipping_id,$clean_user_id,'Preparing',$clean_total,$clean_is_logged_in)";
+		VALUES ($clean_payment_id,$clean_billing_id,$clean_shipping_id,$clean_user_id,'Order in process',$clean_total,$clean_is_logged_in)";
 		$this->db->query($query);
 		return $this->db->insert_id();
 	}
@@ -148,7 +157,7 @@ class Product extends CI_Model
 			$this->security->xss_clean($post["first_name_shipping"]),
 			$this->security->xss_clean($post["last_name_shipping"]),
 			"Default",
-			"Preparing",
+			"Order in process",
 		];
 		$this->db->query($query, $values);
 		return $this->db->insert_id();
@@ -164,6 +173,13 @@ class Product extends CI_Model
 		];
 		$this->db->query($query, $values);
 		return $this->db->insert_id();
+	}
+	function delete_product($id)
+	{
+		$query =
+			"UPDATE products SET active = 0, deleted_at = NOW() WHERE ID = ?";
+		$value = $this->security->xss_clean($id);
+		return $this->db->query($query, $value);
 	}
 	function validate_order()
 	{
@@ -275,6 +291,14 @@ class Product extends CI_Model
 		$newArr = [];
 		foreach ($array as $row) {
 			$newArr[$row["id"]] = $row["url"];
+		}
+		return $newArr;
+	}
+	function convert_two_key_array_sold($array)
+	{
+		$newArr = [];
+		foreach ($array as $row) {
+			$newArr[$row["product_id"]] = $row["sold"];
 		}
 		return $newArr;
 	}

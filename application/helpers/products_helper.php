@@ -51,3 +51,12 @@ function create_billing_address($post)
 	];
 	return $billing;
 }
+function order_details_status()
+{
+	return [
+		1 => "In process",
+		2 => "Ready to ship",
+		3 => "Shipped",
+		4 => "Returned/Cancelled",
+	];
+}
