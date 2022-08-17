@@ -6,13 +6,30 @@ class Product extends CI_Model
 	function get_product_by_id($id)
 	{
 		$cleanId = $this->security->xss_clean($id);
-		$query = "SELECT products.* , inventories.quantity, categories.name as category,
-                orderItems.quantity AS sold FROM products
-                LEFT JOIN inventories ON products.inventory_id=inventories.id
+		$query = "SELECT products.* , inventories.quantity, categories.name as category
+                FROM products
+				LEFT JOIN inventories ON products.inventory_id=inventories.id
                 LEFT JOIN categories ON products.category_id=categories.id
-                LEFT JOIN orderItems ON products.id=orderItems.product_id
 				WHERE products.id = $cleanId";
 		return $this->db->query($query)->result_array()[0];
+	}
+	function get_products_by_ids($idArr)
+	{
+		$cleanIdArr = implode(",", $this->security->xss_clean($idArr));
+		$query = "SELECT products.* , inventories.quantity, categories.name as category
+                FROM products
+				LEFT JOIN inventories ON products.inventory_id=inventories.id
+                LEFT JOIN categories ON products.category_id=categories.id
+				WHERE products.id IN ($cleanIdArr)";
+		return $this->db->query($query)->result_array();
+	}
+	function get_products()
+	{
+		$query = "SELECT products.* , inventories.quantity, categories.name as category
+				FROM products
+                LEFT JOIN inventories ON products.inventory_id=inventories.id
+                LEFT JOIN categories ON products.category_id=categories.id";
+		return $this->db->query($query)->result_array();
 	}
 	function get_images_by_id($id)
 	{
@@ -20,22 +37,33 @@ class Product extends CI_Model
                 FROM images
                 LEFT JOIN products ON images.product_id=products.id
 				WHERE products.id=$id";
-		$result = $this->db->query($query)->result_array()[0];
-		return explode(",", $result["pictures"]);
+		return $this->db->query($query)->result_array()[0];
 	}
-	function get_products()
+	function get_images_by_ids($idArr)
 	{
-		$query = "SELECT products.* , inventories.quantity, categories.name as category,
-                orderItems.quantity AS sold FROM products
-                LEFT JOIN inventories ON products.inventory_id=inventories.id
-                LEFT JOIN categories ON products.category_id=categories.id
-                LEFT JOIN orderItems ON products.id=orderItems.product_id";
-		return $this->db->query($query)->result_array();
+		$results = [];
+		foreach ($idArr as $value) {
+			$results[$value] = explode(
+				",",
+				$this->get_images_by_id($value)["pictures"]
+			);
+		}
+		return $results;
 	}
+	function get_images_main()
+	{
+		$query = "SELECT products.id, images.url FROM images
+                LEFT JOIN products ON images.product_id=products.id
+				WHERE images.is_main = 1";
+		$result = $this->db->query($query)->result_array();
+		// return $result;
+		return $this->convert_two_key_array($result);
+	}
+
 	function get_images()
 	{
-		$query = "SELECT products.id (SELECT GROUP_CONCAT(images.url  SEPARATOR ',') WHERE images.IsMain = 0) AS img_arr,
-                (SELECT images.url WHERE images.IsMain = 1) AS img_main,
+		$query = "SELECT products.id (SELECT GROUP_CONCAT(images.url  SEPARATOR ',') WHERE images.is_main = 0) AS img_arr,
+                (SELECT images.url WHERE images.is_main = 1) AS img_main,
                 FROM images
                 LEFT JOIN products ON images.product_id=products.id";
 		return $this->db->query($query)->result_array();
@@ -47,14 +75,14 @@ class Product extends CI_Model
                 GROUP BY categories.id";
 		return $this->db->query($query)->result_array();
 	}
-	function get_images_main()
+
+	function get_sold($id)
 	{
-		$query = "SELECT products.id, images.url FROM images
-                LEFT JOIN products ON images.product_id=products.id
-				WHERE images.IsMain = 1";
+		$query = "SELECT SUM(quantity) as sold
+                FROM order_items
+				WHERE product_id=$id";
 		$result = $this->db->query($query)->result_array();
-		// return $result;
-		return $this->convert_two_key_array($result);
+		return $result[0]["sold"];
 	}
 	function convert_two_key_array($array)
 	{
@@ -63,5 +91,13 @@ class Product extends CI_Model
 			$newArr[$row["id"]] = $row["url"];
 		}
 		return $newArr;
+	}
+	function convert_cart_to_array($cart)
+	{
+		$arr = [];
+		foreach ($cart as $key => $value) {
+			array_push($arr, $key);
+		}
+		return $arr;
 	}
 }

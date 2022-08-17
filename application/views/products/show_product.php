@@ -39,33 +39,44 @@
                             <span class="material-icons-sharp"> grade </span>
                             <span>(2)</span>
                         </a>
-                        <span><?= $product["sold"] ?> sold</span>
+                        <span><?= isset($sold) ? $sold : 0 ?> sold</span>
                     </div>
                     <h3>Price</h3>
-                    <div class="row">
-                        <p class="col-2">Quantity</p>
-                        <div class="col-10">
-                            <input type="number" name="quantity" value="1" min="1" step="1" />
-                            <span><?= $product["quantity"] -
-                            	$product["sold"] ?> pieces available</span>
+                    <form action="<?= base_url() ?>products/add_cart" method="post" class="needs-validation">
+                        <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
+                        <input type="hidden" name="product_id" value="<?= $product[
+                        	"id"
+                        ] ?>" />
+                        <div class="row">
+                            <p class="col-2">Quantity</p>
+                            <div class="col-10">
+                                
+                                    <input type="number" name="quantity" value="1" min="1" max="<?= $product[
+                                    	"quantity"
+                                    ] - $sold ?>" step="1" required/>
+                                    <span><?= $product["quantity"] -
+                                    	$sold ?> pieces available</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <p>
-                            <?= $product["description"] ?>
-                        </p>
-                    </div>
-                    <div id="add_to_cart">
-                        <a href="" class="btn btn-outline-primary"
-                            ><span class="material-icons-outlined"> add_shopping_cart </span>Add to Cart</a
-                        >
-                        <a href="" class="btn btn-primary">Buy Now</a>
-                    </div>
+                        <div class="row">
+                            <p>
+                                <?= $product["description"] ?>
+                            </p>
+                        </div>
+                        <div id="add_to_cart">
+                            <a href="javascript:" id="add-shopping-cart" data-id="<?= $product[
+                            	"id"
+                            ] ?>"class="btn btn-outline-primary"
+                                ><span class="material-icons-outlined"> add_shopping_cart </span>Add to Cart</a
+                            >
+                            <button type="submit" id="buy-now" class="btn btn-primary">Buy Now</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
         <!-- Reviews -->
-        <div class="container"> 
+        <div class="container mt-3"> 
             <div class="accordion" id="review-accordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
@@ -78,7 +89,9 @@
                         <h3>Post a review</h3>
                         <form>
                             <div class="form-floating">
-                                <input type="hidden" name="product_id" value="<?= $id ?>" />
+                                <input type="hidden" name="product_id" value="<?= $product[
+                                	"id"
+                                ] ?>" />
                                 <textarea
                                     name="review"
                                     class="form-control"

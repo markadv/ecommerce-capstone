@@ -15,4 +15,18 @@ $(document).ready(function () {
 			swiper: swiper,
 		},
 	});
+	$("#add-shopping-cart").click(function () {
+		$("form").on("submit", function (e) {
+			e.preventDefault();
+			var dataString = $($this).serialize();
+			$.ajax({
+				type: "POST",
+				url: "http://secretshop/products/add_cart",
+				data: dataString,
+				success: function (message) {
+					alert(message);
+				},
+			});
+		});
+	});
 });

@@ -24,7 +24,7 @@ class Users extends CI_Controller
 		$this->data["type"] = "users";
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user");
+		$this->load->view("partials/nav_user", $this->data);
 		$this->load->view("users/login");
 	}
 	public function register()
@@ -36,7 +36,7 @@ class Users extends CI_Controller
 		$this->data["type"] = "users";
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user");
+		$this->load->view("partials/nav_user", $this->data);
 		$this->load->view("users/register");
 	}
 	public function profile()
@@ -48,25 +48,19 @@ class Users extends CI_Controller
 		/* Get all info*/
 		$email = $this->session->userdata("email");
 		$user = $this->User->get_by_parameter("users", "email", $email);
-		if (!empty($user["shippingAddress_id"])) {
-			$shipping = $this->User->get_type_address(
-				"shipping",
-				$user["shippingAddress_id"]
-			);
+		if (!empty($user["shipping_address_id"])) {
+			$shipping = $this->User->get_address($user["shipping_address_id"]);
 			$user["shipping"] = $shipping[0];
 		}
-		if (!empty($user["billingAddress_id"])) {
-			$billing = $this->User->get_type_address(
-				"billing",
-				$user["billingAddress_id"]
-			);
+		if (!empty($user["billing_address_id"])) {
+			$billing = $this->User->get_address($user["billing_address_id"]);
 			$user["billing"] = $billing[0];
 		}
 		$this->data = array_merge($this->data, $user);
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->data["success"] = $this->session->flashdata("success_message");
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user");
+		$this->load->view("partials/nav_user", $this->data);
 		$this->load->view("users/profile", $this->data);
 	}
 	public function process_registration()
@@ -96,7 +90,7 @@ class Users extends CI_Controller
 		} else {
 			$email = $this->input->post("email");
 			$user = $this->User->get_by_parameter("users", "email", $email);
-			$result = $this->User->validate_login_match(
+			$result = $this->User->validate_password_hash(
 				$user,
 				$this->input->post("password")
 			);
@@ -112,6 +106,7 @@ class Users extends CI_Controller
 		}
 		redirect("users/login");
 	}
+	/* Address type(1-shipping,2-billing,3-billing and shipping) */
 	public function process_shipping_address()
 	{
 		$this->check_post("profile");
@@ -121,24 +116,24 @@ class Users extends CI_Controller
 		$result = $this->User->validate_address();
 		if ($result !== "success") {
 			$this->session->set_flashdata("input_errors", $result);
-		} elseif (!empty($user["shippingAddress_id"])) {
+		} elseif (!empty($user["shipping_address_id"])) {
 			$this->User->update_by_parameters("addresses", $post, [
-				"id" => ["=", $user["shippingAddress_id"]],
+				"id" => ["=", $user["shipping_address_id"]],
 			]);
 			$this->session->set_flashdata(
 				"success_message",
 				"Successfully change your shipping address."
 			);
 		} else {
-			$id = $this->User->create_address($post, [0, 1, 0]);
+			$id = $this->User->create_address($post, 1);
 			$this->User->update_by_parameters(
 				"users",
-				["shippingAddress_id" => $id],
+				["shipping_address_id" => $id],
 				["email" => ["=", $this->session->userdata("email")]]
 			);
 			$this->session->set_flashdata(
 				"success_message",
-				"Successfully change your shipping address."
+				"Successfully added your shipping address."
 			);
 		}
 		redirect("users/profile");
@@ -152,23 +147,28 @@ class Users extends CI_Controller
 		$result = $this->User->validate_address();
 		if ($result !== "success") {
 			$this->session->set_flashdata("input_errors", $result);
-		} elseif ($post["same_shipping"] == "on") {
-			if (!empty($user["shippingAddress_id"])) {
-				if (!empty($user["billingAddress_id"])) {
+		} elseif (
+			isset($post["same_shipping"]) &&
+			$post["same_shipping"] == "on"
+		) {
+			if (!empty($user["shipping_address_id"])) {
+				/* Deletes the old billing address then change the
+				 shipping address type and user billing address id*/
+				if (!empty($user["billing_address_id"])) {
 					$this->User->delete_by_id(
 						"addresses",
-						$user["billingAddress_id"]
+						$user["billing_address_id"]
 					);
 				}
 				$this->User->update_by_parameters(
 					"users",
-					["billingAddress_id" => $user["shippingAddress_id"]],
+					["billing_address_id" => $user["shipping_address_id"]],
 					["email" => ["=", "$email"]]
 				);
 				$this->User->update_by_parameters(
 					"addresses",
-					["IsBilling" => 1],
-					["id" => ["=", $user["shippingAddress_id"]]]
+					["address_type_id" => 3],
+					["id" => ["=", $user["shipping_address_id"]]]
 				);
 				$this->session->set_flashdata(
 					"success_message",
@@ -180,18 +180,46 @@ class Users extends CI_Controller
 					"Please enter a shipping address first."
 				);
 			}
-		} elseif (!empty($user["billingAddress_id"])) {
-			unset($post["same_shipping"]);
-			$this->User->update_by_parameters("addresses", $post, [
-				"id" => ["=", $user["billingAddress_id"]],
-			]);
-		} else {
-			unset($post["same_shipping"]);
-			$id = $this->User->create_address($post, [1, 0, 0]);
+			/* Create billing address if same as shipping */
+		} elseif (
+			!empty($user["billing_address_id"]) &&
+			$user["billing_address_id"] == $user["shipping_address_id"]
+		) {
+			$id = $this->User->create_address($post, 2);
 			$this->User->update_by_parameters(
 				"users",
-				["billingAddress_id" => $id],
+				["billing_address_id" => $id],
 				["email" => ["=", "$email"]]
+			);
+			$this->User->update_by_parameters(
+				"addresses",
+				["address_type_id" => 1],
+				["id" => ["=", $user["shipping_address_id"]]]
+			);
+			$this->session->set_flashdata(
+				"success_message",
+				"Successfully added your billing address."
+			);
+			/* Update billing address if it exist but is not same as shipping */
+		} elseif (!empty($user["billing_address_id"])) {
+			$this->User->update_by_parameters("addresses", $post, [
+				"id" => ["=", $user["billing_address_id"]],
+			]);
+			$this->session->set_flashdata(
+				"success_message",
+				"Successfully change your billing address."
+			);
+			/* Create new billing address */
+		} else {
+			$id = $this->User->create_address($post, 2);
+			$this->User->update_by_parameters(
+				"users",
+				["billing_address_id" => $id],
+				["email" => ["=", "$email"]]
+			);
+			$this->session->set_flashdata(
+				"success_message",
+				"Successfully added your billing address."
 			);
 		}
 		redirect("users/profile");
@@ -226,7 +254,7 @@ class Users extends CI_Controller
 		} else {
 			$password = $this->input->post("old_password");
 			$user = $this->User->get_by_parameter("users", "id", $id);
-			$result = $this->User->validate_login_match($user, $password);
+			$result = $this->User->validate_password_hash($user, $password);
 			if ($result == "success") {
 				$this->User->update_password(
 					$id,

@@ -61,9 +61,10 @@
 <?php foreach ($products as $row) { ?>
                         <li class="col-6 col-md-3 text-decoration-none list-unstyled">
                             <div class="card">
-                                <img class="card-img-top" src="../Assets/imgs/<?= $picture_main[
-                                	$row["id"]
-                                ] ?>" alt="<?= $row["name"] ?>" />
+                                <img class="card-img-top" src="<?= base_url() ?>assets/imgs/<?= $picture_main[
+	$row["id"]
+] ?>"
+                                    alt="<?= $row["name"] ?>" />
                                 <div class="card-body">
                                     <a href="<?= base_url() ?>products/show_product/<?= $row[
 	"id"

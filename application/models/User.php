@@ -19,7 +19,7 @@ class User extends CI_Model
 		$values = [];
 		foreach ($change as $key => $value) {
 			/* If numeric, preserve the format of value*/
-			if (is_numeric($value)) {
+			if (gettype($value) == "integer" || gettype($value) == "double") {
 				array_push(
 					$set,
 					$key . " = " . $this->security->xss_clean($value) . " "
@@ -32,7 +32,7 @@ class User extends CI_Model
 		}
 		foreach ($param as $key => $value) {
 			/* If numeric, preserve the format of value*/
-			if (is_numeric($value)) {
+			if (gettype($value) == "integer" || gettype($value) == "double") {
 				array_push(
 					$where,
 					$key .
@@ -72,19 +72,9 @@ class User extends CI_Model
 
 		return $this->db->query($query, $values);
 	}
-	function get_type_address($type, $id)
+	function get_address($id)
 	{
-		if ($type == "shipping") {
-			$column = ["shippingAddress_id", "IsShipping"];
-		} elseif ($type == "billing") {
-			$column = ["billingAddress_id", "IsBilling"];
-		}
-		$query =
-			"SELECT * from addresses LEFT JOIN users ON addresses.id = users." .
-			$column[0] .
-			" WHERE addresses." .
-			$column[1] .
-			" = 1 AND addresses.id=?";
+		$query = "SELECT * from addresses WHERE id=?";
 		$values = [$this->security->xss_clean($id)];
 		return $this->db->query($query, $values)->result_array();
 	}
@@ -101,8 +91,9 @@ class User extends CI_Model
 	{
 		$salt = bin2hex(openssl_random_pseudo_bytes(22));
 		$query =
-			"INSERT INTO users (role_id, first_name, last_name, email, mobile, password_hash, salt) VALUES (2,?,?,?,?,?,?)";
+			"INSERT INTO users (role_hash, first_name, last_name, email, mobile, password_hash, salt) VALUES (?,?,?,?,?,?,?)";
 		$values = [
+			md5("2" . $salt),
 			$this->security->xss_clean($user["first_name"]),
 			$this->security->xss_clean($user["last_name"]),
 			$this->security->xss_clean($user["email"]),
@@ -113,17 +104,20 @@ class User extends CI_Model
 
 		return $this->db->query($query, $values);
 	}
+	/* Create address and return id. by Markad*/
 	function create_address($address, $type)
 	{
-		$this->security->xss_clean($type);
-		$query = "INSERT INTO addresses (address1, address2, city, state, postal_code, IsBilling,IsShipping,IsPhysical)
-		VALUES (?,?,?,?,?,$type[0],$type[1],$type[2])";
+		$clean_type = $this->security->xss_clean($type);
+		$clean_postal_code = $this->security->xss_clean(
+			$address["postal_code"]
+		);
+		$query = "INSERT INTO addresses (address1, address2, city, state, postal_code, address_type_id)
+		VALUES (?,?,?,?,'$clean_postal_code',$clean_type)";
 		$values = [
 			$this->security->xss_clean($address["address1"]),
 			$this->security->xss_clean($address["address2"]),
 			$this->security->xss_clean($address["city"]),
 			$this->security->xss_clean($address["state"]),
-			$this->security->xss_clean($address["postal_code"]),
 		];
 		$this->db->query($query, $values);
 		return $this->db->insert_id();
@@ -316,7 +310,7 @@ class User extends CI_Model
 		}
 	}
 	/* This is for matching password */
-	function validate_login_match($user, $password)
+	function validate_password_hash($user, $password)
 	{
 		$password_hash = md5(
 			$this->security->xss_clean($password) . $user["salt"]
@@ -331,14 +325,22 @@ class User extends CI_Model
 	function profile_array($user)
 	{
 		$details = [
-			"id" => $user["id"],
 			"email" => $user["email"],
 			"mobile" => $user["mobile"],
 			"first_name" => $user["first_name"],
 			"isLoggedIn" => 1,
 			//create hash later
-			"role" => $user["role_id"],
+			"role" => $user["role_hash"],
 		];
 		return $details;
+	}
+	function convert_hash($user, $role_hash)
+	{
+		$role = [
+			md5("1" . $user["salt"]) => 1,
+			md5("2" . $user["salt"]) => 2,
+			md5("3" . $user["salt"]) => 3,
+		];
+		return isset($role[$role_hash]) ? $role[$role_hash] : 0;
 	}
 }
