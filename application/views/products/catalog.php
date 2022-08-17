@@ -1,5 +1,18 @@
 <?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
-<!-- Collapsible category sidebar -->
+         <!-- Error Indicator -->
+<?php if (!empty($success)) { ?>
+		<p class="success">Your transaction <?= $success[
+  	"payment_status"
+  ] ?>. Your transaction id is <?= $success["transaction_id"] ?></p>
+		<p class="success">Transaction amount is &#8369;<?= number_format(
+  	$success["paid_amount"],
+  	2
+  ) ?>.</p>
+    <p class="success"><a href="<?= $success[
+    	"receipt_url"
+    ] ?>">Receipt Link</a></p>
+<?php } ?>
+        <!-- Collapsible category sidebar -->
         <div class="container">
             <div class="row">
                 <div class="flex-shrink-0 bg-white col-2 border">

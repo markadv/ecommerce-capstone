@@ -49,11 +49,11 @@
                 <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto"></div>
                 <div class="text-end">
 <?php
-if (isset($isLoggedIn) && $isLoggedIn == 1) { ?>
+if (isset($is_logged_in) && $is_logged_in == 1) { ?>
                     <a href="<?= base_url() ?>users/profile" class="btn btn-sm text-dark">Hi, <?= $first_name ?>!</a>
                     <a href="<?= base_url() ?>users/logoff" class="btn btn-sm btn-outline-danger">Log off</a>
 <?php }
-if (!isset($isLoggedIn)) {
+if (!isset($is_logged_in)) {
 	if (isset($pageType) && $pageType == "register") { ?>
                     <a href="<?= base_url() ?>users/login" class="btn btn-sm btn-outline-primary text-dark">Sign in</a>
 <?php } elseif (isset($pageType) && $pageType == "login") { ?>

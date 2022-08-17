@@ -95,6 +95,76 @@ class Product extends CI_Model
 		$result = $this->db->query($query)->result_array();
 		return $result[0]["sold"];
 	}
+	function add_order_details(
+		$payment_id,
+		$billing_id,
+		$shipping_id,
+		$user_id,
+		$total,
+		$is_logged_in
+	) {
+		$clean_payment_id = $this->security->xss_clean($payment_id);
+		$clean_billing_id = $this->security->xss_clean($billing_id);
+		$clean_shipping_id = $this->security->xss_clean($shipping_id);
+		$clean_user_id = $this->security->xss_clean($user_id);
+		$clean_total = $this->security->xss_clean($total);
+		$clean_is_logged_in = $this->security->xss_clean($is_logged_in);
+		$query = "INSERT INTO order_details (payment_id, billing_id, shipping_id, user_id, status, total, is_logged_in)
+		VALUES ($clean_payment_id,$clean_billing_id,$clean_shipping_id,$clean_user_id,'Preparing',$clean_total,$clean_is_logged_in)";
+		$this->db->query($query);
+		return $this->db->insert_id();
+	}
+	function add_order_items($id, $quantity, $order_details_id)
+	{
+		$clean_id = $this->security->xss_clean($id);
+		$clean_quantity = $this->security->xss_clean($quantity);
+		$clean_order_details_id = $this->security->xss_clean($order_details_id);
+		$query = "INSERT INTO order_items (product_id, order_detail_id, quantity)
+		VALUES ($clean_id,$clean_quantity,$clean_order_details_id)";
+		$this->db->query($query);
+		return $this->db->insert_id();
+	}
+	function get_order_details_json()
+	{
+	}
+	function add_order_histories()
+	{
+	}
+	function add_payment($payments)
+	{
+		$clean_payments = $this->security->xss_clean($payments);
+		$query = "INSERT INTO payments (transaction_id, amount, provider, status)
+		VALUES (?,?,?,?)";
+		$this->db->query($query, $clean_payments);
+		return $this->db->insert_id();
+	}
+	function add_shipping($id, $fee, $post)
+	{
+		$clean_id = $this->security->xss_clean($id);
+		$clean_fee = $this->security->xss_clean($fee);
+		$query = "INSERT INTO shippings (shipping_address_id, first_name, last_name, amount, shipping_company, status)
+		VALUES ($clean_id,?,?,$clean_fee,?,?)";
+		$values = [
+			$this->security->xss_clean($post["first_name_shipping"]),
+			$this->security->xss_clean($post["last_name_shipping"]),
+			"Default",
+			"Preparing",
+		];
+		$this->db->query($query, $values);
+		return $this->db->insert_id();
+	}
+	function add_billing($id, $post)
+	{
+		$clean_id = $this->security->xss_clean($id);
+		$query = "INSERT INTO billings (billing_address_id, first_name, last_name)
+		VALUES ($clean_id,?,?)";
+		$values = [
+			$this->security->xss_clean($post["first_name_billing"]),
+			$this->security->xss_clean($post["last_name_billing"]),
+		];
+		$this->db->query($query, $values);
+		return $this->db->insert_id();
+	}
 	function validate_order()
 	{
 		$this->form_validation->set_error_delimiters("<div>", "</div>");
@@ -149,13 +219,23 @@ class Product extends CI_Model
 			"trim|required|exact_length[4]|numeric"
 		);
 		$this->form_validation->set_rules(
-			"first_name",
-			"First Name",
+			"first_name_shipping",
+			"First Name in shipping",
 			"trim|required|min_length[3]|max_length[46]"
 		);
 		$this->form_validation->set_rules(
-			"last_name",
-			"Last Name",
+			"last_name_shipping",
+			"Last Name in shipping",
+			"trim|required|min_length[3]|max_length[46]"
+		);
+		$this->form_validation->set_rules(
+			"first_name_billing",
+			"First Name in billing",
+			"trim|required|min_length[3]|max_length[46]"
+		);
+		$this->form_validation->set_rules(
+			"last_name_billing",
+			"Last Name in billing",
 			"trim|required|min_length[3]|max_length[46]"
 		);
 		$this->form_validation->set_rules(
@@ -176,14 +256,20 @@ class Product extends CI_Model
 		$this->form_validation->set_rules(
 			"expiration_month",
 			"Expiration month",
-			"trim|required|exact_length[2]|is_list[01,02,03,04,05,06,07,08,09,10,11,12]"
+			"trim|required|exact_length[2]|in_list[01,02,03,04,05,06,07,08,09,10,11,12]"
 		);
 		$this->form_validation->set_rules(
 			"expiration_year",
 			"Expiration year",
 			"trim|required|exact_length[4]"
 		);
+		if (!$this->form_validation->run()) {
+			return validation_errors();
+		} else {
+			return "success";
+		}
 	}
+	/* transfer to helper */
 	function convert_two_key_array($array)
 	{
 		$newArr = [];
@@ -192,7 +278,7 @@ class Product extends CI_Model
 		}
 		return $newArr;
 	}
-	function convert_cart_to_array($cart)
+	function get_cart_keys($cart)
 	{
 		$arr = [];
 		foreach ($cart as $key => $value) {

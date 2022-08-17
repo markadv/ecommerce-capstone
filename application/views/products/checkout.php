@@ -1,3 +1,7 @@
+<?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
+        <!-- Error Indicator -->
+        <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
+        <div class="success"><p><?= isset($success) ? $success : "" ?></p></div>
         <!-- Checkout info -->
         <div class="container">
             <div class="border bg-light my-3 row">
@@ -73,13 +77,41 @@ foreach ($products as $row) {
                     <div class="form-floating">
                         <input
                             type="text"
-                            name="address1_shipping"
+                            name="first_name_shipping"
                             class="form-control form_top"
                             id="floatingInput"
-                            value=<?= isset($shipping_address) &&
+                            placeholder="Michael"
+                            value="<?= isset($first_name) && !empty($first_name)
+                            	? $first_name
+                            	: "" ?>"
+                            required
+                        />
+                        <label for="floatingInput">First name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            type="text"
+                            name="last_name_shipping"
+                            class="form-control form_mid"
+                            id="floatingInput"
+                            placeholder="Choi"
+                            value="<?= isset($last_name) && !empty($last_name)
+                            	? $last_name
+                            	: "" ?>"
+                            required
+                        />
+                        <label for="floatingInput">Last name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            type="text"
+                            name="address1_shipping"
+                            class="form-control form_mid"
+                            id="floatingInput"
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["address1"]
-                            	: "" ?>
+                            	: "" ?>"
                             placeholder="123 Sesame St."
                             required
                         />
@@ -92,11 +124,10 @@ foreach ($products as $row) {
                             class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Brgy. Numbers"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["address2"]
-                            	: "" ?>
-                            required
+                            	: "" ?>"
                         />
                         <label for="address2">Address 2:</label>
                     </div>
@@ -107,10 +138,10 @@ foreach ($products as $row) {
                             class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Math City"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["city"]
-                            	: "" ?>
+                            	: "" ?>"
                             required
                         />
                         <label for="city">City:</label>
@@ -122,10 +153,10 @@ foreach ($products as $row) {
                             class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Metro Manila"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["state"]
-                            	: "" ?>
+                            	: "" ?>"
                             required
                         />
                         <label for="state">State:</label>
@@ -137,29 +168,57 @@ foreach ($products as $row) {
                             class="form-control form_bot"
                             id="floatingInput"
                             placeholder="0001"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["postal_code"]
-                            	: "" ?>
+                            	: "" ?>"
                             required
                         />
                         <label for="state">Postal code</label>
                     </div>
                     <!-- Billing address -->
                     <h2 class="h3 mb-3 fw-normal">Billing address</h2>
-                    <input type="checkbox" name="same_shipping" value="1" />
+                    <input type="checkbox" name="same_shipping" value=""1" />
                     <label for="same_shipping"> Same as shipping</label><br />
                     <div class="form-floating">
                         <input
                             type="text"
+                            name="first_name_billing"
+                            class="form-control form_top"
+                            id="floatingInput"
+                            placeholder="Michael"
+                            value="<?= isset($first_name) && !empty($first_name)
+                            	? $first_name
+                            	: "" ?>"
+                            required
+                        />
+                        <label for="floatingInput">First name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            type="text"
+                            name="last_name_billing"
+                            class="form-control form_mid"
+                            id="floatingInput"
+                            placeholder="Choi"
+                            value="<?= isset($last_name) && !empty($last_name)
+                            	? $last_name
+                            	: "" ?>"
+                            required
+                        />
+                        <label for="floatingInput">Last name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input
+                            type="text"
                             name="address1_billing"
-                            class="form-control form-top"
+                            class="form-control form_mid"
                             id="floatingInput"
                             placeholder="123 Sesame St."
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["address1"]
-                            	: "" ?>
+                            	: "" ?>"
                             required
                         />
                         <label for="address1">Address 1:</label>
@@ -171,11 +230,10 @@ foreach ($products as $row) {
                             class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Brgy. Numbers"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["address2"]
-                            	: "" ?>
-                            required
+                            	: "" ?>"
                         />
                         <label for="address2">Address 2:</label>
                     </div>
@@ -186,10 +244,10 @@ foreach ($products as $row) {
                             class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Math City"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["city"]
-                            	: "" ?>
+                            	: "" ?>"
                             required
                         />
                         <label for="city">City:</label>
@@ -201,10 +259,10 @@ foreach ($products as $row) {
                             class="form-control form_mid"
                             id="floatingInput"
                             placeholder="Metro Manila"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["state"]
-                            	: "" ?>
+                            	: "" ?>"
                             required
                         />
                         <label for="state">State:</label>
@@ -216,10 +274,10 @@ foreach ($products as $row) {
                             class="form-control form_bot"
                             id="floatingInput"
                             placeholder="0001"
-                            value=<?= isset($shipping_address) &&
+                            value="<?= isset($shipping_address) &&
                             !empty($shipping_address)
                             	? $shipping_address["postal_code"]
-                            	: "" ?>
+                            	: "" ?>"
                             required
                         />
                         <label for="state">Postal code</label>
@@ -228,42 +286,14 @@ foreach ($products as $row) {
                     <h1 class="h3 mb-3 fw-normal">Billing info</h1>
                     <div class="form-floating">
                         <input
-                            type="text"
-                            name="first_name"
-                            class="form-control form_mid"
-                            id="floatingInput"
-                            placeholder="Michael"
-                            value=<?= isset($first_name) && !empty($first_name)
-                            	? $first_name
-                            	: "" ?>
-                            required
-                        />
-                        <label for="floatingInput">First name</label>
-                    </div>
-                    <div class="form-floating">
-                        <input
-                            type="text"
-                            name="last_name"
-                            class="form-control form_bot"
-                            id="floatingInput"
-                            placeholder="Choi"
-                            value=<?= isset($last_name) && !empty($last_name)
-                            	? $last_name
-                            	: "" ?>
-                            required
-                        />
-                        <label for="floatingInput">Last name</label>
-                    </div>
-                    <div class="form-floating">
-                        <input
                             type="email"
                             name="email"
-                            class="form-control form_mid"
+                            class="form-control form_top"
                             id="floatingInput"
                             placeholder="name@example.com"
-                            value=<?= isset($email) && !empty($email)
+                            value="<?= isset($email) && !empty($email)
                             	? $email
-                            	: "" ?>
+                            	: "" ?>"
                         />
                         <label for="floatingInput">Email address</label>
                         <div class="invalid-tooltip">Please enter your email.</div>
@@ -317,7 +347,7 @@ foreach ($products as $row) {
                         <div class="invalid-tooltip">Please enter credit card expiration.</div>
                     </div>
                     <!-- Removed. For future implementation. -->
-                    <!-- <input type="checkbox" name="save_cc" value="1" /> -->
+                    <!-- <input type="checkbox" name="save_cc" value=""1" /> -->
                     <!-- <label for="same_cc"> Save credit card</label><br /> -->
                 </div>
                 <div class="border row align-items-center mt-1 w-100">

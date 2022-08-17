@@ -39,6 +39,8 @@ class Products extends CI_Controller
 		$this->data["products"] = $this->Product->get_products();
 		$this->data["categories"] = $this->Product->get_categories();
 		$this->data["picture_main"] = $this->Product->get_images_main();
+		$this->data["errors"] = $this->session->flashdata("input_errors");
+		$this->data["success"] = $this->session->flashdata("success_message");
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user");
 		$this->load->view("products/catalog");
@@ -73,7 +75,7 @@ class Products extends CI_Controller
 		add_js(["cart.js"]);
 		$this->data = $this->session->userdata();
 		if (isset($this->data["cart"])) {
-			$cart = $this->Product->convert_cart_to_array($this->data["cart"]);
+			$cart = $this->Product->get_cart_keys($this->data["cart"]);
 			$imagesArray = $this->Product->get_images_main_by_ids($cart);
 			$this->data["picture_main"] = $this->Product->convert_two_key_array(
 				$imagesArray
@@ -86,6 +88,10 @@ class Products extends CI_Controller
 		$this->load->view("partials/nav_user");
 		$this->load->view("products/cart");
 	}
+	/*  Checkout page for cart. First check if there are items inside
+	the cart. Then load all the product information. After than, check
+	if user is logged in to provide form value.
+	*/
 	public function checkout()
 	{
 		$this->data = $this->session->userdata();
@@ -95,15 +101,15 @@ class Products extends CI_Controller
 		add_js(["checkout.js"]);
 		add_less(["checkout.less"]);
 		$this->load->model("User");
-		$cart = $this->Product->convert_cart_to_array($this->data["cart"]);
+		$cart = $this->Product->get_cart_keys($this->data["cart"]);
 		$imagesArray = $this->Product->get_images_main_by_ids($cart);
 		$this->data["picture_main"] = $this->Product->convert_two_key_array(
 			$imagesArray
 		);
 		$this->data["products"] = $this->Product->get_products_by_ids($cart);
 		if (
-			isset($this->data["isLoggedIn"]) &&
-			$this->data["isLoggedIn"] == 1
+			isset($this->data["is_logged_in"]) &&
+			$this->data["is_logged_in"] == 1
 		) {
 			$user = $this->User->get_by_parameter(
 				"users",
@@ -120,8 +126,10 @@ class Products extends CI_Controller
 					$user["billing_address_id"]
 				)[0];
 			}
+			$this->data["last_name"] = $user["last_name"];
 		}
-		$this->data["last_name"] = $user["last_name"];
+		$this->data["errors"] = $this->session->flashdata("input_errors");
+		$this->data["success"] = $this->session->flashdata("success_message");
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user");
 		$this->load->view("products/checkout");
@@ -146,29 +154,46 @@ class Products extends CI_Controller
 	/* 
 	Remove items
 	*/
-	public function remove_item()
+	public function remove_item($id)
 	{
+		$cart = $this->session->userdata("cart");
+		unset($cart[$id]);
+		$this->session->set_userdata("cart", $cart);
+		redirect("products/cart");
 	}
 	public function process_order()
 	{
 		if (empty($this->input->post())) {
 			redirect("products/checkout");
+			return;
 		}
-		$validate = $this->Product->validate_order();
-		if ($validate !== "success") {
+		$result = $this->Product->validate_order();
+		if ($result !== "success") {
 			/* Add error message here */
+			$this->session->set_flashdata("input_errors", $result);
 			redirect("products/checkout");
 			return;
 		}
+		$shipping_fee = 100;
+		$this->load->model("User");
+		$this->load->helper("products");
+		$this->load->library("stripe_library");
 		$post = $this->input->post();
 		$user = $this->session->userdata();
-		$this->load->helper("products");
-		//loading of model,library, and variables
-		$this->load->library("stripe_lib");
-		$products = $this->Product->get_all_products();
-		$cart = $this->session->userdata("cart");
-		$cartTotal = get_cart_table($cart, $products);
-		$total = get_price_quantity($cartTotal);
+		$cart = $user["cart"];
+		$user_id =
+			$user["is_logged_in"] == 1
+				? $this->User->get_by_parameter(
+					"users",
+					"email",
+					$user["email"]
+				)["id"]
+				: ($user_id = null);
+		/* Get prices thru database */
+		$cart_keys = $this->Product->get_cart_keys($cart);
+		$products = $this->Product->get_products_by_ids($cart_keys);
+		// $cartTotal = get_cart_table($cart, $products);
+		$total = get_total_price($cart, $products) + $shipping_fee;
 		$stripe = new \Stripe\StripeClient(
 			"sk_test_51LQzpALsr5tFgVvFG2WyKg2otyW8CgFZ29s70mhCCuoPUTrmxiBp3svFo4aZV9oMHhb444wIlibnP3YLSYV9sUcz00ZksqBl8b"
 		);
@@ -176,48 +201,69 @@ class Products extends CI_Controller
 			"card" => [
 				"number" => $post["card_number"],
 				"exp_month" => $post["expiration_month"],
-				"exp_year" => "20" . $post["expiration_year"],
+				"exp_year" => $post["expiration_year"],
 				"cvc" => $post["cvc"],
 			],
 		]);
-		// Add customer to stripe
-		$customer = $this->stripe_lib->addCustomer($post["email"], $token);
+		/* Add customer to stripe. You can add more info but for simplicity sake,
+		 I will be using the email only. */
+		$customer = $this->stripe_library->addCustomer($post["email"], $token);
 		if ($customer) {
 			// Charge a credit or a debit card
-			$charge = $this->stripe_lib->createCharge(
+			$charge = $this->stripe_library->createCharge(
 				$customer->id,
 				"Various",
-				$total["totalPrice"]
+				$total
 			);
+			/* Check this to know if success or fail */
 			if (
 				$charge["amount_refunded"] == 0 &&
 				empty($charge["failure_code"]) &&
 				$charge["paid"] == 1 &&
 				$charge["captured"] == 1
 			) {
-				$payment_status = $charge["status"];
-				$transaction_id = $charge["balance_transaction"];
-				$transaction = [
-					"transaction_id" => $charge["balance_transaction"],
-					"paid_amount" => $charge["amount"] / 100,
-					"paid_Currency" => $charge["currency"],
-					"payment_status" => $payment_status,
-				];
+				/* success or fail message */
 			}
 		}
-		$payment = ["user_id" => $user["id"], "amount" => $total["totalPrice"]];
-		$this->Product->add_payment($payment, $transaction_id, $payment_status);
-		$paymentId = $this->db->insert_id();
-		$this->Product->add_order($payment, $paymentId);
-		$orderId = $this->db->insert_id();
+		$transaction_message = create_transaction_message($charge);
+		/* Add payment info to db */
+		$payments = create_payment($charge);
+		$payment_id = $this->Product->add_payment($payments);
+		/* Add payment shipping address to db */
+		$shipping_address = create_shipping_address($post);
+		$shipping_address_id = $this->User->create_address(
+			$shipping_address,
+			1
+		);
+		$shipping_id = $this->Product->add_shipping(
+			$shipping_address_id,
+			$shipping_fee,
+			$post
+		);
+		/* Add payment biling address to db */
+		$billing_address = create_billing_address($post);
+		$billing_address_id = $this->User->create_address($billing_address, 2);
+		$billing_id = $this->Product->add_billing($billing_address_id, $post);
+		$order_details_id = $this->Product->add_order_details(
+			$payment_id,
+			$billing_id,
+			$shipping_id,
+			$user_id,
+			$total,
+			$user["is_logged_in"]
+		);
 		foreach ($cart as $key => $value) {
-			$this->Product->add_order_items($orderId, $key, $value);
+			$this->Product->add_order_items($key, $value, $order_details_id);
 		}
-		$this->session->unset_userdata(["cart", "total", "cartTotal"]);
-		$this->session->set_flashdata("success", $transaction);
-		redirect("/products/success");
+		/* Extra miles history
+		$result = $this->Product->get_order_details_json()
+		 */
+		$this->session->unset_userdata("cart");
+		$this->session->set_flashdata("success_message", $transaction_message);
+		redirect("products/catalog");
 	}
 	public function test()
 	{
+		var_dump($this->session->userdata("charge"));
 	}
 }

@@ -8,6 +8,7 @@ class Vendors extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model("Product");
+		$this->load->model("User");
 		$this->load->helper("header");
 		$this->output->enable_profiler(true);
 	}
@@ -24,6 +25,7 @@ class Vendors extends CI_Controller
 	public function login()
 	{
 		$this->check_ip();
+		$this->redirect_loggedin();
 		add_less(["login.less"]);
 		$this->data = $this->session->userdata();
 		$this->data["pageType"] = "login";
@@ -60,10 +62,6 @@ class Vendors extends CI_Controller
 		$this->load->view("partials/nav_admin");
 		$this->load->view("vendors/order_view");
 	}
-	public function test()
-	{
-		var_dump($this->Vendor->get_images_main());
-	}
 	private function check_ip()
 	{
 		if ($this->input->ip_address() !== "::1") {
@@ -79,8 +77,37 @@ class Vendors extends CI_Controller
 	}
 	private function check_role()
 	{
-		if ($this->session->userdata("role") != 1) {
+		$user = $this->User->get_by_parameter(
+			"users",
+			"email",
+			$this->session->userdata("email")
+		);
+		$role = $this->User->convert_hash(
+			$user,
+			$this->session->userdata("role")
+		);
+		if ($role != 1) {
 			redirect("products");
+		}
+	}
+	public function testing()
+	{
+		$user = $this->User->get_by_parameter(
+			"users",
+			"email",
+			$this->session->userdata("email")
+		);
+		$role = $this->User->convert_hash(
+			$user,
+			$this->session->userdata("role")
+		);
+		echo $role;
+	}
+	private function redirect_loggedin()
+	{
+		if ($this->session->userdata("is_logged_in") == 1) {
+			redirect("vendors");
+			return;
 		}
 	}
 }

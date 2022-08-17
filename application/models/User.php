@@ -104,7 +104,8 @@ class User extends CI_Model
 
 		return $this->db->query($query, $values);
 	}
-	/* Create address and return id. by Markad*/
+	/* Create address and return id.
+	 Address type(1-shipping,2-billing,3-billing and shipping) by Markad*/
 	function create_address($address, $type)
 	{
 		$clean_type = $this->security->xss_clean($type);
@@ -328,7 +329,7 @@ class User extends CI_Model
 			"email" => $user["email"],
 			"mobile" => $user["mobile"],
 			"first_name" => $user["first_name"],
-			"isLoggedIn" => 1,
+			"is_logged_in" => 1,
 			//create hash later
 			"role" => $user["role_hash"],
 		];

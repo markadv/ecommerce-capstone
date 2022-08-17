@@ -280,7 +280,7 @@ class Users extends CI_Controller
 	*/
 	private function redirect_loggedin()
 	{
-		if ($this->session->userdata("isLoggedIn") == 1) {
+		if ($this->session->userdata("is_logged_in") == 1) {
 			redirect("products");
 			return;
 		}
@@ -291,9 +291,9 @@ class Users extends CI_Controller
 	private function check_loggedin()
 	{
 		if (
-			(!empty($this->session->userdata("isLoggedIn")) &&
-				$this->session->userdata("isLoggedIn") == 0) ||
-			empty($this->session->userdata("isLoggedIn"))
+			(!empty($this->session->userdata("is_logged_in")) &&
+				$this->session->userdata("is_logged_in") == 0) ||
+			empty($this->session->userdata("is_logged_in"))
 		) {
 			redirect("users/login");
 			return;

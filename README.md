@@ -84,7 +84,7 @@ Schema thought process:
    1. [x]  Edit profile
    2. [x]  Change password
    3. [x]  Add/edit shipping address
-   4. [x]  Add/edit billiin address
+   4. [x]  Add/edit billing address
 6. [ ]  Admin
    1. [ ]  Dashboard
    2. [ ]  Orders
@@ -95,4 +95,4 @@ Schema thought process:
    2. [x]  Catalog
    3. [x]  Show Product
    4. [x]  Cart
-   5. [ ]  Checkout
+   5. [x]  Checkout

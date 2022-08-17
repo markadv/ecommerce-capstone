@@ -4,10 +4,9 @@
             <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
                 <!-- Slides -->
-                <div id="slide1" class="swiper-slide"></div>
-                <div id="slide2" class="swiper-slide"></div>
-                <div id="slide3" class="swiper-slide"></div>
-                ...
+                <a href="<?= base_url() ?>products/catalog" id="slide1" class="swiper-slide"></a>
+                <a href="<?= base_url() ?>products/catalog" id="slide2" class="swiper-slide"></a>
+                <a href="<?= base_url() ?>products/catalog" id="slide3" class="swiper-slide"></a>
             </div>
             <!-- Pagination -->
             <div class="swiper-pagination text-primary"></div>
@@ -22,19 +21,18 @@
 <?php foreach ($products as $row) { ?>
                     <li class="col-6 col-md-3 mt-5 text-decoration-none list-unstyled">
                         <div class="card">
+                            <a class="text-decoration-none"
+                                href="<?= base_url() ?>products/show_product/<?= $row[
+	"id"
+] ?>"
+                                class="d-block">
                             <img class="card-img-top"
                                 src="<?= base_url() ?>assets/imgs/<?= $picture_main[
 	$row["id"]
 ] ?>"
                                 alt="<?= $row["name"] ?>" />
                             <div class="card-body">
-                                <a href="<?= base_url() ?>products/show_product/<?= $row[
-	"id"
-] ?>" class="d-block"
-                                    ><h5 class="card-title"><?= $row[
-                                    	"name"
-                                    ] ?></h5></a
-                                >
+                                <h5 class="card-title"><?= $row["name"] ?></h5>
                                 <span class="material-icons-sharp"> grade </span>
                                 <span class="material-icons-sharp"> grade </span>
                                 <span class="material-icons-sharp"> grade </span>
@@ -44,6 +42,7 @@
                                 	"price"
                                 ] ?></p>
                             </div>
+                            </a>
                         </div>
                     </li>
 <?php } ?>

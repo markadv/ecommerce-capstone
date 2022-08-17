@@ -65,7 +65,9 @@ if (isset($cart)) { ?>
                                 ) ?>
                             </div>
                             <div class="col-2">
-                                <a class="btn btn-danger" href="">Delete</a>
+                                <a class="btn btn-danger" href="<?= base_url() ?>products/remove_item/<?= $row[
+	"id"
+] ?>">Delete</a>
                                 <!-- Future implementation <a href="">Find similar</a> -->
                             </div>
                         </div>

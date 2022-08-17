@@ -71,6 +71,7 @@
                             </p>
                         </div>
                         <div id="add_to_cart">
+                            <!-- Fix or remove -->
                             <a href="javascript:" id="add-shopping-cart" data-id="<?= $product[
                             	"id"
                             ] ?>"class="btn btn-outline-primary"
@@ -155,7 +156,7 @@
             </div>
         </div>
         <!-- Related products -->
-        <div class="container">
+        <!-- <div class="container">
             <h2>Similar items</h2>
             <ul class="row align-items-center">
                 <li class="col-4 col-md-2 text-decoration-none list-unstyled">
@@ -176,97 +177,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
-                    <div class="card">
-                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
-                        <div class="card-body">
-                            <a href="show_product.html" class="d-block">
-                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
-                            </a>
-                            <div class="text-center">
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                            </div>
-                            <p class="card-text text-center">Price: $4.99</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
-                    <div class="card">
-                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
-                        <div class="card-body">
-                            <a href="show_product.html" class="d-block">
-                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
-                            </a>
-                            <div class="text-center">
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                            </div>
-                            <p class="card-text text-center">Price: $4.99</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
-                    <div class="card">
-                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
-                        <div class="card-body">
-                            <a href="show_product.html" class="d-block">
-                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
-                            </a>
-                            <div class="text-center">
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                            </div>
-                            <p class="card-text text-center">Price: $4.99</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
-                    <div class="card">
-                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
-                        <div class="card-body">
-                            <a href="show_product.html" class="d-block">
-                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
-                            </a>
-                            <div class="text-center">
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                            </div>
-                            <p class="card-text text-center">Price: $4.99</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="col-4 col-md-2 text-decoration-none list-unstyled">
-                    <div class="card">
-                        <img class="card-img-top" src="../Assets/imgs/product1.jpg" alt="mouse" />
-                        <div class="card-body">
-                            <a href="show_product.html" class="d-block">
-                                <h6 class="card-title text-center">Anti-colic baby bottle</h6>
-                            </a>
-                            <div class="text-center">
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                                <span class="material-icons-sharp"> grade </span>
-                            </div>
-                            <p class="card-text text-center">Price: $4.99</p>
-                        </div>
-                    </div>
-                </li>
             </ul>
-        </div>
+        </div> -->
     </body>
 </html>
