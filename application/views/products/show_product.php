@@ -55,7 +55,7 @@
                                     type="number"
                                     name="quantity"
                                     value="<?= isset($cart) &&
-                                    $cart[$product["id"]]
+                                    isset($cart[$product["id"]])
                                     	? $cart[$product["id"]]
                                     	: 1 ?>"
                                     min="1"

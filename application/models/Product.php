@@ -95,6 +95,95 @@ class Product extends CI_Model
 		$result = $this->db->query($query)->result_array();
 		return $result[0]["sold"];
 	}
+	function validate_order()
+	{
+		$this->form_validation->set_error_delimiters("<div>", "</div>");
+		$this->form_validation->set_rules(
+			"address1_shipping",
+			"Address line 1 shipping",
+			"trim|required|min_length[3]|max_length[256]"
+		);
+		$this->form_validation->set_rules(
+			"address2_shipping",
+			"Address line 2 shipping",
+			"trim|min_length[3]|max_length[256]"
+		);
+		$this->form_validation->set_rules(
+			"city_shipping",
+			"City shipping",
+			"trim|required|min_length[3]|max_length[46]|alpha_numeric_spaces"
+		);
+		$this->form_validation->set_rules(
+			"state_shipping",
+			"State shipping",
+			"trim|required|min_length[3]|max_length[46]|alpha_numeric_spaces"
+		);
+		$this->form_validation->set_rules(
+			"postal_code_shipping",
+			"Postal code shipping",
+			"trim|required|exact_length[4]|numeric"
+		);
+		$this->form_validation->set_rules(
+			"address1_billing",
+			"Address line 1 billing",
+			"trim|required|min_length[3]|max_length[256]"
+		);
+		$this->form_validation->set_rules(
+			"address2_billing",
+			"Address line 2 billing",
+			"trim|min_length[3]|max_length[256]"
+		);
+		$this->form_validation->set_rules(
+			"city_billing",
+			"City billing",
+			"trim|required|min_length[3]|max_length[46]|alpha_numeric_spaces"
+		);
+		$this->form_validation->set_rules(
+			"state_billing",
+			"State billing",
+			"trim|required|min_length[3]|max_length[46]|alpha_numeric_spaces"
+		);
+		$this->form_validation->set_rules(
+			"postal_code_billing",
+			"Postal code billing",
+			"trim|required|exact_length[4]|numeric"
+		);
+		$this->form_validation->set_rules(
+			"first_name",
+			"First Name",
+			"trim|required|min_length[3]|max_length[46]"
+		);
+		$this->form_validation->set_rules(
+			"last_name",
+			"Last Name",
+			"trim|required|min_length[3]|max_length[46]"
+		);
+		$this->form_validation->set_rules(
+			"email",
+			"Email",
+			"trim|required|valid_email|max_length[256]"
+		);
+		$this->form_validation->set_rules(
+			"card_number",
+			"Card Number",
+			"trim|required|exact_length[16]|numeric"
+		);
+		$this->form_validation->set_rules(
+			"cvc",
+			"CVC",
+			"trim|required|exact_length[3]|numeric"
+		);
+		$this->form_validation->set_rules(
+			"expiration_month",
+			"Expiration month",
+			"trim|required|exact_length[2]|is_list[01,02,03,04,05,06,07,08,09,10,11,12]"
+		);
+		$this->form_validation->set_rules(
+			"expiration_year",
+			"Expiration year",
+			"trim|required|exact_length[4]"
+		);
+	}
 	function convert_two_key_array($array)
 	{
 		$newArr = [];

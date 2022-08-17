@@ -72,6 +72,8 @@ if (isset($cart)) { ?>
                     </div>
                 </form>
             </div>
+<?php
+} ?>
             <div class="border row align-items-center my-3 py-2">
                 <div class="w-100">
                     <div class="row align-items-center">
@@ -95,8 +97,7 @@ if (isset($cart)) { ?>
                     </div>
                 </div>
             </div>
-<?php
-}} else { ?>
+<?php } else { ?>
     <h2 class="display-6">Hmm... something is missing...</h2>
     <?php }
 ?>
