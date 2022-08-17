@@ -39,13 +39,14 @@ class Product extends CI_Model
 				WHERE products.id=$id";
 		return $this->db->query($query)->result_array()[0];
 	}
+	/* test */
 	function get_images_by_ids($idArr)
 	{
 		$results = [];
 		foreach ($idArr as $value) {
 			$results[$value] = explode(
 				",",
-				$this->get_images_by_id($value)["pictures"]
+				$this->get_images_main($value)["pictures"]
 			);
 		}
 		return $results;
@@ -59,7 +60,17 @@ class Product extends CI_Model
 		// return $result;
 		return $this->convert_two_key_array($result);
 	}
-
+	function get_images_main_by_ids($idArr)
+	{
+		$cleanIdArr = implode(",", $this->security->xss_clean($idArr));
+		$query = "SELECT products.id, images.url FROM images
+                LEFT JOIN products ON images.product_id=products.id
+				WHERE images.is_main = 1 AND products.id IN ($cleanIdArr)";
+		$result = $this->db->query($query)->result_array();
+		return $result;
+		// return $this->convert_two_key_array($result);
+	}
+	/* Get all images */
 	function get_images()
 	{
 		$query = "SELECT products.id (SELECT GROUP_CONCAT(images.url  SEPARATOR ',') WHERE images.is_main = 0) AS img_arr,

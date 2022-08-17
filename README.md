@@ -1,15 +1,6 @@
 # Ecommerce Capstone :money_mouth_face:
  *Capstone project for Village 88 - PHP Track*
 
-### History
-8/10/2022
-1.  Added clickable prototype pages
-2.  Stated enumerating features for ERD
-8/14/2022
-1. Finished initial clickable prototype
-2. Started coding in CI
-3. Created js/less/cdn helper function
-
 ## Overview of project
 ### What we want to do
 1. Seller (Shops)
@@ -95,3 +86,13 @@ Schema thought process:
    3. [x]  Add/edit shipping address
    4. [x]  Add/edit billiin address
 6. [ ]  Admin
+   1. [ ]  Dashboard
+   2. [ ]  Orders
+   3. [ ]  Show Product
+   4. [ ]  Shipping
+7. [ ]  Products
+   1. [x]  Home
+   2. [x]  Catalog
+   3. [x]  Show Product
+   4. [x]  Cart
+   5. [ ]  Checkout

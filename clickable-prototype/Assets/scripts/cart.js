@@ -1,3 +1,5 @@
 $(document).ready(function () {
-    $("input[type='number']").inputSpinner();
+	$(".quantity").on("input", function () {
+		alert($(this).val());
+	});
 });

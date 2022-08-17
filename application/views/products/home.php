@@ -50,7 +50,7 @@
                 </ul>
                 <a
                     class="w-100 d-block text-center display-6 text-decoration-none text-primary mb-3"
-                    href="products/catalog"
+                    href="<?= base_url() ?>products/catalog"
                     class="show_all"
                     >Show all products</a
                 >

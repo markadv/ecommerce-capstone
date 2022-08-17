@@ -59,20 +59,23 @@
                     </nav>
                     <ul class="row align-items-center">
 <?php foreach ($products as $row) { ?>
-                        <li class="col-6 col-md-3 text-decoration-none list-unstyled">
+                        <li class="col-6 col-md-3 list-unstyled">
+                            <a
+                                href="<?= base_url() ?>products/show_product/<?= $row[
+	"id"
+] ?>"
+                                class="d-block text-decoration-none">
                             <div class="card">
-                                <img class="card-img-top" src="<?= base_url() ?>assets/imgs/<?= $picture_main[
+                                <img
+                                    class="card-img-top"
+                                    src="<?= base_url() ?>assets/imgs/<?= $picture_main[
 	$row["id"]
 ] ?>"
                                     alt="<?= $row["name"] ?>" />
                                 <div class="card-body">
-                                    <a href="<?= base_url() ?>products/show_product/<?= $row[
-	"id"
-] ?>" class="d-block"
-                                        ><h5 class="card-title"><?= $row[
-                                        	"name"
-                                        ] ?></h5></a
-                                    >
+                                    <h5 class="card-title">
+                                        <?= $row["name"] ?>
+                                    </h5>
                                     <span class="material-icons-sharp"> grade </span>
                                     <span class="material-icons-sharp"> grade </span>
                                     <span class="material-icons-sharp"> grade </span>
@@ -83,6 +86,7 @@
                                     ] ?></p>
                                 </div>
                             </div>
+                            </a>
                         </li>
 <?php } ?>
                     </ul>

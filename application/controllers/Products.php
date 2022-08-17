@@ -9,7 +9,7 @@ class Products extends CI_Controller
 		parent::__construct();
 		$this->load->model("Product");
 		$this->load->helper("header");
-		$this->output->enable_profiler(true);
+		// $this->output->enable_profiler(true);
 	}
 	/* Home page
 	Get all products (for now) then get all the products main picture.
@@ -25,7 +25,7 @@ class Products extends CI_Controller
 		$this->data["picture_main"] = $this->Product->get_images_main();
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user");
-		$this->load->view("products/home", $this->data);
+		$this->load->view("products/home");
 	}
 	/* Catalog
 	Get all the categories.
@@ -40,7 +40,7 @@ class Products extends CI_Controller
 		$this->data["categories"] = $this->Product->get_categories();
 		$this->data["picture_main"] = $this->Product->get_images_main();
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user", $this->data);
+		$this->load->view("partials/nav_user");
 		$this->load->view("products/catalog");
 	}
 	/* Show product
@@ -60,20 +60,54 @@ class Products extends CI_Controller
 		);
 		$this->data["sold"] = $this->Product->get_sold($id);
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user", $this->data);
+		$this->load->view("partials/nav_user");
 		$this->load->view("products/show_product");
 	}
+	/* Show cart
+	Make sure that cart exist before loading cart values.
+	Load to view.
+	*/
 	public function cart()
 	{
 		add_less(["cart.less"]);
+		add_js(["cart.js"]);
 		$this->data = $this->session->userdata();
-		$cart = $this->Product->convert_cart_to_array($this->data["cart"]);
-		$this->data["products"] = $this->Product->get_products_by_ids($cart);
+		if (isset($this->data["cart"])) {
+			$cart = $this->Product->convert_cart_to_array($this->data["cart"]);
+			$imagesArray = $this->Product->get_images_main_by_ids($cart);
+			$this->data["picture_main"] = $this->Product->convert_two_key_array(
+				$imagesArray
+			);
+			$this->data["products"] = $this->Product->get_products_by_ids(
+				$cart
+			);
+		}
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user", $this->data);
+		$this->load->view("partials/nav_user");
 		$this->load->view("products/cart");
 	}
-	public function add_cart()
+	public function checkout()
+	{
+		$this->data = $this->session->userdata();
+		if (!isset($this->data["cart"]) || empty($this->data["cart"])) {
+			redirect("products/catalog");
+		}
+		$this->load->model("User");
+		$cart = $this->Product->convert_cart_to_array($this->data["cart"]);
+		$imagesArray = $this->Product->get_images_main_by_ids($cart);
+		$this->data["picture_main"] = $this->Product->convert_two_key_array(
+			$imagesArray
+		);
+		$this->data["products"] = $this->Product->get_products_by_ids($cart);
+		add_less(["checkout.less"]);
+		$this->load->view("partials/head", $this->data);
+		$this->load->view("partials/nav_user");
+		$this->load->view("products/checkout");
+	}
+	/* Add items
+	Retain values even in different view
+	*/
+	public function add_item()
 	{
 		$cart = $this->session->userdata("cart")
 			? $this->session->userdata("cart")
@@ -81,22 +115,22 @@ class Products extends CI_Controller
 		$post = $this->input->post();
 		$cartAdded[$post["product_id"]] = $post["quantity"];
 		foreach ($cartAdded as $key => $value) {
-			if (!isset($cart[$key])) {
-				$cart[$key] = $value;
-			} else {
-				$cart[$key] += $value;
-			}
+			$cart[$key] = $value;
 		}
 		$this->session->set_userdata("cart", $cart);
 		$this->input->get();
-		redirect("products/catalog");
+		redirect("products/cart");
+	}
+	/* 
+	Remove items
+	*/
+	public function remove_item()
+	{
+	}
+	public function process_order()
+	{
 	}
 	public function test()
 	{
-		$result = $this->Product->convert_cart_to_array(
-			$this->session->userdata("cart")
-		);
-		var_dump($this->Product->get_images_by_ids($result));
-		// var_dump($this->Product->get_images_by_id(1));
 	}
 }

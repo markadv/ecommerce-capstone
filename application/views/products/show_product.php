@@ -42,20 +42,27 @@
                         <span><?= isset($sold) ? $sold : 0 ?> sold</span>
                     </div>
                     <h3>Price</h3>
-                    <form action="<?= base_url() ?>products/add_cart" method="post" class="needs-validation">
+                    <form action="<?= base_url() ?>products/add_item" method="post" class="needs-validation">
                         <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
-                        <input type="hidden" name="product_id" value="<?= $product[
-                        	"id"
-                        ] ?>" />
+                        <input 
+                            type="hidden"
+                            name="product_id"
+                            value="<?= $product["id"] ?>" />
                         <div class="row">
                             <p class="col-2">Quantity</p>
                             <div class="col-10">
-                                
-                                    <input type="number" name="quantity" value="1" min="1" max="<?= $product[
-                                    	"quantity"
-                                    ] - $sold ?>" step="1" required/>
-                                    <span><?= $product["quantity"] -
-                                    	$sold ?> pieces available</span>
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    value="<?= isset($cart) &&
+                                    $cart[$product["id"]]
+                                    	? $cart[$product["id"]]
+                                    	: 1 ?>"
+                                    min="1"
+                                    max="<?= $product["quantity"] - $sold ?>"
+                                    step="1" required/>
+                                <span><?= $product["quantity"] -
+                                	$sold ?> pieces available</span>
                             </div>
                         </div>
                         <div class="row">

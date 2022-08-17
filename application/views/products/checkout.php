@@ -1,60 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Checkout</title>
-        <!-- Latest jQuery CDN -->
-        <script
-            src="https://code.jquery.com/jquery-3.6.0.js"
-            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-            crossorigin="anonymous"
-        ></script>
-        <!-- Latest Bootstrap CDN -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-            crossorigin="anonymous"
-        />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <!-- Latest Material Icons (icons) CDN -->
-        <link
-            href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
-            rel="stylesheet"
-        />
-        <!-- Google fonts CDN -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
-            rel="stylesheet"
-        />
-        <!-- LESS Stylesheets CDN -->
-        <link rel="stylesheet/less" href="../Assets/styles/header.less" />
-        <link rel="stylesheet/less" href="../Assets/styles/checkout.less" />
-        <link rel="stylesheet/less" href="../Assets/styles/custom_colors.less" />
-        <script src="https://cdn.jsdelivr.net/npm/less"></script>
-        <!-- Bootstrap JS CDN -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-            crossorigin="anonymous"
-        ></script>
-        <!-- Swiper.js library -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
-        <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-        <!-- JS Scripts -->
-        <script src="../Assets/scripts/loginbar.js"></script>
-        <script src="../Assets/scripts/navbar_user.js"></script>
-        <script src="../Assets/scripts/checkout.js"></script>
-    </head>
-    <body>
-        <!-- Insert login bar partial view -->
-        <header>
-            <div id="loginbar"></div>
-            <div id="navbar"></div>
-        </header>
         <!-- Checkout info -->
         <div class="container">
             <div class="border bg-light my-3 row">
@@ -65,62 +8,63 @@
                 <span class="col-2">Quantity</span>
                 <span class="col-2">Total price</span>
             </div>
+<?php
+$price_total = 0;
+foreach ($products as $row) {
+	$price_total += $row["price"] * $cart[$row["id"]]; ?>
             <div class="border row align-items-center my-3">
                 <div class="col-12 w-100 py-2 bg-light">
-                    <span>Nestle Store</span>
+                    <span>Baby Secret Shop</span>
                 </div>
                 <div class="border-top w-100">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <img src="../Assets/imgs/product1.jpg" alt="baby_bottle" />
-                            <a href="">Dr. Browns Natural Flow Baby Bottle</a>
+                            <img src="<?= base_url() ?>assets/imgs/<?= $picture_main[
+	$row["id"]
+] ?>"
+                                alt="<?= $row["name"] ?>" />
+                            <span><?= $row["name"] ?></span>
                         </div>
-                        <div class="col-2">&#8369;100</div>
-                        <div class="col-2">4</div>
-                        <div class="col-2">&#8369;400</div>
+                        <div class="col-2">&#8369;<?= $row["price"] ?></div>
+                        <div class="col-2"><?= $cart[$row["id"]] ?></div>
+                        <div class="col-2">&#8369;<?= number_format(
+                        	$row["price"] * $cart[$row["id"]],
+                        	2
+                        ) ?></div>
                     </div>
                 </div>
             </div>
-            <div class="border row align-items-center my-3">
-                <div class="col-12 w-100 py-2 bg-light">
-                    <span>Nestle Store</span>
-                </div>
-                <div class="border-top w-100">
-                    <div class="row align-items-center">
-                        <div class="col-6">
-                            <img src="../Assets/imgs/product1.jpg" alt="baby_bottle" />
-                            <a href="">Dr. Browns Anti-Colic Baby Bottle</a>
-                        </div>
-                        <div class="col-2">&#8369;200</div>
-                        <div class="col-2">4</div>
-                        <div class="col-2">&#8369;800</div>
-                    </div>
-                </div>
-            </div>
+<?php
+}
+?>
             <div class="border row align-items-center my-3">
                 <div class="w-100">
                     <div class="row align-items-center">
-                        <div class="col-8">Merchandise subtotal</div>
-                        <div class="col-2">8</div>
-                        <div class="col-2">&#8369;1200</div>
+                        <div class="col-10">Merchandise subtotal</div>
+                        <div class="col-2 text-right">&#8369; <?= number_format(
+                        	$price_total,
+                        	2
+                        ) ?></div>
                     </div>
                     <div class="row align-items-center">
                         <div class="col-10">Shipping subtotal</div>
-                        <div class="col-2">&#8369;100</div>
+                        <div class="col-2 text-right">&#8369; 100.00</div>
                     </div>
                     <div class="row align-items-center">
                         <div class="col-10">Total</div>
-                        <div class="col-2">&#8369;1300</div>
+                        <div class="col-2 text-right">&#8369; <?= number_format(
+                        	$price_total + 100,
+                        	2
+                        ) ?></div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Shipping address, class form_top/mid/bot uses underscore to make sure it doesn't interfer with bootstrap -->
         <div class="container justify-content-start">
-            <form action="" method="POST" class="needs-validation">
-                <div class="form-signin w-100">
+            <form action="<?= base_url() ?>products/process_order" method="POST" class="needs-validation">
+                <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                     <h2 class="h3 mb-3 fw-normal">Shipping address</h2>
-                    <input type="hidden" name="action" value="change_shipping" />
                     <div class="form-floating">
                         <input
                             type="text"
@@ -169,7 +113,6 @@
                     <h2 class="h3 mb-3 fw-normal">Billing address</h2>
                     <input type="checkbox" name="same_shipping" value="1" />
                     <label for="same_shipping"> Same as shipping</label><br />
-                    <input type="hidden" name="action" value="change_billing" />
                     <div class="form-floating">
                         <input
                             type="text"
@@ -281,17 +224,22 @@
                 <div class="border row align-items-center mt-1 w-100">
                     <div class="w-100">
                         <div class="row align-items-center">
-                            <div class="col-8">Merchandise subtotal</div>
-                            <div class="col-2">8</div>
-                            <div class="col-2">&#8369;1200</div>
+                            <div class="col-10">Merchandise subtotal</div>
+                            <div class="col-2 text-right">&#8369; <?= number_format(
+                            	$price_total,
+                            	2
+                            ) ?></div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col-10">Shipping subtotal</div>
-                            <div class="col-2">&#8369;100</div>
+                            <div class="col-2 text-right">&#8369; 100.00</div>
                         </div>
                         <div class="row align-items-center">
                             <div class="col-10">Total</div>
-                            <div class="col-2">&#8369;1300</div>
+                            <div class="col-2 text-right">&#8369; <?= number_format(
+                            	$price_total + 100,
+                            	2
+                            ) ?></div>
                         </div>
                     </div>
                 </div>
