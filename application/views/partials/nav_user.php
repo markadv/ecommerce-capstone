@@ -6,7 +6,7 @@
                     href="<?= base_url() ?>"
                     class="d-flex align-items-center text-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none"
                 >
-                    <img id="logo" src="<?= base_url() ?>\Assets\imgs\sleepingbaby.png" alt="baby logo" />
+                    <img id="logo" src="<?= base_url() ?>assets/imgs/sleepingbaby.png" alt="baby logo" />
                     <span class="h4">Baby Secret Shop</span>
                 </a>
                 <form class="d-flex w-50 ms-auto me-auto" role="search">

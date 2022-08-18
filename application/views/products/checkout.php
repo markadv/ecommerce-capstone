@@ -73,7 +73,7 @@ foreach ($products as $row) {
             <form action="<?= base_url() ?>products/process_order" method="POST" class="needs-validation">
                 <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                 <div class="form-signin w-100">
-                    <h2 class="h3 mb-3 fw-normal">Shipping address</h2>
+                    <h2 class="h3 mb-3 fw-normal">Shipping information</h2>
                     <div class="form-floating">
                         <input
                             type="text"
@@ -177,7 +177,7 @@ foreach ($products as $row) {
                         <label for="state">Postal code</label>
                     </div>
                     <!-- Billing address -->
-                    <h2 class="h3 mb-3 fw-normal">Billing address</h2>
+                    <h2 class="h3 mb-3 fw-normal">Billing information</h2>
                     <input type="checkbox" name="same_shipping" value=""1" />
                     <label for="same_shipping"> Same as shipping</label><br />
                     <div class="form-floating">
@@ -283,7 +283,7 @@ foreach ($products as $row) {
                         <label for="state">Postal code</label>
                     </div>
                     <!-- Billing info -->
-                    <h1 class="h3 mb-3 fw-normal">Billing info</h1>
+                    <h1 class="h3 mb-3 fw-normal">Credit card information</h1>
                     <div class="form-floating">
                         <input
                             type="email"

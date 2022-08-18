@@ -119,7 +119,7 @@ class Product extends CI_Model
 		$clean_total = $this->security->xss_clean($total);
 		$clean_is_logged_in = $this->security->xss_clean($is_logged_in);
 		$query = "INSERT INTO order_details (payment_id, billing_id, shipping_id, user_id, status, total, is_logged_in)
-		VALUES ($clean_payment_id,$clean_billing_id,$clean_shipping_id,$clean_user_id,'Order in process',$clean_total,$clean_is_logged_in)";
+		VALUES ($clean_payment_id,$clean_billing_id,$clean_shipping_id,$clean_user_id,1,$clean_total,$clean_is_logged_in)";
 		$this->db->query($query);
 		return $this->db->insert_id();
 	}

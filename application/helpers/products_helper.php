@@ -60,3 +60,13 @@ function order_details_status()
 		4 => "Returned/Cancelled",
 	];
 }
+function convert_status($id)
+{
+	$status = [
+		1 => "In process",
+		2 => "Ready to ship",
+		3 => "Shipped",
+		4 => "Returned/Cancelled",
+	];
+	return $status[$id];
+}

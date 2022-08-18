@@ -86,11 +86,11 @@ Schema thought process:
    3. [x]  Add/edit shipping address
    4. [x]  Add/edit billing address
 6. [ ]  Admin
-   1. [ ]  Dashboard
+   1. [x]  Dashboard (50%)
    2. [ ]  Orders
    3. [ ]  Show Product
    4. [ ]  Shipping
-7. [ ]  Products
+7. [x]  Products
    1. [x]  Home
    2. [x]  Catalog
    3. [x]  Show Product

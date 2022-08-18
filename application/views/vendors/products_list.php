@@ -2,7 +2,7 @@
         <!-- Error Indicator -->
         <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
         <div class="success"><p><?= isset($success) ? $success : "" ?></p></div>
-        <div class="container pt-3">
+        <div class="container mt-3">
             <!-- Search -->
             <div class="mb-3 row">
                 <div class="col-12 col-md-9">

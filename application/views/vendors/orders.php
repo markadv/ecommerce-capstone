@@ -1,5 +1,5 @@
         <!-- Main content -->
-        <div class="container">
+        <div class="container mt-3">
             <div class="mb-3 row">
                 <!-----Search------------------------------------>
                 <div class="col-12 col-md-9">
@@ -24,7 +24,7 @@
                     <thead>
                         <tr>
                             <th class="col-1" scope="col-1">Order id</th>
-                            <th class="col-1" scope="col-1">Name</th>
+                            <th class="col-2" scope="col-2">Name</th>
                             <th class="col-1" scope="col-1">Date</th>
                             <th class="col-5" scope="col-5">Billing address</th>
                             <th class="col-1" scope="col-1">Total</th>
@@ -35,8 +35,12 @@
 <?php foreach ($order_details as $row) {
 	$date = date_create($row["created_at"]); ?>
                         <tr>
-                            <td><a href=""><?= $row["id"] ?></a></td>
-                            <td><?= $row["first_name"] ?></td>
+                            <td><a href="<?= base_url() ?>vendors/order_view/<?= $row[
+	"id"
+] ?>"><?= $row["id"] ?></a></td>
+                            <td><?= $row["first_name"] .
+                            	" " .
+                            	$row["last_name"] ?></td>
                             <td><?= date_format($date, "m/d/Y") ?> </td>
                             <td><?= $row["address"] ?></td>
                             <td>&#8369;<?= number_format(
@@ -44,11 +48,20 @@
                             	2
                             ) ?></td>
                             <td>
-                                <select class="form-select w-100">
-                                    <option value="1" >Order in process</option>
-                                    <option value="2">Shipped</option>
-                                    <option value="3">Cancelled</option>
-                                </select>
+                                <form action="<?= base_url() ?>vendors/change_order_status" method="POST" class="needs-validation">
+                                    <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
+                                    <input type="hidden" name="order_id" value="<?= $row[
+                                    	"id"
+                                    ] ?>" />
+                                    <select name="order_status" class="form-select w-100">
+<?php foreach ($status as $key => $value) { ?>
+                                        <option value="<?= $key ?>" <?= $key ==
+$row["status"]
+	? "selected"
+	: "" ?>><?= $value ?></option>
+<?php } ?>
+                                    </select>
+                                </form>
                             </td>
                         </tr>
 <?php

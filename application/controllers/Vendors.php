@@ -16,17 +16,7 @@ class Vendors extends CI_Controller
 	}
 	public function index()
 	{
-		$this->check_ip();
-		$this->check_role();
-		add_less(["dashboard.less"]);
-		$this->data = $this->session->userdata();
-		$this->data["status"] = order_details_status();
-		$this->data[
-			"order_details"
-		] = $this->Vendor->get_order_details_dashboard();
-		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_admin");
-		$this->load->view("vendors/dashboard");
+		redirect("vendors/orders");
 	}
 	public function login()
 	{
@@ -40,6 +30,21 @@ class Vendors extends CI_Controller
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_admin");
 		$this->load->view("users/login");
+	}
+	public function orders()
+	{
+		$this->check_ip();
+		$this->check_role();
+		add_less(["orders.less"]);
+		add_js(["orders.js"]);
+		$this->data = $this->session->userdata();
+		$this->data["status"] = order_details_status();
+		$this->data[
+			"order_details"
+		] = $this->Vendor->get_order_details_orders();
+		$this->load->view("partials/head", $this->data);
+		$this->load->view("partials/nav_admin");
+		$this->load->view("vendors/orders");
 	}
 	public function products()
 	{
@@ -60,14 +65,17 @@ class Vendors extends CI_Controller
 		$this->load->view("partials/product_modal");
 		$this->load->view("vendors/products_list");
 	}
-	public function order_view()
+	public function order_view($id)
 	{
 		$this->check_ip();
 		$this->check_role();
-		add_js(["home.js"]);
-		add_less(["home.less"]);
+		add_less(["order_view.less"]);
 		add_cdn(["swiper"]);
 		$this->data = $this->session->userdata();
+		$this->data["addresses"] = $this->Vendor->get_addresses_by_order_id(
+			$id
+		)[0];
+		$this->data["products"] = $this->Vendor->get_products_by_order_id($id);
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_admin");
 		$this->load->view("vendors/order_view");
@@ -86,6 +94,12 @@ class Vendors extends CI_Controller
 		}
 		redirect("vendors/products");
 		var_dump($result);
+	}
+	public function change_order_status()
+	{
+		$post = $this->input->post();
+		$this->Vendor->change_order_status($post);
+		redirect("vendors/orders");
 	}
 	private function check_ip()
 	{
@@ -125,6 +139,7 @@ class Vendors extends CI_Controller
 	}
 	public function test()
 	{
-		var_dump($this->Vendor->get_order_details_dashboard());
+		// var_dump($this->Vendor->get_addresses_by_order_id(5));
+		var_dump($this->Vendor->get_products_by_order_id(5));
 	}
 }
