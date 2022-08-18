@@ -103,13 +103,22 @@ class Vendors extends CI_Controller
 		/* Get all category and create id=>value pair*/
 		$categories = convert_categories($post);
 		/* change all the category values based on latest submit */
-		// $this->Vendor->update_category_table($categories);
+		$this->Vendor->update_category_table($categories);
 		/* Check if add or edit
 		If with product_id, then is is edit.
 		*/
+		$insert_id = $this->Vendor->add_update_product($post);
+		$inventory_id = !empty($post["product_id"])
+			? $post["product_id"]
+			: $insert_id;
+		$result_inventory = $this->Vendor->add_update_inventory(
+			$post,
+			$inventory_id
+		);
+		/* old version in case not allowed */
 		// if (!empty($post["product_id"])) {
 		// 	$result_products = $this->Vendor->update_product($post);
-		// 	$result_invetory = $this->Vendor->update_inventory($post);
+		// 	$result_inventory = $this->Vendor->update_inventory($post);
 		// } else {
 		// }
 	}

@@ -51,7 +51,7 @@ class Vendor extends CI_Model
 				ON DUPLICATE KEY UPDATE
 					name=?";
 			$values = [$value, $value];
-			array_push($results, $this->db->query($query));
+			array_push($results, $this->db->query($query, $values));
 		}
 		return $results;
 	}
@@ -96,13 +96,38 @@ class Vendor extends CI_Model
 		];
 		return $this->db->query($query, $values);
 	}
-	function update_inventory($post)
+	function add_update_product($post)
 	{
+		$query = "INSERT INTO products (id,name,description,category_id,price)
+			VALUES (?,?,?,?,?)
+			ON DUPLICATE KEY UPDATE
+				name=?, description=?,category_id=?,price=?";
+		$values = [
+			$post["product_id"],
+			$post["name"],
+			$post["description"],
+			$post["category-selected"],
+			$post["price"],
+			$post["name"],
+			$post["description"],
+			$post["category-selected"],
+			$post["price"],
+		];
+		$this->db->query($query, $values);
+		if (!empty($this->db->insert_id())) {
+			return $this->db->insert_id();
+		}
+	}
+	function add_update_inventory($post, $id)
+	{
+		$clean_id = $this->security->xss_clean($id);
 		$clean_post = $this->security->xss_clean($post);
-		$query = "UPDATE inventories SET quantity=?
-			WHERE id=?";
-		$values = [$clean_post["stocks"], $clean_post["product_id"]];
-		return $this->db->query($query, $values)->result_array();
+		$query = "INSERT INTO inventories (id,quantity)
+				VALUES ($clean_id,?)
+				ON DUPLICATE KEY UPDATE
+					quantity=?";
+		$values = [$clean_post["stocks"], $clean_post["stocks"]];
+		return $this->db->query($query, $values);
 	}
 	function add_product($post)
 	{
