@@ -14,8 +14,14 @@ $(document).ready(function () {
 	$(".modal_edit").click(function (e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$(this).siblings("input").focus();
+		$(this).siblings("input").prop("readonly", false);
+		focus();
 	});
+	$(".category")
+		.children("input")
+		.focusout(function () {
+			$(this).children("input").prop("readonly", false);
+		});
 	$(".modal_delete").click(function (e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -41,4 +47,17 @@ $(document).ready(function () {
 			.children("[name=product_id]")
 			.attr("value", $(this).attr("data-id"));
 	});
+	$(".category")
+		.children("input")
+		.click(function () {
+			var category_id = $(this).attr("name").split("-")[1];
+			var category = $(this).val();
+			console.log(category);
+			$(this)
+				.parent()
+				.parent()
+				.siblings("[name=category-selected]")
+				.val(category_id);
+			$(this).parent().parent().siblings("button").text(category);
+		});
 });

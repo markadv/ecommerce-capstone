@@ -1,6 +1,6 @@
 <?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
         <!-- Partial user nav -->
-        <nav class="navbar border-bottom px-5 bg-light">
+        <nav class="navbar border-bottom px-5 py-4 bg-light">
             <div class="container-fluid">
                 <a
                     href="<?= base_url() ?>"

@@ -86,8 +86,9 @@ Schema thought process:
    3. [x]  Add/edit shipping address
    4. [x]  Add/edit billing address
 6. [ ]  Admin
-   1. [ ]  Dashboard
-      1. [ ]  Modal sucks!
+   1. [x]  Dashboard
+      1. [x]  Modal sucks!
+      2. [ ]  Image preview
    2. [x]  Orders
    3. [x]  Show Product
 7. [x]  Products

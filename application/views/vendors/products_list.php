@@ -133,7 +133,7 @@
         </form>
         <!-- ------------------------------------------Update modal------------------------------------------------------------- -->
 <?php foreach ($products as $product) { ?>
-        <form id="add_product_form" action="<?= base_url() ?>vendors/edit_product/" method="post">
+        <form id="add_product_form" action="<?= base_url() ?>vendors/add_product/" method="post" enctype="multipart/form-data">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
 			<input type="hidden" name="product_id" value="<?= $product["id"] ?>" />
             <div
@@ -177,8 +177,7 @@
 									id="description"
 									name="description"
 									rows="3"
-								><?= $product["description"] ?>
-								</textarea>
+								><?= $product["description"] ?></textarea>
 							</div>
 
 							<div class="row">
@@ -207,7 +206,15 @@
 								</div>
 								<!-- ----Category Dropdown------ -->
 								<div class="mb-1 col-12 dropdown">
-									<button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
+									<button
+										class="btn btn-primary dropdown-toggle w-100"
+										type="button" data-bs-toggle="dropdown"
+										aria-expanded="false">
+										<?= $product["category"] ?>
+									</button>
+									<input type="hidden" name="category-selected" value="<?= $product[
+         	"category_id"
+         ] ?>"/>
 									<ul class="dropdown-menu w-100">
 <?php foreach ($categories as $category) { ?>
 										<li class="category position-relative">
@@ -215,7 +222,7 @@
               	"id"
               ] ?>" class="w-75 dropdown-item" type="text" value="<?= $category[
 	"name"
-] ?>"/>
+] ?>" readonly/>
 											<a href="" class="material-icons-outlined text-decoration-none modal_edit">
 												edit
                                             </a>
@@ -235,9 +242,12 @@
 								<div class="mb-4 col-12">
 									<label for="add_new_categ" class="form-label">images</label>
 									<input
-										type="button"
-										value="upload Image"
+										type="file"
+										name="files[]"
+										onchange="readURL(this);"
+										value="Upload Image"
 										class="btn btn-primary"
+										multiple
 									/>
 								</div>
 								<ul id="sortable">
@@ -245,9 +255,10 @@
                                         <i class="fas fa-bars col-1"></i>
                                         <div class="col-4">
                                             <img
+												id="test"
                                                 class="modal_image"
-                                                src="../Assets/imgs/product1.jpg"
-                                                alt="mouse"
+                                                src="#"
+                                                alt="test"
                                             />
                                         </div>
                                         <p class="col-3">img.png</p>
@@ -290,7 +301,7 @@
 		</form>
 <?php } ?>
 <!-- Add -->
-        <form id="add_product_form" action="<?= base_url() ?>vendors/add_product/" method="post">
+        <form id="add_product_form" action="<?= base_url() ?>vendors/add_product/" method="post" enctype="multipart/form-data">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
 			<input type="hidden" name="product_id"/>
             <div
@@ -333,8 +344,7 @@
 									id="description"
 									name="description"
 									rows="3"
-								>
-								</textarea>
+								></textarea>
 							</div>
 
 							<div class="row">
@@ -389,9 +399,12 @@
 								<div class="mb-4 col-12">
 									<label for="add_new_categ" class="form-label">images</label>
 									<input
-										type="button"
-										value="upload Image"
+										type="file"
+										name="files[]"
+										onchange="readURL(this);"
+										value="Upload Image"
 										class="btn btn-primary"
+										multiple
 									/>
 								</div>
 								<ul id="sortable">
@@ -399,9 +412,10 @@
                                         <i class="fas fa-bars col-1"></i>
                                         <div class="col-4">
                                             <img
+												id="test"
                                                 class="modal_image"
-                                                src="../Assets/imgs/product1.jpg"
-                                                alt="mouse"
+                                                src="#"
+                                                alt="test"
                                             />
                                         </div>
                                         <p class="col-3">img.png</p>
@@ -469,5 +483,18 @@
                     </div>
                 </div>
             </div>
+	<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#test').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+	</script>
     </body>
 </html>

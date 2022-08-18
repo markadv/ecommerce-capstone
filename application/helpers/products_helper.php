@@ -63,6 +63,7 @@ function order_details_status()
 function convert_status($id)
 {
 	$status = [
+		0 => "",
 		1 => "In process",
 		2 => "Ready to ship",
 		3 => "Shipped",
@@ -75,4 +76,17 @@ function convert_sort($id)
 	/* 1 is placeholder */
 	$sort = [1 => "name", 2 => "price ASC", 3 => "price DESC"];
 	return $sort[$id];
+}
+function convert_categories($post)
+{
+	$category_array = [];
+	foreach ($post as $key => $value) {
+		if (
+			explode("-", $key)[0] === "category" &&
+			explode("-", $key)[1] != "selected"
+		) {
+			$category_array[explode("-", $key)[1]] = $value;
+		}
+	}
+	return $category_array;
 }

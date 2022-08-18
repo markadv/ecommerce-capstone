@@ -3,6 +3,27 @@ defined("BASEPATH") or exit("No direct script access allowed");
 
 class Vendor extends CI_Model
 {
+	function get_order_details_by_filter($get)
+	{
+		$clean_get = $this->security->xss_clean($get);
+		/* get back later */
+		// $search = !empty($clean_get["search"])
+		// 	? "WHERE billings.first_name LIKE %" . $clean_get["search"] . "%"
+		// 	: "WHERE billings.first_name LIKE %%";
+		$filter = !empty($clean_get["filter"] && $clean_get["filter"] !== 0)
+			? "WHERE order_details.status = " . $clean_get["filter"]
+			: "";
+		$query = "SELECT order_details.*, billings.first_name, billings.last_name,
+                CONCAT_WS(',',addresses.address1,addresses.address2,addresses.city,addresses.state,addresses.postal_code) AS address
+                FROM billings
+                LEFT JOIN order_details
+					ON billings.id = order_details.billing_id
+                LEFT JOIN addresses
+					ON billings.billing_address_id = addresses.id
+                $filter
+				GROUP BY billing_id";
+		return $this->db->query($query)->result_array();
+	}
 	function get_order_details()
 	{
 		$query = "SELECT order_details.*, billings.first_name, billings.last_name,
@@ -19,6 +40,20 @@ class Vendor extends CI_Model
 		$status = $this->security->xss_clean($post["order_status"]);
 		$query = "UPDATE order_details SET status = $status WHERE id = $id";
 		return $this->db->query($query);
+	}
+	function update_category_table($categories)
+	{
+		$clean_categories = $this->security->xss_clean($categories);
+		$results = [];
+		foreach ($clean_categories as $key => $value) {
+			$query = "INSERT INTO categories (id,name)
+				VALUES ($key,?)
+				ON DUPLICATE KEY UPDATE
+					name=?";
+			$values = [$value, $value];
+			array_push($results, $this->db->query($query));
+		}
+		return $results;
 	}
 	function get_addresses_by_order_id($id)
 	{
@@ -46,6 +81,30 @@ class Vendor extends CI_Model
 		return $this->db->query($query)->result_array();
 	}
 	function delete_category()
+	{
+	}
+	function update_product($post)
+	{
+		$query = "UPDATE products SET name=?,description=?,category_id=?,price=?
+			WHERE id=?";
+		$values = [
+			$post["name"],
+			$post["description"],
+			$post["category-selected"],
+			$post["price"],
+			$post["product_id"],
+		];
+		return $this->db->query($query, $values);
+	}
+	function update_inventory($post)
+	{
+		$clean_post = $this->security->xss_clean($post);
+		$query = "UPDATE inventories SET quantity=?
+			WHERE id=?";
+		$values = [$clean_post["stocks"], $clean_post["product_id"]];
+		return $this->db->query($query, $values)->result_array();
+	}
+	function add_product($post)
 	{
 	}
 }

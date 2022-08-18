@@ -15,17 +15,16 @@ foreach ($order_details as $row) {
                             	2
                             ) ?></td>
                             <td>
-                                <form action="<?= base_url() ?>vendors/change_order_status" method="POST" class="needs-validation">
-                                    <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
+                                <form class="status" action="<?= base_url() ?>vendors/change_order_status" method="GET" class="needs-validation">
                                     <input type="hidden" name="order_id" value="<?= $row[
                                     	"id"
                                     ] ?>" />
-                                    <select name="order_status" class="form-select w-100">
+                                    <select name="order_status" class="status-select form-select w-100">
 <?php foreach ($status as $key => $value) { ?>
-                                        <option value="<?= $key ?>" <?= $key ==
+                                        <option value="<?= $key ?>"<?= $key ==
 $row["status"]
 	? "selected"
-	: "" ?> ><?= $value ?></option>
+	: "" ?>><?= $value ?></option>
 <?php } ?>
                                     </select>
                                 </form>

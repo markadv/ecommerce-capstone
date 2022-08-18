@@ -1,4 +1,4 @@
-<div class="px-3 py-2 border-bottom bg-light">
+<div class="px-5 py-4 border-bottom bg-light">
     <div class="navcontainer">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-black text-decoration-none">

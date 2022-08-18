@@ -12,7 +12,7 @@ class Vendors extends CI_Controller
 		$this->load->model("Vendor");
 		$this->load->helper("header");
 		$this->load->helper("products");
-		$this->output->enable_profiler(true);
+		// $this->output->enable_profiler(true);
 	}
 	public function index()
 	{
@@ -95,12 +95,28 @@ class Vendors extends CI_Controller
 	}
 	public function add_product()
 	{
-		var_dump($this->input->post());
+		$this->upload();
+		if (empty($this->input->post())) {
+			redirect("products");
+		}
+		print_r($post = $this->input->post());
+		/* Get all category and create id=>value pair*/
+		$categories = convert_categories($post);
+		/* change all the category values based on latest submit */
+		// $this->Vendor->update_category_table($categories);
+		/* Check if add or edit
+		If with product_id, then is is edit.
+		*/
+		// if (!empty($post["product_id"])) {
+		// 	$result_products = $this->Vendor->update_product($post);
+		// 	$result_invetory = $this->Vendor->update_inventory($post);
+		// } else {
+		// }
 	}
 	public function change_order_status()
 	{
-		$post = $this->input->post();
-		$this->Vendor->change_order_status($post);
+		$get = $this->input->get();
+		$this->Vendor->change_order_status($get);
 		redirect("vendors/orders");
 	}
 	private function check_ip()
@@ -109,11 +125,50 @@ class Vendors extends CI_Controller
 			redirect("products");
 		}
 	}
+	private function upload()
+	{
+		$this->load->library("upload");
+		$imagePath = realpath(APPPATH . "../assets/imgs");
+		$number_of_files_uploaded = count($_FILES["files"]["name"]);
+
+		for ($i = 0; $i < $number_of_files_uploaded; $i++) {
+			$_FILES["userfile"]["name"] = $_FILES["files"]["name"][$i];
+			$_FILES["userfile"]["type"] = $_FILES["files"]["type"][$i];
+			$_FILES["userfile"]["tmp_name"] = $_FILES["files"]["tmp_name"][$i];
+			$_FILES["userfile"]["error"] = $_FILES["files"]["error"][$i];
+			$_FILES["userfile"]["size"] = $_FILES["files"]["size"][$i];
+			//configuration for upload your images
+			$config = [
+				"file_name" => time() . uniqid(),
+				"allowed_types" => "jpg|jpeg|png|gif",
+				"max_size" => 0,
+				"overwrite" => false,
+				"upload_path" => $imagePath,
+			];
+			$this->upload->initialize($config);
+			$errCount = 0; //counting errrs
+			if (!$this->upload->do_upload()) {
+				$error = ["error" => $this->upload->display_errors()];
+				$theImages[] = [
+					"errors" => $error,
+				]; //saving arrors in the array
+			} else {
+				$filename = $this->upload->data();
+				$theImages[] = [
+					"fileName" => $filename["file_name"],
+				];
+				$params = [$filename["file_name"]];
+				// $this->Vendor->add_image();
+			} //if file uploaded
+		} //for loop end
+	}
 	public function orders_html()
 	{
-		$this->data = $this->session->userdata();
+		$get = $this->input->get();
 		$this->data["status"] = order_details_status();
-		$this->data["order_details"] = $this->Vendor->get_order_details();
+		$this->data[
+			"order_details"
+		] = $this->Vendor->get_order_details_by_filter($get);
 		$this->load->view("partials/orders_html", $this->data);
 	}
 	private function check_role()

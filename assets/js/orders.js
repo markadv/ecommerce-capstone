@@ -1,19 +1,20 @@
 $(document).ready(function () {
-	$("select").change(function () {
-		$(this).parent("form").submit();
+	$("#search-sort").on("submit", function () {
+		$.get(
+			`${base_url}vendors/orders_html`,
+			$(this).serialize(),
+			function (res) {
+				$("tbody").html(res);
+			}
+		);
+		return false;
 	});
-	$.get(`${base_url}vendors/orders_html`, function (res) {
-		$("#order_table").html(res);
+	$("#filter").change(function () {
+		$("#search-sort").submit();
 	});
-	// $("form").on("submit", function () {
-	// 	$.get(
-	// 		`${base_url}vendors/orders_html`,
-	// 		$(this).serialize(),
-	// 		function (res) {
-	// 			$("tbody").html(res);
-	// 		}
-	// 	);
-	// 	return false;
+	$("#search-sort").submit();
+	/* change status on change */
+	// $(".status-select").on("change", function () {
+	// 	$(this).parent("form .status").submit();
 	// });
-	// $("form").submit();
 });
