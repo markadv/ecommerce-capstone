@@ -3,6 +3,26 @@ defined("BASEPATH") or exit("No direct script access allowed");
 
 class Product extends CI_Model
 {
+	function get_products_by_filter($get)
+	{
+		$cleanGet = $this->security->xss_clean($get);
+		$sort = !empty($get["sort"])
+			? "ORDER BY " . convert_sort($cleanGet["sort"])
+			: "";
+		$search = !empty($cleanGet["search"])
+			? "%" . $cleanGet["search"] . "%"
+			: "%%";
+		$query = "SELECT products.* , inventories.quantity, categories.name as category
+				FROM products
+                LEFT JOIN inventories
+					ON products.inventory_id=inventories.id
+                LEFT JOIN categories
+					ON products.category_id=categories.id
+				WHERE products.active=1
+					AND products.name LIKE ?
+				$sort";
+		return $this->db->query($query, [$search])->result_array();
+	}
 	function get_product_by_id($id)
 	{
 		$cleanId = $this->security->xss_clean($id);
@@ -23,6 +43,7 @@ class Product extends CI_Model
 				WHERE products.id IN ($cleanIdArr) && products.active=1";
 		return $this->db->query($query)->result_array();
 	}
+	/* placeholder */
 	function get_products()
 	{
 		$query = "SELECT products.* , inventories.quantity, categories.name as category
@@ -82,7 +103,8 @@ class Product extends CI_Model
 	}
 	function get_categories()
 	{
-		$query = "SELECT categories.name, COUNT(category_id) AS count FROM categories
+		$query = "SELECT categories.name, COUNT(category_id) AS count, categories.id 
+				FROM categories
                 LEFT JOIN products ON categories.id=products.category_id
                 GROUP BY categories.id";
 		return $this->db->query($query)->result_array();

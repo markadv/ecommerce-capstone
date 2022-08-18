@@ -10,7 +10,7 @@
             
 <?php
 $price_total = 0;
-if (isset($cart)) { ?>
+if (isset($cart) && !empty($cart)) { ?>
             <div class="border bg-light my-3 row">
                 <div class="col-5">
                     <input type="checkbox" name="check_all" value="1" />

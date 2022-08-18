@@ -55,15 +55,15 @@
                         </tbody>
                     </table>
                     <ul class="list-group d-inline-block">
-                        <li class="list-group-item bg-success text-white">
+                        <a href="<?= base_url() ?>/vendors/orders"<li class="list-group-item bg-success text-white">
                             Status: <?= convert_status(
                             	$addresses["status"]
-                            ) ?></li>
+                            ) ?></li></a>
                         <li class="list-group-item">
                             <p>Subtotal: &#8369;<?= $total ?></p>
                             <p>Shipping: &#8369;100.00</p>
                             <p>Total price: &#8369;<?= number_format(
-                            	$total + 100.0,
+                            	(float) $total + 100,
                             	2
                             ) ?></p>
                         </li>

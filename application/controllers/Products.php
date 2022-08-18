@@ -9,7 +9,8 @@ class Products extends CI_Controller
 		parent::__construct();
 		$this->load->model("Product");
 		$this->load->helper("header");
-		// $this->output->enable_profiler(true);
+		$this->load->helper("products");
+		$this->output->enable_profiler(true);
 	}
 	/* Home page
 	Get all products (for now) then get all the products main picture.
@@ -35,10 +36,12 @@ class Products extends CI_Controller
 	public function catalog()
 	{
 		add_less(["catalog.less"]);
+		add_js(["catalog.js"]);
 		$this->data = $this->session->userdata();
-		$this->data["products"] = $this->Product->get_products();
+		if ($this->input->post()) {
+			$this->data["post"];
+		}
 		$this->data["categories"] = $this->Product->get_categories();
-		$this->data["picture_main"] = $this->Product->get_images_main();
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->data["success"] = $this->session->flashdata("success_message");
 		$this->load->view("partials/head", $this->data);
@@ -74,7 +77,7 @@ class Products extends CI_Controller
 		add_less(["cart.less"]);
 		add_js(["cart.js"]);
 		$this->data = $this->session->userdata();
-		if (isset($this->data["cart"])) {
+		if (isset($this->data["cart"]) && !empty($this->data["cart"])) {
 			$cart = $this->Product->get_cart_keys($this->data["cart"]);
 			$imagesArray = $this->Product->get_images_main_by_ids($cart);
 			$this->data["picture_main"] = $this->Product->convert_two_key_array(
@@ -133,6 +136,14 @@ class Products extends CI_Controller
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user");
 		$this->load->view("products/checkout");
+	}
+	public function catalog_html()
+	{
+		$this->data["products"] = $this->Product->get_products_by_filter(
+			$this->input->get()
+		);
+		$this->data["picture_main"] = $this->Product->get_images_main();
+		$this->load->view("partials/catalog_html", $this->data);
 	}
 	/* Add items
 	Retain values even in different view
@@ -264,6 +275,6 @@ class Products extends CI_Controller
 	}
 	public function test()
 	{
-		var_dump($this->session->userdata("charge"));
+		var_dump($this->session->userdata());
 	}
 }

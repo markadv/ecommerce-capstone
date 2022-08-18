@@ -70,3 +70,9 @@ function convert_status($id)
 	];
 	return $status[$id];
 }
+function convert_sort($id)
+{
+	/* 1 is placeholder */
+	$sort = [1 => "name", 2 => "price ASC", 3 => "price DESC"];
+	return $sort[$id];
+}

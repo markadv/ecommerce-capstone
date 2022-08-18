@@ -3,7 +3,7 @@ defined("BASEPATH") or exit("No direct script access allowed");
 
 class Vendor extends CI_Model
 {
-	function get_order_details_orders()
+	function get_order_details()
 	{
 		$query = "SELECT order_details.*, billings.first_name, billings.last_name,
                 CONCAT_WS(',',addresses.address1,addresses.address2,addresses.city,addresses.state,addresses.postal_code) AS address
@@ -44,5 +44,8 @@ class Vendor extends CI_Model
                 LEFT JOIN products ON order_items.product_id = products.id
                 WHERE order_items.order_detail_id = $id";
 		return $this->db->query($query)->result_array();
+	}
+	function delete_category()
+	{
 	}
 }

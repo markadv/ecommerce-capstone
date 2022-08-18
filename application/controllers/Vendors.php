@@ -39,9 +39,7 @@ class Vendors extends CI_Controller
 		add_js(["orders.js"]);
 		$this->data = $this->session->userdata();
 		$this->data["status"] = order_details_status();
-		$this->data[
-			"order_details"
-		] = $this->Vendor->get_order_details_orders();
+		$this->data["order_details"] = $this->Vendor->get_order_details();
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_admin");
 		$this->load->view("vendors/orders");
@@ -58,11 +56,11 @@ class Vendors extends CI_Controller
 		$this->data["picture_main"] = $this->Product->get_images_main();
 		$sold = $this->Product->get_all_sold();
 		$this->data["sold"] = $this->Product->convert_two_key_array_sold($sold);
+		$this->data["categories"] = $this->Product->get_categories();
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->data["success"] = $this->session->flashdata("success_message");
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_admin");
-		$this->load->view("partials/product_modal");
 		$this->load->view("vendors/products_list");
 	}
 	public function order_view($id)
@@ -93,7 +91,11 @@ class Vendors extends CI_Controller
 			$this->session->set_flashdata("input_errors", $result);
 		}
 		redirect("vendors/products");
-		var_dump($result);
+		var_dump($this->input->post());
+	}
+	public function add_product()
+	{
+		var_dump($this->input->post());
 	}
 	public function change_order_status()
 	{
@@ -107,12 +109,12 @@ class Vendors extends CI_Controller
 			redirect("products");
 		}
 	}
-	private function check_post($previous_url)
+	public function orders_html()
 	{
-		if (!$this->input->post()) {
-			redirect("vendors/$previous_url");
-			return;
-		}
+		$this->data = $this->session->userdata();
+		$this->data["status"] = order_details_status();
+		$this->data["order_details"] = $this->Vendor->get_order_details();
+		$this->load->view("partials/orders_html", $this->data);
 	}
 	private function check_role()
 	{
@@ -136,10 +138,5 @@ class Vendors extends CI_Controller
 			redirect("vendors");
 			return;
 		}
-	}
-	public function test()
-	{
-		// var_dump($this->Vendor->get_addresses_by_order_id(5));
-		var_dump($this->Vendor->get_products_by_order_id(5));
 	}
 }

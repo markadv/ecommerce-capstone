@@ -13,12 +13,13 @@
     ] ?>">Receipt Link</a></p>
 <?php } ?>
         <!-- Collapsible category sidebar -->
-        <div class="container">
+        <form  class="container" method="GET">
             <div class="row">
                 <div class="flex-shrink-0 bg-white col-2 border">
                     <div class="form-group has-search mt-3">
                         <span class="material-icons-outlined form-control-feedback"> search </span>
-                        <input type="text" class="form-control" placeholder="Search" />
+                        <input name="search" type="text" class="form-control" placeholder="Search"
+                        value="<?= isset($post) ? $post : "" ?>"/>
                     </div>
                     <a
                         href="/"
@@ -47,14 +48,11 @@
                         <h1 class="col-9 display-6">Feeding (Page 2)</h1>
                         <div class="form-floating col-3 text-right">
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Sort by
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">Most popular</a></li>
-                                    <li><a class="dropdown-item" href="#">Price ascending</a></li>
-                                    <li><a class="dropdown-item" href="#">Price descending</a></li>
-                                </ul>
+                                <select name="sort" class="form-select">
+                                    <option value="1">Most popular</option>
+                                    <option value="2">Price ascending</option>
+                                    <option value="3">Price descending</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -70,38 +68,7 @@
                             </li>
                         </ul>
                     </nav>
-                    <ul class="row align-items-center">
-<?php foreach ($products as $row) { ?>
-                        <li class="col-6 col-md-3 list-unstyled">
-                            <a
-                                href="<?= base_url() ?>products/show_product/<?= $row[
-	"id"
-] ?>"
-                                class="d-block text-decoration-none">
-                            <div class="card">
-                                <img
-                                    class="card-img-top"
-                                    src="<?= base_url() ?>assets/imgs/<?= $picture_main[
-	$row["id"]
-] ?>"
-                                    alt="<?= $row["name"] ?>" />
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        <?= $row["name"] ?>
-                                    </h5>
-                                    <span class="material-icons-sharp"> grade </span>
-                                    <span class="material-icons-sharp"> grade </span>
-                                    <span class="material-icons-sharp"> grade </span>
-                                    <span class="material-icons-sharp"> grade </span>
-                                    <span class="material-icons-sharp"> grade </span>
-                                    <p class="card-text">&#8369;<?= $row[
-                                    	"price"
-                                    ] ?></p>
-                                </div>
-                            </div>
-                            </a>
-                        </li>
-<?php } ?>
+                    <ul id="catalog_container" class="row align-items-center">
                     </ul>
                     <nav>
                         <ul class="pagination justify-content-center">
@@ -118,6 +85,6 @@
                     </nav>
                 </div>
             </div>
-        </div>
+        </form>
     </body>
 </html>

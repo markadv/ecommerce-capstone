@@ -1,19 +1,31 @@
 <?php defined("BASEPATH") or exit("No direct script access allowed"); ?>
         <!-- Error Indicator -->
-        <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
-        <div class="success"><p><?= isset($success) ? $success : "" ?></p></div>
-        <div class="container mt-3">
-            <!-- Search -->
+            <div class="error"><p><?= isset($errors) ? $errors : "" ?></p></div>
+            <div class="success"><p><?= isset($success)
+            	? $success
+            	: "" ?></p></div>
+            <div class="container mt-3">
+                <!-- Search -->
             <div class="mb-3 row">
                 <div class="col-12 col-md-9">
                     <form class="d-flex w-100 ms-auto me-auto" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                        <input
+                            class="form-control me-2"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                        />
                         <button class="btn btn-outline-primary" type="submit">Search</button>
                     </form>
                 </div>
-                <!------Add product-------->
+            <!------Add product-------->
                 <div class="col-12 col-md-3">
-                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#product">
+                    <button
+                        id="add_product"
+                        class="btn btn-primary w-100"
+                        data-bs-toggle="modal"
+                        data-bs-target="#product"
+                    >
                         Add new product
                     </button>
                 </div>
@@ -34,7 +46,7 @@
                     </thead>
                     <tbody>
 <?php foreach ($products as $row) { ?>
-                        <tr>
+                        <tr class="product_info_<?= $row["id"] ?>">
                             <td><?= $row["id"] ?></td>
                             <td>
                                 <div class="img_container">
@@ -52,16 +64,19 @@
                             	: 0 ?></td>
                             <td> &#8369 <?= $row["price"] ?></td>
                             <td>
-                                <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#product">
+                                <a class="btn btn-outline-primary edit_product"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#product_<?= $row["id"] ?>"
+                                    data-id=<?= $row["id"] ?>
+                                    >
                                     Edit
                                 </a>
                                 <a
-                                    class="btn btn-danger"
+                                    class="btn btn-danger delete_product"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#delete_product_<?= $row[
-                                    	"id"
-                                    ] ?>"
-                                    href="#"
+                                    data-bs-target="#delete_product"
+                                    data-id=<?= $row["id"] ?>
+                                    href=""
                                     >Delete</a
                                 >
                             </td>
@@ -85,15 +100,13 @@
                 </li>
             </ul>
         </nav>
-
         <!-- ------------------------------------------Delete modal------------------------------------------------------------- -->
-<?php foreach ($products as $row) { ?>
-        <form action="<?= base_url() ?>vendors/delete_product/" method="post">
+        <form id="delete_product_form" action="<?= base_url() ?>vendors/delete_product/" method="post">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" /> 
-            <input type="hidden" name="product_id" value="<?= $row["id"] ?>" />
+            <input type="hidden" name="product_id" value="" />
             <div
                 class="modal fade"
-                id="delete_product_<?= $row["id"] ?>"
+                id="delete_product"
                 data-bs-backdrop="static"
                 data-bs-keyboard="true"
                 tabindex="-1"
@@ -118,6 +131,343 @@
                 </div>
             </div>
         </form>
+        <!-- ------------------------------------------Update modal------------------------------------------------------------- -->
+<?php foreach ($products as $product) { ?>
+        <form id="add_product_form" action="<?= base_url() ?>vendors/edit_product/" method="post">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
+			<input type="hidden" name="product_id" value="<?= $product["id"] ?>" />
+            <div
+				class="modal fade"
+				id="product_<?= $product["id"] ?>"
+				data-bs-backdrop="static"
+				data-bs-keyboard="true"
+				tabindex="-1"
+				aria-labelledby="staticBackdropLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="add_update_modal_title">Edit product</h5>
+							<button
+								type="button"
+								class="btn-close"
+								data-bs-dismiss="modal"
+								aria-label="Close"
+							></button>
+						</div>
+						<div class="modal-body">
+							<!------Update/add input field-------->
+							<div class="mb-1">
+								<label for="name" class="form-label">Product Name</label>
+								<input
+									type="text"
+									required
+									class="form-control"
+									id="name"
+									name="name"
+                                    value="<?= $product["name"] ?>"
+								/>
+							</div>
+							<div class="mb-2">
+								<label for="Description" class="form-label">Description</label>
+								<textarea
+									class="form-control"
+									required
+									id="description"
+									name="description"
+									rows="3"
+								><?= $product["description"] ?>
+								</textarea>
+							</div>
+
+							<div class="row">
+								<div class="mb-1 col-6">
+									<label for="stocks" class="form-label">Inventory</label>
+									<input
+										type="number"
+										required
+										class="form-control"
+										id="stocks"
+										name="stocks"
+                                        value="<?= $product["quantity"] ?>"
+									/>
+								</div>
+
+								<div class="mb-1 col-6">
+									<label for="price" class="form-label">Price</label>
+									<input
+										type="number"
+										required
+										class="form-control"
+										id="price"
+										name="price"
+                                        value="<?= $product["price"] ?>"
+									/>
+								</div>
+								<!-- ----Category Dropdown------ -->
+								<div class="mb-1 col-12 dropdown">
+									<button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
+									<ul class="dropdown-menu w-100">
+<?php foreach ($categories as $category) { ?>
+										<li class="category position-relative">
+										    <input name="category-<?= $category[
+              	"id"
+              ] ?>" class="w-75 dropdown-item" type="text" value="<?= $category[
+	"name"
+] ?>"/>
+											<a href="" class="material-icons-outlined text-decoration-none modal_edit">
+												edit
+                                            </a>
+											<a href="" class="material-icons-outlined text-decoration-none modal_delete">
+												delete
+                                            </a>
+										</li>
 <?php } ?>
+									</ul>
+								</div>
+
+								<div class="mb-1 col-12">
+									<label for="add_category" class="form-label">Add new category</label>
+									<input type="text" class="form-control" id="add_category" name="add_category" />
+								</div>
+								<!------Images-------->
+								<div class="mb-4 col-12">
+									<label for="add_new_categ" class="form-label">images</label>
+									<input
+										type="button"
+										value="upload Image"
+										class="btn btn-primary"
+									/>
+								</div>
+								<ul id="sortable">
+                                    <li class="row align-items-center">
+                                        <i class="fas fa-bars col-1"></i>
+                                        <div class="col-4">
+                                            <img
+                                                class="modal_image"
+                                                src="../Assets/imgs/product1.jpg"
+                                                alt="mouse"
+                                            />
+                                        </div>
+                                        <p class="col-3">img.png</p>
+                                        <span class="material-icons-outlined col-1"> delete </span>
+                                        <input class="col-1" type="checkbox" />
+                                        <p class="col-1 m-0 p-0">main</p>
+                                    </li>
+                                    <li class="row align-items-center">
+                                        <i class="fas fa-bars col-1"></i>
+                                        <div class="col-4">
+                                            <img
+                                                class="modal_image"
+                                                src="../Assets/imgs/product1.jpg"
+                                                alt="mouse"
+                                            />
+                                        </div>
+                                        <p class="col-3">img.png</p>
+                                        <span class="material-icons-outlined col-1"> delete </span>
+                                        <input class="col-1" type="checkbox" />
+                                        <p class="col-1 m-0 p-0">main</p>
+                                    </li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal"
+							>
+								Close
+							</button>
+							<input type="button" class="btn btn-success" value="Preview" />
+							<input type="submit" class="btn btn-primary" value="Update" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+<?php } ?>
+<!-- Add -->
+        <form id="add_product_form" action="<?= base_url() ?>vendors/add_product/" method="post">
+            <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
+			<input type="hidden" name="product_id"/>
+            <div
+				class="modal fade"
+				id="product"
+				data-bs-backdrop="static"
+				data-bs-keyboard="true"
+				tabindex="-1"
+				aria-labelledby="staticBackdropLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="add_update_modal_title">Add product</h5>
+							<button
+								type="button"
+								class="btn-close"
+								data-bs-dismiss="modal"
+								aria-label="Close"
+							></button>
+						</div>
+						<div class="modal-body">
+							<!------Update/add input field-------->
+							<div class="mb-1">
+								<label for="name" class="form-label">Product Name</label>
+								<input
+									type="text"
+									required
+									class="form-control"
+									id="name"
+									name="name"
+								/>
+							</div>
+							<div class="mb-2">
+								<label for="Description" class="form-label">Description</label>
+								<textarea
+									class="form-control"
+									required
+									id="description"
+									name="description"
+									rows="3"
+								>
+								</textarea>
+							</div>
+
+							<div class="row">
+								<div class="mb-1 col-6">
+									<label for="stocks" class="form-label">Inventory</label>
+									<input
+										type="number"
+										required
+										class="form-control"
+										id="stocks"
+										name="stocks"
+									/>
+								</div>
+
+								<div class="mb-1 col-6">
+									<label for="price" class="form-label">Price</label>
+									<input
+										type="number"
+										required
+										class="form-control"
+										id="price"
+										name="price"
+									/>
+								</div>
+								<!-- ----Category Dropdown------ -->
+								<div class="mb-1 col-12 dropdown">
+									<button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
+									<ul class="dropdown-menu w-100">
+<?php foreach ($categories as $category) { ?>
+										<li class="category position-relative">
+										    <input name="category-<?= $category[
+              	"id"
+              ] ?>" class="w-75 dropdown-item" type="text" value="<?= $category[
+	"name"
+] ?>"/>
+											<a href="" class="material-icons-outlined text-decoration-none modal_edit">
+												edit
+                                            </a>
+											<a href="" class="material-icons-outlined text-decoration-none modal_delete">
+												delete
+                                            </a>
+										</li>
+<?php } ?>
+									</ul>
+								</div>
+
+								<div class="mb-1 col-12">
+									<label for="add_category" class="form-label">Add new category</label>
+									<input type="text" class="form-control" id="add_category" name="add_category" />
+								</div>
+								<!------Images-------->
+								<div class="mb-4 col-12">
+									<label for="add_new_categ" class="form-label">images</label>
+									<input
+										type="button"
+										value="upload Image"
+										class="btn btn-primary"
+									/>
+								</div>
+								<ul id="sortable">
+                                    <li class="row align-items-center">
+                                        <i class="fas fa-bars col-1"></i>
+                                        <div class="col-4">
+                                            <img
+                                                class="modal_image"
+                                                src="../Assets/imgs/product1.jpg"
+                                                alt="mouse"
+                                            />
+                                        </div>
+                                        <p class="col-3">img.png</p>
+                                        <span class="material-icons-outlined col-1"> delete </span>
+                                        <input class="col-1" type="checkbox" />
+                                        <p class="col-1 m-0 p-0">main</p>
+                                    </li>
+                                    <li class="row align-items-center">
+                                        <i class="fas fa-bars col-1"></i>
+                                        <div class="col-4">
+                                            <img
+                                                class="modal_image"
+                                                src="../Assets/imgs/product1.jpg"
+                                                alt="mouse"
+                                            />
+                                        </div>
+                                        <p class="col-3">img.png</p>
+                                        <span class="material-icons-outlined col-1"> delete </span>
+                                        <input class="col-1" type="checkbox" />
+                                        <p class="col-1 m-0 p-0">main</p>
+                                    </li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-bs-dismiss="modal"
+							>
+								Close
+							</button>
+							<input type="button" class="btn btn-success" value="Preview" />
+							<input type="submit" class="btn btn-primary" value="Update" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+        <!-- Delete category confirmation modal -->
+        <div
+            class="modal"
+            id="delete_category"
+            data-bs-backdrop="static"
+            data-bs-keyboard="true"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+            >
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Delete category</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this category?</p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button id="confirm-category-delete" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </body>
 </html>
