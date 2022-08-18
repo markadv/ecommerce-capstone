@@ -95,8 +95,8 @@ class Product extends CI_Model
 	/* Get all images */
 	function get_images()
 	{
-		$query = "SELECT products.id (SELECT GROUP_CONCAT(images.url  SEPARATOR ',') WHERE images.is_main = 0) AS img_arr,
-                (SELECT images.url WHERE images.is_main = 1) AS img_main,
+		$query = "SELECT products.id, (SELECT GROUP_CONCAT(images.url  SEPARATOR ',') WHERE images.is_main = 0) AS img_arr,
+                (SELECT images.url WHERE images.is_main = 1) AS img_main
                 FROM images
                 LEFT JOIN products ON images.product_id=products.id";
 		return $this->db->query($query)->result_array();

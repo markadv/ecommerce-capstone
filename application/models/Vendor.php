@@ -98,8 +98,8 @@ class Vendor extends CI_Model
 	}
 	function add_update_product($post)
 	{
-		$query = "INSERT INTO products (id,name,description,category_id,price)
-			VALUES (?,?,?,?,?)
+		$query = "INSERT INTO products (id,name,description,category_id,price,inventory_id,brand_id,active)
+			VALUES (?,?,?,?,?,?,?,?)
 			ON DUPLICATE KEY UPDATE
 				name=?, description=?,category_id=?,price=?";
 		$values = [
@@ -108,6 +108,9 @@ class Vendor extends CI_Model
 			$post["description"],
 			$post["category-selected"],
 			$post["price"],
+			$post["product_id"],
+			1,
+			1,
 			$post["name"],
 			$post["description"],
 			$post["category-selected"],
@@ -129,7 +132,20 @@ class Vendor extends CI_Model
 		$values = [$clean_post["stocks"], $clean_post["stocks"]];
 		return $this->db->query($query, $values);
 	}
-	function add_product($post)
+	function add_image($params)
 	{
+		foreach ($params as $key => $value) {
+			$query = "INSERT INTO images (product_id,url) VALUES (?,?)";
+			$values = [$key, $value];
+			$this->db->query($query, $values);
+		}
+	}
+	function get_all_images()
+	{
+		$query = "SELECT products.id, GROUP_CONCAT(images.url)as images
+                FROM products
+                LEFT JOIN images ON products.id=images.product_id
+				GROUP BY products.id";
+		return $this->db->query($query)->result_array();
 	}
 }

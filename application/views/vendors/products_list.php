@@ -251,35 +251,24 @@
 									/>
 								</div>
 								<ul id="sortable">
-                                    <li class="row align-items-center">
-                                        <i class="fas fa-bars col-1"></i>
-                                        <div class="col-4">
-                                            <img
-												id="test"
-                                                class="modal_image"
-                                                src="#"
-                                                alt="test"
-                                            />
-                                        </div>
-                                        <p class="col-3">img.png</p>
-                                        <span class="material-icons-outlined col-1"> delete </span>
-                                        <input class="col-1" type="checkbox" />
-                                        <p class="col-1 m-0 p-0">main</p>
-                                    </li>
+<?php foreach ($all_images[$product["id"]] as $row) { ?>
                                     <li class="row align-items-center">
                                         <i class="fas fa-bars col-1"></i>
                                         <div class="col-4">
                                             <img
                                                 class="modal_image"
-                                                src="../Assets/imgs/product1.jpg"
+                                                src="<?= base_url() ?>assets/imgs/<?= $row ?>"
                                                 alt="mouse"
                                             />
                                         </div>
                                         <p class="col-3">img.png</p>
                                         <span class="material-icons-outlined col-1"> delete </span>
-                                        <input class="col-1" type="checkbox" />
+                                        <input name="<?= $product[
+                                        	"id"
+                                        ] ?>" class="col-1" type="checkbox" />
                                         <p class="col-1 m-0 p-0">main</p>
                                     </li>
+<?php } ?>
 								</ul>
 							</div>
 						</div>
@@ -292,7 +281,9 @@
 							>
 								Close
 							</button>
-							<input type="button" class="btn btn-success" value="Preview" />
+							<a href="<?= base_url() ?>products/show_product/<?= $product[
+	"id"
+] ?>" class="btn btn-success">Preview</a>
 							<input type="submit" class="btn btn-primary" value="Update" />
 						</div>
 					</div>
@@ -303,7 +294,7 @@
 <!-- Add -->
         <form id="add_product_form" action="<?= base_url() ?>vendors/add_product/" method="post" enctype="multipart/form-data">
             <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
-			<input type="hidden" name="product_id"/>
+			<input type="hidden" name="product_id" value="" />
             <div
 				class="modal fade"
 				id="product"
@@ -372,6 +363,9 @@
 								<!-- ----Category Dropdown------ -->
 								<div class="mb-1 col-12 dropdown">
 									<button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
+									<input type="hidden" name="category-selected" value="<?= $product[
+         	"category_id"
+         ] ?>"/>
 									<ul class="dropdown-menu w-100">
 <?php foreach ($categories as $category) { ?>
 										<li class="category position-relative">
@@ -406,29 +400,21 @@
 										class="btn btn-primary"
 										multiple
 									/>
+									<img
+										id="test"
+										class="modal_image"
+										src="#"
+										alt="test"
+									/>
 								</div>
 								<ul id="sortable">
-                                    <li class="row align-items-center">
-                                        <i class="fas fa-bars col-1"></i>
-                                        <div class="col-4">
-                                            <img
-												id="test"
-                                                class="modal_image"
-                                                src="#"
-                                                alt="test"
-                                            />
-                                        </div>
-                                        <p class="col-3">img.png</p>
-                                        <span class="material-icons-outlined col-1"> delete </span>
-                                        <input class="col-1" type="checkbox" />
-                                        <p class="col-1 m-0 p-0">main</p>
-                                    </li>
+<?php foreach ($other_images[$product["id"]] as $row) { ?>
                                     <li class="row align-items-center">
                                         <i class="fas fa-bars col-1"></i>
                                         <div class="col-4">
                                             <img
                                                 class="modal_image"
-                                                src="../Assets/imgs/product1.jpg"
+                                                src=".<?= base_url() ?>/assets/imgs/<?= $row ?>"
                                                 alt="mouse"
                                             />
                                         </div>
@@ -437,6 +423,7 @@
                                         <input class="col-1" type="checkbox" />
                                         <p class="col-1 m-0 p-0">main</p>
                                     </li>
+<?php } ?>
 								</ul>
 							</div>
 						</div>
@@ -449,7 +436,9 @@
 							>
 								Close
 							</button>
-							<input type="button" class="btn btn-success" value="Preview" />
+							<a href="<?= base_url() ?>products/show_product/<?= $product[
+	"id"
+] ?>" class="btn btn-success">Preview</a>
 							<input type="submit" class="btn btn-primary" value="Update" />
 						</div>
 					</div>

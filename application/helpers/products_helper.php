@@ -90,3 +90,12 @@ function convert_categories($post)
 	}
 	return $category_array;
 }
+function convert_images_string($images)
+{
+	$images_formatted = [];
+	foreach ($images as $row) {
+		$images = explode(",", $row["images"]);
+		$images_formatted[$row["id"]] = $images;
+	}
+	return $images_formatted;
+}

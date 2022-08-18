@@ -52,6 +52,9 @@ class Vendors extends CI_Controller
 		add_cdn(["jqueryui"]);
 		add_js(["products_list.js"]);
 		$this->data = $this->session->userdata();
+		$this->data["all_images"] = convert_images_string(
+			$this->Vendor->get_all_images()
+		);
 		$this->data["products"] = $this->Product->get_products();
 		$this->data["picture_main"] = $this->Product->get_images_main();
 		$sold = $this->Product->get_all_sold();
@@ -95,7 +98,6 @@ class Vendors extends CI_Controller
 	}
 	public function add_product()
 	{
-		$this->upload();
 		if (empty($this->input->post())) {
 			redirect("products");
 		}
@@ -111,6 +113,7 @@ class Vendors extends CI_Controller
 		$inventory_id = !empty($post["product_id"])
 			? $post["product_id"]
 			: $insert_id;
+		$this->upload($inventory_id);
 		$result_inventory = $this->Vendor->add_update_inventory(
 			$post,
 			$inventory_id
@@ -121,6 +124,7 @@ class Vendors extends CI_Controller
 		// 	$result_inventory = $this->Vendor->update_inventory($post);
 		// } else {
 		// }
+		redirect("vendors/products");
 	}
 	public function change_order_status()
 	{
@@ -134,7 +138,7 @@ class Vendors extends CI_Controller
 			redirect("products");
 		}
 	}
-	private function upload()
+	private function upload($id)
 	{
 		$this->load->library("upload");
 		$imagePath = realpath(APPPATH . "../assets/imgs");
@@ -166,8 +170,8 @@ class Vendors extends CI_Controller
 				$theImages[] = [
 					"fileName" => $filename["file_name"],
 				];
-				$params = [$filename["file_name"]];
-				// $this->Vendor->add_image();
+				$params = [$id => $filename["file_name"]];
+				$this->Vendor->add_image($params);
 			} //if file uploaded
 		} //for loop end
 	}
@@ -202,5 +206,10 @@ class Vendors extends CI_Controller
 			redirect("vendors");
 			return;
 		}
+	}
+	public function test()
+	{
+		// var_dump($this->Vendor->get_all_images());
+		var_dump(convert_images_string($this->Vendor->get_all_images()));
 	}
 }
