@@ -70,7 +70,7 @@ foreach ($products as $row) {
         </div>
         <!-- Shipping address, class form_top/mid/bot uses underscore to make sure it doesn't interfer with bootstrap -->
         <div class="container justify-content-start">
-            <form action="<?= base_url() ?>products/process_order" method="POST" class="needs-validation">
+            <form action="<?= base_url() ?>order" method="POST" class="needs-validation">
                 <input type="hidden" name="<?= $this->security->get_csrf_token_name() ?>" value="<?= $this->security->get_csrf_hash() ?>" />
                 <div class="form-signin w-100">
                     <h2 class="h3 mb-3 fw-normal">Shipping information</h2>

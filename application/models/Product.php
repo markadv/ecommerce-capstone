@@ -3,15 +3,18 @@ defined("BASEPATH") or exit("No direct script access allowed");
 
 class Product extends CI_Model
 {
-	function get_products_by_filter($get)
+	function get_products_by_filter($post)
 	{
-		$cleanGet = $this->security->xss_clean($get);
-		$sort = !empty($get["sort"])
-			? "ORDER BY " . convert_sort($cleanGet["sort"])
+		$cleanPost = $this->security->xss_clean($post);
+		$sort = !empty($post["sort"])
+			? "ORDER BY " . convert_sort($cleanPost["sort"])
 			: "";
-		$search = !empty($cleanGet["search"])
-			? "%" . $cleanGet["search"] . "%"
+		$search = !empty($cleanPost["search"])
+			? "%" . $cleanPost["search"] . "%"
 			: "%%";
+		$category = !empty($cleanPost["category_id"])
+			? "AND categories.id = " . $cleanPost["category_id"]
+			: "";
 		$query = "SELECT products.* , inventories.quantity, categories.name as category
 				FROM products
                 LEFT JOIN inventories
@@ -20,9 +23,29 @@ class Product extends CI_Model
 					ON products.category_id=categories.id
 				WHERE products.active=1
 					AND products.name LIKE ?
+					$category
 				$sort";
 		return $this->db->query($query, [$search])->result_array();
 	}
+	/* Needed output: product id, product name, product price, main image
+	 Input limit. From controller only. */
+	function get_products_home($limit)
+	{
+		$query = "SELECT products.id, products.name, products.price, images.url
+					FROM images
+					LEFT JOIN products
+						ON images.product_id=products.id
+					WHERE products.active =1 AND images.is_main=1
+					LIMIT $limit";
+		return $this->db->query($query)->result_array();
+	}
+	/* 
+	Show product
+	Needed output:
+	1. product id, product name, product price, main 
+	2. main url, url,
+	3. reviews, replies
+	sold */
 	function get_product_by_id($id)
 	{
 		$cleanId = $this->security->xss_clean($id);
@@ -32,6 +55,33 @@ class Product extends CI_Model
                 LEFT JOIN categories ON products.category_id=categories.id
 				WHERE products.id = $cleanId && products.active=1";
 		return $this->db->query($query)->result_array()[0];
+	}
+	function get_images_by_id($id)
+	{
+		$query = "SELECT (SELECT GROUP_CONCAT(images.url  SEPARATOR ',')) AS pictures
+                FROM images
+                LEFT JOIN products ON images.product_id=products.id
+				WHERE products.id=$id";
+		return $this->db->query($query)->result_array()[0];
+	}
+	function get_sold($id)
+	{
+		$query = "SELECT SUM(quantity) as sold
+                FROM order_items
+				WHERE product_id=$id";
+		$result = $this->db->query($query)->result_array();
+		return $result[0]["sold"];
+	}
+	/* Cart */
+	function get_images_main_by_ids($idArr)
+	{
+		$cleanIdArr = implode(",", $this->security->xss_clean($idArr));
+		$query = "SELECT products.id, images.url FROM images
+                LEFT JOIN products ON images.product_id=products.id
+				WHERE images.is_main = 1 AND products.id IN ($cleanIdArr)";
+		$result = $this->db->query($query)->result_array();
+		return $result;
+		// return $this->convert_two_key_array($result);
 	}
 	function get_products_by_ids($idArr)
 	{
@@ -43,25 +93,42 @@ class Product extends CI_Model
 				WHERE products.id IN ($cleanIdArr) && products.active=1";
 		return $this->db->query($query)->result_array();
 	}
-	/* placeholder */
-	function get_products()
+
+	/* Get products with limit. No user input. */
+	function get_products_limit($limit)
 	{
+		$limit = $this->security->xss_clean($limit);
+		$items = $limit == 0 ? "" : "LIMIT $limit";
 		$query = "SELECT products.* , inventories.quantity, categories.name as category
 				FROM products
                 LEFT JOIN inventories ON products.inventory_id=inventories.id
                 LEFT JOIN categories ON products.category_id=categories.id
-				WHERE products.active=1";
+				WHERE products.active=1 $items";
 		return $this->db->query($query)->result_array();
 	}
-	function get_images_by_id($id)
+
+	/* Products */
+	function get_images_main()
 	{
-		$query = "SELECT (SELECT GROUP_CONCAT(images.url  SEPARATOR ',')) AS pictures
+		$query = "SELECT products.id, images.url FROM images
+                LEFT JOIN products ON images.product_id=products.id
+				WHERE images.is_main = 1";
+		$result = $this->db->query($query)->result_array();
+		return convert_two_key_array($result);
+	}
+
+	/* !To be redacted
+	function get_main_images_by_product_id($id)
+	{
+		$query = "SELECT products.id,images.url AS images,images.id as images.id
                 FROM images
                 LEFT JOIN products ON images.product_id=products.id
-				WHERE products.id=$id";
+				WHERE products.id=$id AND images.is_main = 1";
 		return $this->db->query($query)->result_array()[0];
 	}
-	/* test */
+	*/
+
+	/* !To be redacted
 	function get_images_by_ids($idArr)
 	{
 		$results = [];
@@ -73,34 +140,8 @@ class Product extends CI_Model
 		}
 		return $results;
 	}
-	function get_images_main()
-	{
-		$query = "SELECT products.id, images.url FROM images
-                LEFT JOIN products ON images.product_id=products.id
-				WHERE images.is_main = 1";
-		$result = $this->db->query($query)->result_array();
-		// return $result;
-		return $this->convert_two_key_array($result);
-	}
-	function get_images_main_by_ids($idArr)
-	{
-		$cleanIdArr = implode(",", $this->security->xss_clean($idArr));
-		$query = "SELECT products.id, images.url FROM images
-                LEFT JOIN products ON images.product_id=products.id
-				WHERE images.is_main = 1 AND products.id IN ($cleanIdArr)";
-		$result = $this->db->query($query)->result_array();
-		return $result;
-		// return $this->convert_two_key_array($result);
-	}
-	/* Get all images */
-	function get_images()
-	{
-		$query = "SELECT products.id, (SELECT GROUP_CONCAT(images.url  SEPARATOR ',') WHERE images.is_main = 0) AS img_arr,
-                (SELECT images.url WHERE images.is_main = 1) AS img_main
-                FROM images
-                LEFT JOIN products ON images.product_id=products.id";
-		return $this->db->query($query)->result_array();
-	}
+	*/
+
 	function get_categories()
 	{
 		$query = "SELECT categories.name, COUNT(category_id) AS count, categories.id 
@@ -108,15 +149,6 @@ class Product extends CI_Model
                 LEFT JOIN products ON categories.id=products.category_id
                 GROUP BY categories.id";
 		return $this->db->query($query)->result_array();
-	}
-
-	function get_sold($id)
-	{
-		$query = "SELECT SUM(quantity) as sold
-                FROM order_items
-				WHERE product_id=$id";
-		$result = $this->db->query($query)->result_array();
-		return $result[0]["sold"];
 	}
 	function get_all_sold()
 	{
@@ -308,28 +340,4 @@ class Product extends CI_Model
 		}
 	}
 	/* transfer to helper */
-	function convert_two_key_array($array)
-	{
-		$newArr = [];
-		foreach ($array as $row) {
-			$newArr[$row["id"]] = $row["url"];
-		}
-		return $newArr;
-	}
-	function convert_two_key_array_sold($array)
-	{
-		$newArr = [];
-		foreach ($array as $row) {
-			$newArr[$row["product_id"]] = $row["sold"];
-		}
-		return $newArr;
-	}
-	function get_cart_keys($cart)
-	{
-		$arr = [];
-		foreach ($cart as $key => $value) {
-			array_push($arr, $key);
-		}
-		return $arr;
-	}
 }

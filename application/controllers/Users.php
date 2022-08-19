@@ -3,13 +3,14 @@ defined("BASEPATH") or exit("No direct script access allowed");
 
 class Users extends CI_Controller
 {
+	/* Data variable to create uniformity to data passed to view */
 	public $data = [];
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model("User");
 		$this->load->helper("header");
-		$this->output->enable_profiler(true);
+		$this->load->helper("main");
 	}
 	public function index()
 	{
@@ -20,11 +21,13 @@ class Users extends CI_Controller
 		$this->redirect_loggedin();
 		add_less(["login.less"]);
 		$this->data = $this->session->userdata();
+		$this->data["title"] = "Baby Secret Shop Login";
 		$this->data["pageType"] = "login";
 		$this->data["type"] = "users";
 		$this->data["errors"] = $this->session->flashdata("input_errors");
+		/* View section */
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user", $this->data);
+		$this->load->view("partials/nav_user");
 		$this->load->view("users/login");
 	}
 	public function register()
@@ -32,19 +35,23 @@ class Users extends CI_Controller
 		$this->redirect_loggedin();
 		add_less(["register.less"]);
 		$this->data = $this->session->userdata();
+		$this->data["title"] = "Baby Secret Shop Register";
 		$this->data["pageType"] = "register";
 		$this->data["type"] = "users";
+		/* Error */
 		$this->data["errors"] = $this->session->flashdata("input_errors");
+		/* View adding head, nav, and main */
 		$this->load->view("partials/head", $this->data);
-		$this->load->view("partials/nav_user", $this->data);
+		$this->load->view("partials/nav_user");
 		$this->load->view("users/register");
 	}
 	public function profile()
 	{
-		$this->check_loggedin();
+		$this->redirect_loggedout();
 		add_less(["profile.less"]);
 		add_js(["profile.js"]);
 		$this->data = $this->session->userdata();
+		$this->data["title"] = "Baby Secret Shop Profile";
 		/* Get all info*/
 		$email = $this->session->userdata("email");
 		$user = $this->User->get_by_parameter("users", "email", $email);
@@ -59,6 +66,7 @@ class Users extends CI_Controller
 		$this->data = array_merge($this->data, $user);
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->data["success"] = $this->session->flashdata("success_message");
+		/* View adding head, nav, and main */
 		$this->load->view("partials/head", $this->data);
 		$this->load->view("partials/nav_user", $this->data);
 		$this->load->view("users/profile", $this->data);
@@ -69,16 +77,16 @@ class Users extends CI_Controller
 		$result = $this->User->validate_registration();
 		if ($result != null) {
 			$this->session->set_flashdata("input_errors", $result);
-			redirect("users/register");
+			redirect("register");
 		} else {
-			$form_data = $this->input->post();
+			$form_data = $this->input->post(null, true);
 			$this->User->create_user($form_data);
 			$email = $form_data["email"];
 			$user = $this->User->get_by_parameter("users", "email", $email);
-			$session_data = $this->User->profile_array($user);
+			$session_data = profile_array($user);
 			$this->session->set_userdata($session_data);
 		}
-		redirect("users/register");
+		redirect("register");
 	}
 	public function process_login()
 	{
@@ -86,7 +94,7 @@ class Users extends CI_Controller
 		$result = $this->User->validate_login();
 		if ($result != "success") {
 			$this->session->set_flashdata("input_errors", $result);
-			redirect("users/login");
+			redirect("login");
 		} else {
 			$email = $this->input->post("email");
 			$user = $this->User->get_by_parameter("users", "email", $email);
@@ -96,15 +104,15 @@ class Users extends CI_Controller
 			);
 
 			if ($result == "success") {
-				$session_data = $this->User->profile_array($user);
+				$session_data = profile_array($user);
 				$this->session->set_userdata($session_data);
 				redirect("products");
 			} else {
 				$this->session->set_flashdata("input_errors", $result);
-				redirect("users/login");
+				redirect("login");
 			}
 		}
-		redirect("users/login");
+		redirect("login");
 	}
 	/* Address type(1-shipping,2-billing,3-billing and shipping) */
 	public function process_shipping_address()
@@ -112,7 +120,7 @@ class Users extends CI_Controller
 		$this->check_post("profile");
 		$email = $this->session->userdata("email");
 		$user = $this->User->get_by_parameter("users", "email", $email);
-		$post = $this->input->post();
+		$post = $this->input->post(null, true);
 		$result = $this->User->validate_address();
 		if ($result !== "success") {
 			$this->session->set_flashdata("input_errors", $result);
@@ -136,14 +144,14 @@ class Users extends CI_Controller
 				"Successfully added your shipping address."
 			);
 		}
-		redirect("users/profile");
+		redirect("profile");
 	}
 	public function process_billing_address()
 	{
 		$this->check_post("profile");
 		$email = $this->session->userdata("email");
 		$user = $this->User->get_by_parameter("users", "email", $email);
-		$post = $this->input->post();
+		$post = $this->input->post(null, true);
 		$result = $this->User->validate_address();
 		if ($result !== "success") {
 			$this->session->set_flashdata("input_errors", $result);
@@ -222,7 +230,7 @@ class Users extends CI_Controller
 				"Successfully added your billing address."
 			);
 		}
-		redirect("users/profile");
+		redirect("profile");
 	}
 	public function process_edit()
 	{
@@ -231,19 +239,19 @@ class Users extends CI_Controller
 		echo $result;
 		if ($result !== "success") {
 			$this->session->set_flashdata("input_errors", $result);
-			redirect("users/profile");
+			redirect("profile");
 			return;
 		}
-		$post = $this->input->post();
-		$this->User->update_information($post, $current["id"]);
+		$post = $this->input->post(null, true);
+		$this->User->update_profile($post, $current["id"]);
 		$new = $this->User->get_by_parameter("users", "id", $current["id"]);
-		$session_data = $this->User->profile_array($new);
+		$session_data = profile_array($new);
 		$this->session->set_userdata($session_data);
 		$this->session->set_flashdata(
 			"success_message",
 			"Successfully edited your profile."
 		);
-		redirect("users/profile");
+		redirect("profile");
 	}
 	public function process_password()
 	{
@@ -268,16 +276,14 @@ class Users extends CI_Controller
 				$this->session->set_flashdata("input_errors", $result);
 			}
 		}
-		redirect("users/profile");
+		redirect("profile");
 	}
 	public function logoff()
 	{
 		$this->session->sess_destroy();
 		redirect("products");
 	}
-	/*
-	Redirect user if logged in by Markad
-	*/
+	/* Redirect user if logged in by Markad */
 	private function redirect_loggedin()
 	{
 		if ($this->session->userdata("is_logged_in") == 1) {
@@ -285,28 +291,27 @@ class Users extends CI_Controller
 			return;
 		}
 	}
-	/*
-	Redirect user if not logged in by Markad
-	*/
-	private function check_loggedin()
+	/* Redirect user if not logged in by Markad */
+	private function redirect_loggedout()
 	{
 		if (
 			(!empty($this->session->userdata("is_logged_in")) &&
 				$this->session->userdata("is_logged_in") == 0) ||
 			empty($this->session->userdata("is_logged_in"))
 		) {
-			redirect("users/login");
+			redirect("login");
 			return;
 		}
 	}
-	/*
-	Redirect user if there is no post data by Markad
-	*/
+	/* Redirect user if there is no post data by Markad */
 	private function check_post($previous_url)
 	{
-		if (!$this->input->post()) {
+		if (!$this->input->post(null, true)) {
 			redirect("users/$previous_url");
 			return;
 		}
+	}
+	private function store_data()
+	{
 	}
 }

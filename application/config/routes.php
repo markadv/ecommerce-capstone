@@ -52,3 +52,31 @@ defined("BASEPATH") or exit("No direct script access allowed");
 $route["default_controller"] = "products";
 $route["404_override"] = "";
 $route["translate_uri_dashes"] = false;
+
+/* User routes */
+$route["login"] = "users/login";
+$route["register"] = "users/register";
+$route["profile"] = "users/profile";
+$route["register/validate"] = "users/process_registration";
+$route["login/validate"] = "users/process_login";
+$route["shipping/validate"] = "users/process_shipping_address";
+$route["billing/validate"] = "users/process_billing_address";
+$route["profile/validate"] = "users/process_edit";
+$route["password/validate"] = "users/process_password";
+$route["logoff"] = "users/logoff";
+/* Product route */
+$route["catalog"] = "products/catalog";
+$route["catalog_html"] = "products/catalog_html";
+$route["product/(:num)"] = "products/show_product/$1";
+$route["cart"] = "products/cart";
+$route["checkout"] = "products/checkout";
+$route["remove/(:num)"] = "products/remove_item/$1";
+$route["order"] = "products/process_order";
+/* Vendor route */
+$route["admin"] = "vendors/login";
+$route["orders"] = "vendors/orders";
+$route["products/list"] = "vendors/products";
+$route["order/(:num)"] = "vendors/order_view/$1";
+$route["delete"] = "vendors/delete_product";
+$route["add"] = "vendors/add_product";
+$route["order/status"] = "vendors/change_order_status";

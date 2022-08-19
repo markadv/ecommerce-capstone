@@ -88,7 +88,9 @@ Schema thought process:
 6. [ ]  Admin
    1. [x]  Dashboard
       1. [x]  Modal sucks!
-      2. [ ]  Image preview
+      2. [x]  Image preview
+      3. [ ]  Image order
+      4. [x]  Image limiter
    2. [x]  Orders
    3. [x]  Show Product
 7. [x]  Products
@@ -97,5 +99,6 @@ Schema thought process:
    3. [x]  Show Product
    4. [x]  Cart
    5. [x]  Checkout
-8. [ ]  Pagination
-9. [x]  Search filter
+8. [ ]  Search filter
+9. [x]  Pagination
+10. [x]  Routes

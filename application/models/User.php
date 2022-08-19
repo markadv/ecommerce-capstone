@@ -3,6 +3,7 @@ defined("BASEPATH") or exit("No direct script access allowed");
 
 class User extends CI_Model
 {
+	/* Generic single get. */
 	function get_by_parameter($table, $unique, $param)
 	{
 		$query = "SELECT * FROM $table WHERE $unique=?";
@@ -11,6 +12,7 @@ class User extends CI_Model
 			->result_array();
 		return !empty($result) ? $result[0] : 0;
 	}
+	/* Generic update. */
 	function update_by_parameters($table, $change, $param)
 	{
 		$query = "UPDATE $table SET ";
@@ -52,7 +54,7 @@ class User extends CI_Model
 		$where = implode(" AND ", $where);
 		return $this->db->query($query . $set . "WHERE " . $where, $values);
 	}
-	function update_information($post, $id)
+	function update_profile($post, $id)
 	{
 		$query = "UPDATE users SET first_name=?, last_name=?, email=?, mobile=? WHERE id = $id";
 		$values = [
@@ -322,26 +324,5 @@ class User extends CI_Model
 		} else {
 			return "Incorrect email/password.";
 		}
-	}
-	function profile_array($user)
-	{
-		$details = [
-			"email" => $user["email"],
-			"mobile" => $user["mobile"],
-			"first_name" => $user["first_name"],
-			"is_logged_in" => 1,
-			//create hash later
-			"role" => $user["role_hash"],
-		];
-		return $details;
-	}
-	function convert_hash($user, $role_hash)
-	{
-		$role = [
-			md5("1" . $user["salt"]) => 1,
-			md5("2" . $user["salt"]) => 2,
-			md5("3" . $user["salt"]) => 3,
-		];
-		return isset($role[$role_hash]) ? $role[$role_hash] : 0;
 	}
 }

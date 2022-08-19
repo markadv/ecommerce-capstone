@@ -4,10 +4,10 @@
                 <!-----Search------------------------------------>
                 <form id="search-sort" class="row"  method="GET" role="search">
                     <div class="col-12 col-md-9">
-                        <div class="d-flex w-100 ms-auto me-auto">
+                        <!-- <div class="d-flex w-100 ms-auto me-auto">
                             <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                             <button class="btn btn-outline-primary" type="submit">Search</button>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-12 col-md-3">
                         <!-----Status Sort----------------------------------->

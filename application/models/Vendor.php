@@ -118,8 +118,13 @@ class Vendor extends CI_Model
 		];
 		$this->db->query($query, $values);
 		if (!empty($this->db->insert_id())) {
-			return $this->db->insert_id();
+			$id = $this->db->insert_id();
+			$query2 = "UPDATE products inventory_id = $id";
+			$this->db->query($query2);
 		}
+		// if (!empty($this->db->insert_id())) {
+		// 	return $this->db->insert_id();
+		// }
 	}
 	function add_update_inventory($post, $id)
 	{
@@ -135,7 +140,8 @@ class Vendor extends CI_Model
 	function add_image($params)
 	{
 		foreach ($params as $key => $value) {
-			$query = "INSERT INTO images (product_id,url) VALUES (?,?)";
+			$query =
+				"INSERT INTO images (product_id,url,is_main) VALUES (?,?,1)";
 			$values = [$key, $value];
 			$this->db->query($query, $values);
 		}

@@ -13,13 +13,13 @@
     ] ?>">Receipt Link</a></p>
 <?php } ?>
         <!-- Collapsible category sidebar -->
-        <form  class="container" method="GET">
+        <form action="<?= base_url() ?>catalog_html" class="container" method="POST">
+            <input type="hidden" id="category_id" name="category_id"  />
             <div class="row">
                 <div class="flex-shrink-0 bg-white col-2 border">
                     <div class="form-group has-search mt-3">
                         <span class="material-icons-outlined form-control-feedback"> search </span>
-                        <input name="search" type="text" class="form-control" placeholder="Search"
-                        value="<?= isset($post) ? $post : "" ?>"/>
+                        <input id="catalog-search" name="search" type="text" class="form-control" placeholder="Search"/>
                     </div>
                     <a
                         href="/"
@@ -29,11 +29,20 @@
                         <span class="fs-5 fw-semibold">Categories</span>
                     </a>
                     <ul class="list-group">
+                        <li class="categories-selection list-group-item list-group-item-action d-flex justify-content-between align-items-center p-1"
+                            data-id=""
+                            data-name="Show all">
+                            <a class="text-decoration-none" >
+                                Show all
+                            <span class="badge bg-primary"></span>
+                            </a>
+                        </li>
 <?php foreach ($categories as $row) { ?>
-                        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-1">
-                            <a class="text-decoration-none" href=""><?= $row[
-                            	"name"
-                            ] ?>
+                        <li class="categories-selection list-group-item list-group-item-action d-flex justify-content-between align-items-center p-1"
+                            data-id=<?= $row["id"] ?>
+                            data-name="<?= $row["name"] ?>">
+                            <a class="text-decoration-none" >
+                                <?= $row["name"] ?>
                             <span class="badge bg-primary"><?= $row[
                             	"count"
                             ] ?></span>
@@ -45,10 +54,10 @@
                 <!-- Main content -->
                 <div class="col-10">
                     <div class="row my-3">
-                        <h1 class="col-9 display-6">Feeding (Page 2)</h1>
+                        <h1 class="col-9 display-6">Show all</h1>
                         <div class="form-floating col-3 text-right">
                             <div class="dropdown">
-                                <select name="sort" class="form-select">
+                                <select id="catalog-sort" name="sort" class="form-select">
                                     <option value="1">Most popular</option>
                                     <option value="2">Price ascending</option>
                                     <option value="3">Price descending</option>
@@ -85,6 +94,7 @@
                     </nav>
                 </div>
             </div>
+            <input class="d-none" type="submit"/>
         </form>
     </body>
 </html>

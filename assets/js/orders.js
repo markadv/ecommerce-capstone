@@ -14,7 +14,7 @@ $(document).ready(function () {
 	});
 	$("#search-sort").submit();
 	/* change status on change */
-	// $(".status-select").on("change", function () {
-	// 	$(this).parent("form .status").submit();
-	// });
+	$(".status-select").on("change", function () {
+		$(this).parent("form").submit();
+	});
 });

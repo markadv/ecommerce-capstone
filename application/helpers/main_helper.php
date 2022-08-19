@@ -74,7 +74,11 @@ function convert_status($id)
 function convert_sort($id)
 {
 	/* 1 is placeholder */
-	$sort = [1 => "name", 2 => "price ASC", 3 => "price DESC"];
+	$sort = [
+		1 => "products.name",
+		2 => "products.price ASC",
+		3 => "products.price DESC",
+	];
 	return $sort[$id];
 }
 function convert_categories($post)
@@ -98,4 +102,56 @@ function convert_images_string($images)
 		$images_formatted[$row["id"]] = $images;
 	}
 	return $images_formatted;
+}
+function profile_array($user)
+{
+	$details = [
+		"email" => $user["email"],
+		"mobile" => $user["mobile"],
+		"first_name" => $user["first_name"],
+		"is_logged_in" => 1,
+		//create hash later
+		"role" => $user["role_hash"],
+	];
+	return $details;
+}
+function convert_hash($user, $role_hash)
+{
+	$role = [
+		md5("1" . $user["salt"]) => 1,
+		md5("2" . $user["salt"]) => 2,
+		md5("3" . $user["salt"]) => 3,
+	];
+	return isset($role[$role_hash]) ? $role[$role_hash] : 0;
+}
+function get_cart_keys($cart)
+{
+	$arr = [];
+	foreach ($cart as $key => $value) {
+		array_push($arr, $key);
+	}
+	return $arr;
+}
+function ids_get_products($result)
+{
+	foreach ($result as $row) {
+		array_push($temp, $row["id"]);
+	}
+	return $temp;
+}
+function convert_two_key_array($array)
+{
+	$newArr = [];
+	foreach ($array as $row) {
+		$newArr[$row["id"]] = $row["url"];
+	}
+	return $newArr;
+}
+function convert_two_key_array_sold($array)
+{
+	$newArr = [];
+	foreach ($array as $row) {
+		$newArr[$row["product_id"]] = $row["sold"];
+	}
+	return $newArr;
 }

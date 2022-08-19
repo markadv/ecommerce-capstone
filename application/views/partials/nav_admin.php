@@ -6,32 +6,32 @@
                 <span class="h4">Baby Secret Shop</span>
             </a>
             <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                <li>
-                    <a href="<?= base_url() ?>vendors/" class="nav-link text-grey disabled">
+                <!-- <li>
+                    <a href="vendors/" class="nav-link text-grey disabled">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> dashboard </span>
                         Dashboard
                     </a>
-                </li>
+                </li> -->
                 <li>
-                    <a href="<?= base_url() ?>vendors/products" class="nav-link text-primary">
+                    <a href="<?= base_url() ?>products/list" class="nav-link text-primary">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> inventory_2 </span>
                         Products
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url() ?>vendors/" class="nav-link text-primary">
+                    <a href="<?= base_url() ?>orders" class="nav-link text-primary">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> assignment </span>
                         Orders
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="" class="nav-link text-grey disabled">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> local_shipping </span>
                         Shipping
                     </a>
-                </li>
+                </li> -->
                 <li>
-                    <a href="<?= base_url() ?>users/profile" class="nav-link text-primary">
+                    <a href="<?= base_url() ?>profile" class="nav-link text-primary">
                         <span class="bi d-block mb-1 text-center material-icons-outlined"> account_circle </span>
                         Profile
                     </a>

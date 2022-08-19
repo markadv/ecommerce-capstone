@@ -60,4 +60,22 @@ $(document).ready(function () {
 				.val(category_id);
 			$(this).parent().parent().siblings("button").text(category);
 		});
+	$("#delete-image").click(function () {
+		$(this).parent().hide();
+	});
+	$(".image-upload").change(function () {
+		readURL(this);
+	});
+	function readURL(input) {
+		{
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$(".modal_image").attr("src", e.target.result);
+					console.log(e.target.result);
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+	}
 });

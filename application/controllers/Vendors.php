@@ -11,8 +11,8 @@ class Vendors extends CI_Controller
 		$this->load->model("User");
 		$this->load->model("Vendor");
 		$this->load->helper("header");
-		$this->load->helper("products");
-		// $this->output->enable_profiler(true);
+		$this->load->helper("main");
+		$this->output->enable_profiler(true);
 	}
 	public function index()
 	{
@@ -20,10 +20,10 @@ class Vendors extends CI_Controller
 	}
 	public function login()
 	{
-		$this->check_ip();
 		$this->redirect_loggedin();
 		add_less(["login.less"]);
 		$this->data = $this->session->userdata();
+		$this->data["title"] = "Vendor login";
 		$this->data["pageType"] = "login";
 		$this->data["type"] = "admins";
 		$this->data["errors"] = $this->session->flashdata("input_errors");
@@ -38,6 +38,7 @@ class Vendors extends CI_Controller
 		add_less(["orders.less"]);
 		add_js(["orders.js"]);
 		$this->data = $this->session->userdata();
+		$this->data["title"] = "Vendor orders";
 		$this->data["status"] = order_details_status();
 		$this->data["order_details"] = $this->Vendor->get_order_details();
 		$this->load->view("partials/head", $this->data);
@@ -52,13 +53,14 @@ class Vendors extends CI_Controller
 		add_cdn(["jqueryui"]);
 		add_js(["products_list.js"]);
 		$this->data = $this->session->userdata();
+		$this->data["title"] = "Vendor products";
 		$this->data["all_images"] = convert_images_string(
 			$this->Vendor->get_all_images()
 		);
-		$this->data["products"] = $this->Product->get_products();
+		$this->data["products"] = $this->Product->get_products_limit(30);
 		$this->data["picture_main"] = $this->Product->get_images_main();
 		$sold = $this->Product->get_all_sold();
-		$this->data["sold"] = $this->Product->convert_two_key_array_sold($sold);
+		$this->data["sold"] = convert_two_key_array_sold($sold);
 		$this->data["categories"] = $this->Product->get_categories();
 		$this->data["errors"] = $this->session->flashdata("input_errors");
 		$this->data["success"] = $this->session->flashdata("success_message");
@@ -73,6 +75,7 @@ class Vendors extends CI_Controller
 		add_less(["order_view.less"]);
 		add_cdn(["swiper"]);
 		$this->data = $this->session->userdata();
+		$this->data["title"] = "Vendor order";
 		$this->data["addresses"] = $this->Vendor->get_addresses_by_order_id(
 			$id
 		)[0];
@@ -99,9 +102,9 @@ class Vendors extends CI_Controller
 	public function add_product()
 	{
 		if (empty($this->input->post())) {
-			redirect("products");
+			redirect("products/list");
 		}
-		print_r($post = $this->input->post());
+		$post = $this->input->post();
 		/* Get all category and create id=>value pair*/
 		$categories = convert_categories($post);
 		/* change all the category values based on latest submit */
@@ -124,13 +127,13 @@ class Vendors extends CI_Controller
 		// 	$result_inventory = $this->Vendor->update_inventory($post);
 		// } else {
 		// }
-		redirect("vendors/products");
+		redirect("products/list");
 	}
 	public function change_order_status()
 	{
 		$get = $this->input->get();
 		$this->Vendor->change_order_status($get);
-		redirect("vendors/orders");
+		redirect("orders");
 	}
 	private function check_ip()
 	{
@@ -191,25 +194,16 @@ class Vendors extends CI_Controller
 			"email",
 			$this->session->userdata("email")
 		);
-		$role = $this->User->convert_hash(
-			$user,
-			$this->session->userdata("role")
-		);
+		$role = convert_hash($user, $this->session->userdata("role"));
 		if ($role != 1) {
 			redirect("products");
 		}
 	}
-
 	private function redirect_loggedin()
 	{
 		if ($this->session->userdata("is_logged_in") == 1) {
 			redirect("vendors");
 			return;
 		}
-	}
-	public function test()
-	{
-		// var_dump($this->Vendor->get_all_images());
-		var_dump(convert_images_string($this->Vendor->get_all_images()));
 	}
 }

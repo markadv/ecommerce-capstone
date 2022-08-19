@@ -5,7 +5,7 @@
                     <span class="material-icons-outlined align-middle"> local_shipping </span>
                     <span>Select free shipping voucher below to enjoy shipping discount</span>
                 </div>
-                <a class="col-2 text-primary" href="<?= base_url() ?>products/catalog">Go back to shoppping</a>
+                <a class="col-2 text-primary" href="<?= base_url() ?>catalog">Go back to shoppping</a>
             </div>
             
 <?php
@@ -65,7 +65,7 @@ if (isset($cart) && !empty($cart)) { ?>
                                 ) ?>
                             </div>
                             <div class="col-2">
-                                <a class="btn btn-danger" href="<?= base_url() ?>products/remove_item/<?= $row[
+                                <a class="btn btn-danger" href="<?= base_url() ?>remove/<?= $row[
 	"id"
 ] ?>">Delete</a>
                                 <!-- Future implementation <a href="">Find similar</a> -->

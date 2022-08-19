@@ -1,4 +1,4 @@
-<?php defined("BASEPATH") or exit("No direct script access allowed");
+<?php
 foreach ($products as $row) { ?>
                         <li class="col-6 col-md-3 list-unstyled">
                             <a

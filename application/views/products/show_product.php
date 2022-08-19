@@ -72,11 +72,6 @@
                         </div>
                         <div id="add_to_cart">
                             <!-- Fix or remove -->
-                            <a href="javascript:" id="add-shopping-cart" data-id="<?= $product[
-                            	"id"
-                            ] ?>"class="btn btn-outline-primary"
-                                ><span class="material-icons-outlined"> add_shopping_cart </span>Add to Cart</a
-                            >
                             <button type="submit" id="buy-now" class="btn btn-primary">Buy Now</button>
                         </div>
                     </form>
