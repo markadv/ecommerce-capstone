@@ -45,14 +45,14 @@
 8. Pricing
    - Prices
    - Adjustments
-   - Currencies (Optional, use Peso for now)
+   - Currencies (Optional, used Peso for site, Dollars for stripe for now)
    - Taxes (Optional, scope creep)
 9.  Promotions (Optional, scope creep)
 10. Shipping
    -Shipping methods
 
 ### ERD
-![ERD 2nd Prototype Image](/references/Prototype-6.png)
+![ERD 10th Prototype Image](/references/10th_Prototype.png)
 Schema thought process:
 
 ## Progress
@@ -87,9 +87,9 @@ Schema thought process:
    4. [x]  Add/edit billing address
 6. [ ]  Admin
    1. [x]  Dashboard
-      1. [x]  Modal sucks!
+      1. [x]  Modal is hard.
       2. [x]  Image preview
-      3. [ ]  Image order
+      3. [x]  Image order
       4. [x]  Image limiter
    2. [x]  Orders
    3. [x]  Show Product
@@ -99,6 +99,6 @@ Schema thought process:
    3. [x]  Show Product
    4. [x]  Cart
    5. [x]  Checkout
-8. [ ]  Search filter
+8. [x]  Search filter
 9. [x]  Pagination
 10. [x]  Routes
