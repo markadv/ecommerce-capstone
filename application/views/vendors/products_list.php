@@ -233,13 +233,6 @@
 								<input type="text" class="form-control" id="add_category" name="add_category" />
 							</div>
 							<!------Images-------->
-							<div class="mb-4 col-12">
-								<input
-									class="image-upload form-control"
-									type="file"
-									name="files[]"
-								/>
-							</div>
 							<ul class="p-4" id="sortable">
 <?php foreach ($all_images[$product["id"]] as $row) { ?>
 								<li class="border bg-light row align-items-center">
@@ -397,15 +390,8 @@ drag_handle
 								<input type="text" class="form-control" id="add_category" name="add_category" />
 							</div>
 							<!------Images-------->
-							<div class="mb-4 col-12">
-								<input
-									class="image-upload form-control"
-									type="file"
-									name="files[]"
-								/>
-							</div>
 							<ul class="p-4" id="sortable">
-<?php foreach ($all_images[$product["id"]] as $row) { ?>
+<?php for ($i = 0; $i < 5; $i++) { ?>
 								<li class="border bg-light row align-items-center">
 									<span class="material-icons-outlined col-1">
 drag_handle
@@ -413,19 +399,20 @@ drag_handle
 									<div class="col-3">
 										<img
 											class="modal_image text-center"
-											src="<?= base_url() ?>assets/imgs/<?= $row ?>"
-											alt="mouse"
+											src=""
+											alt=""
 										/>
 										<div class="d-block text-center">
 											<input type="radio" 
 											name="main_image"
-											value="<?= $product["id"] ?>"
+											value=""
 											class="d-inline-block"
 											/>
 											<label for="main_image" class="m-0 p-0 text-centerd d-inline-block">main</labale>
 										</div>
 									</div>
 									<input
+											data-id=$i
 											type="file"
 											name="files[]"
 											class="image-upload form-control col-6"

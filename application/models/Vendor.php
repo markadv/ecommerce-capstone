@@ -10,6 +10,7 @@ class Vendor extends CI_Model
 		// $search = !empty($clean_get["search"])
 		// 	? "WHERE billings.first_name LIKE %" . $clean_get["search"] . "%"
 		// 	: "WHERE billings.first_name LIKE %%";
+
 		$filter = !empty($clean_get["filter"] && $clean_get["filter"] !== 0)
 			? "WHERE order_details.status = " . $clean_get["filter"]
 			: "";
@@ -119,12 +120,13 @@ class Vendor extends CI_Model
 		$this->db->query($query, $values);
 		if (!empty($this->db->insert_id())) {
 			$id = $this->db->insert_id();
-			$query2 = "UPDATE products inventory_id = $id";
+		}
+		if ($this->db->affected_rows() > 0 && !empty($this->db->insert_id())) {
+			$id = $this->db->insert_id();
+			$query2 = "UPDATE products SET inventory_id = $id WHERE id = $id";
 			$this->db->query($query2);
 		}
-		// if (!empty($this->db->insert_id())) {
-		// 	return $this->db->insert_id();
-		// }
+		return $id;
 	}
 	function add_update_inventory($post, $id)
 	{

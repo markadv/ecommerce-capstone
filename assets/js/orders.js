@@ -5,6 +5,9 @@ $(document).ready(function () {
 			$(this).serialize(),
 			function (res) {
 				$("tbody").html(res);
+				$(".status-select").on("change", function () {
+					$(this).parent("form").submit();
+				});
 			}
 		);
 		return false;
@@ -14,7 +17,4 @@ $(document).ready(function () {
 	});
 	$("#search-sort").submit();
 	/* change status on change */
-	$(".status-select").on("change", function () {
-		$(this).parent("form").submit();
-	});
 });

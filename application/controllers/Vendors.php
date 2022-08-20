@@ -12,7 +12,6 @@ class Vendors extends CI_Controller
 		$this->load->model("Vendor");
 		$this->load->helper("header");
 		$this->load->helper("main");
-		$this->output->enable_profiler(true);
 	}
 	public function index()
 	{

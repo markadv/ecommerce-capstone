@@ -64,15 +64,18 @@ $(document).ready(function () {
 		$(this).parent().hide();
 	});
 	$(".image-upload").change(function () {
-		readURL(this);
+		readURL(this, $(this));
 	});
-	function readURL(input) {
+	function readURL(input, ref) {
 		{
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();
 				reader.onload = function (e) {
-					$(".modal_image").attr("src", e.target.result);
-					console.log(e.target.result);
+					console.log(ref);
+					ref
+						.siblings(".col-3")
+						.find(".modal_image")
+						.attr("src", e.target.result);
 				};
 				reader.readAsDataURL(input.files[0]);
 			}

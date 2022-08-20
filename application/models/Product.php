@@ -23,7 +23,7 @@ class Product extends CI_Model
 					ON products.category_id=categories.id
 				WHERE products.active=1
 					AND products.name LIKE ?
-					$category
+				$category
 				$sort";
 		return $this->db->query($query, [$search])->result_array();
 	}
